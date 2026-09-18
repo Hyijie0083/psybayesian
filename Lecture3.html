@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Lecture3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lecture3_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Lecture3_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lecture3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Lecture3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lecture3_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Lecture3_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="胡传鹏 (Dr.&nbsp;Hu Chuan-Peng)">
+  <title>高级心理统计 · 第3讲</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Lecture3_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Lecture3_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="Lecture3_files/libs/revealjs/dist/theme/quarto-03ee58d93aa56ae2ee8298346d0b2a97.css">
+  <link rel="stylesheet" href="lecture.css">
+  <link href="Lecture3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Lecture3_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Lecture3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Lecture3_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">高级心理统计 · 第3讲</h1>
+  <p class="subtitle">The Beta-Binomial Bayesian Model</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+胡传鹏 (Dr.&nbsp;Hu Chuan-Peng)
+</div>
+        <p class="quarto-title-affiliation">
+            南京师范大学心理学院 · School of Psychology, Nanjing Normal University
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="本讲问题" class="slide level2">
+<h2>本讲问题</h2>
+<p>我们想估计：</p>
+<blockquote>
+<p>被试在随机点运动任务某一条件下，真正做对的能力是多少？</p>
+</blockquote>
+<p>今天用一个最小完整模型回答这个问题：</p>
+<p><span class="math display">\[
+Y | ACC \sim \text{Bin}(n, ACC), \quad ACC \sim \text{Beta}(\alpha, \beta)
+\]</span></p>
+</section>
+<section id="学习目标" class="slide level2">
+<h2>学习目标</h2>
+<p>学完本讲，你应该能够：</p>
+<ul>
+<li>用 <strong>Beta 分布</strong>表达 <code>[0,1]</code> 上的先验信念</li>
+<li>用 <strong>Binomial 分布</strong>描述正确/错误数据</li>
+<li>解释 <strong>likelihood</strong> 如何比较不同 <code>ACC</code> 与数据的兼容性</li>
+<li>写出 Beta-Binomial 模型的后验更新公式</li>
+<li>用模拟理解“后验分布”从哪里来</li>
+</ul>
+</section>
+<section id="outlines" class="slide level2">
+<h2>Outlines</h2>
+<ul>
+<li><strong>1. 研究问题</strong> — 随机点运动任务中的正确率</li>
+<li><strong>2. 理论模型</strong> — Beta 先验与 Binomial 数据模型</li>
+<li><strong>3. 贝叶斯更新</strong> — 似然函数与后验分布</li>
+<li><strong>4. 模拟理解</strong> — 用模拟近似后验</li>
+<li><strong>5. 总结练习</strong> — 四个建模要素与迁移练习</li>
+</ul>
+</section>
+<section id="part-1-从正确率到参数" class="slide level2">
+<h2>Part 1: 从正确率到参数</h2>
+<p>随机点运动任务 (Random dot motion task) 用于研究感知决策。</p>
+<p>被试需要判断随机点阵的整体运动方向；点的一致性越高，方向信息越清楚，任务通常越容易。</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<p><img src="https://cdn.kesci.com/upload/sjwnyi477j.gif?imageView2/0/w/400/h/400" style="height:360px;"></p>
+一致性 10%
+</center>
+</div><div class="column" style="width:50%;">
+<center>
+<p><img src="https://cdn.kesci.com/upload/sjwnyt1yq4.gif?imageView2/0/w/400/h/400" style="height:360px;"></p>
+一致性 60%
+</center>
+</div></div>
+</section>
+<section id="正确率不是终点" class="slide level2">
+<h2>正确率不是终点</h2>
+<p>一次实验后，我们可以得到一个观察到的正确率。</p>
+<p>但贝叶斯建模关心的是：</p>
+<p><span class="math display">\[
+\text{观察到的正确次数 } Y
+\quad \Rightarrow \quad
+\text{潜在正确能力 } ACC
+\]</span></p>
+<p><code>ACC</code> 不是直接观察到的值，而是我们要推断的参数。</p>
+</section>
+<section id="为什么需要不确定性" class="slide level2">
+<h2>为什么需要不确定性？</h2>
+<p>假设 50 次试验中有 30 次正确。</p>
+<p><span class="math display">\[
+\hat{ACC} = \frac{30}{50} = 0.60
+\]</span></p>
+<p>这个数很有用，但它没有回答：</p>
+<ul>
+<li>真正的 <code>ACC</code> 可能是 0.55 吗？</li>
+<li>可能是 0.70 吗？</li>
+<li>我们对这些可能性有多确定？</li>
+</ul>
+</section>
+<section id="先验从哪里来" class="slide level2">
+<h2>先验从哪里来？</h2>
+<p>在看到当前数据前，我们可能已经知道：</p>
+<ul>
+<li>5% 一致性条件下任务不容易</li>
+<li>先前研究中个体正确率约在 0.70 附近</li>
+<li><code>ACC</code> 必须位于 <code>[0,1]</code></li>
+</ul>
+<p>因此，我们需要一个定义在 <code>[0,1]</code> 上的先验模型。</p>
+</section>
+<section id="离散先验的直觉" class="slide level2">
+<h2>离散先验的直觉</h2>
+<div class="columns">
+<div class="column" style="width:52%;">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>acc_disc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb1-3"><a href="" aria-label="3"></a>prior_prob <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.8</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="fu">barplot</span>(</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>  prior_prob,</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>  <span class="at">names.arg =</span> acc_disc,</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>  <span class="at">col =</span> <span class="st">"skyblue"</span>,</span>
+<span id="cb1-8"><a href="" aria-label="8"></a>  <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb1-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>,</span>
+<span id="cb1-10"><a href="" aria-label="10"></a>  <span class="at">ylab =</span> <span class="st">"Prior probability"</span>,</span>
+<span id="cb1-11"><a href="" aria-label="11"></a>  <span class="at">main =</span> <span class="st">"Discrete prior"</span></span>
+<span id="cb1-12"><a href="" aria-label="12"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-2-1.png" width="691"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:48%;">
+<div style="font-size:0.78em; line-height:1.18;">
+<p>先从上节课熟悉的离散信念开始。</p>
+<p>但如果 <code>ACC</code> 可以是 <code>[0,1]</code> 中任意值，只允许 0.6、0.7、0.8 就过于粗糙。</p>
+<p><span class="math display">\[
+f(ACC), \quad 0 \le ACC \le 1
+\]</span></p>
+<p>并且曲线下面积为 1：</p>
+<p><span class="math display">\[
+\int_0^1 f(ACC)dACC = 1
+\]</span></p>
+</div>
+</div></div>
+</section>
+<section id="part-2-beta-先验" class="slide level2">
+<h2>Part 2: Beta 先验</h2>
+<p>Beta 分布非常适合表示 <code>[0,1]</code> 上的概率参数。</p>
+<p><span class="math display">\[
+ACC \sim \text{Beta}(\alpha, \beta)
+\]</span></p>
+<p>其中：</p>
+<ul>
+<li><span class="math inline">\(\alpha &gt; 0, \beta &gt; 0\)</span></li>
+<li>参数控制分布形状</li>
+<li>可以表达“偏低”“偏高”“集中”“分散”等先验信念</li>
+</ul>
+</section>
+<section id="beta-分布的形状" class="slide level2">
+<h2>Beta 分布的形状</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb2-2"><a href="" aria-label="2"></a><span class="fu">local</span>({</span>
+<span id="cb2-3"><a href="" aria-label="3"></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb2-4"><a href="" aria-label="4"></a>  params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>), <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>),</span>
+<span id="cb2-5"><a href="" aria-label="5"></a>                 <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>), <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">20</span>),</span>
+<span id="cb2-6"><a href="" aria-label="6"></a>                 <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>))</span>
+<span id="cb2-7"><a href="" aria-label="7"></a>  op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">3.1</span>, <span class="fl">3.2</span>, <span class="fl">2.1</span>, <span class="fl">0.8</span>))</span>
+<span id="cb2-8"><a href="" aria-label="8"></a>  <span class="fu">on.exit</span>(<span class="fu">par</span>(op))</span>
+<span id="cb2-9"><a href="" aria-label="9"></a>  <span class="cf">for</span> (p <span class="cf">in</span> params) {</span>
+<span id="cb2-10"><a href="" aria-label="10"></a>    y <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x, p[<span class="dv">1</span>], p[<span class="dv">2</span>])</span>
+<span id="cb2-11"><a href="" aria-label="11"></a>    <span class="fu">plot</span>(</span>
+<span id="cb2-12"><a href="" aria-label="12"></a>      x, y, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"cyan4"</span>,</span>
+<span id="cb2-13"><a href="" aria-label="13"></a>      <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
+<span id="cb2-14"><a href="" aria-label="14"></a>      <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Beta("</span>, p[<span class="dv">1</span>], <span class="st">", "</span>, p[<span class="dv">2</span>], <span class="st">")"</span>)</span>
+<span id="cb2-15"><a href="" aria-label="15"></a>    )</span>
+<span id="cb2-16"><a href="" aria-label="16"></a>  }</span>
+<span id="cb2-17"><a href="" aria-label="17"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-3-1.png" width="1056"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="本课采用的先验" class="slide level2">
+<h2>本课采用的先验</h2>
+<p>根据教材中的设定，本课使用：</p>
+<p><span class="math display">\[
+ACC \sim \text{Beta}(70, 30)
+\]</span></p>
+<p>其均值为：</p>
+<p><span class="math display">\[
+E(ACC) = \frac{70}{70 + 30} = 0.70
+\]</span></p>
+<p>这表达了：当前数据出现前，我们认为 <code>ACC</code> 大约在 0.70 附近。</p>
+<p>直观上，<span class="math inline">\(\alpha\)</span> 越大越偏向 1，<span class="math inline">\(\beta\)</span> 越大越偏向 0，<span class="math inline">\(\alpha+\beta\)</span> 越大分布越集中。</p>
+</section>
+<section id="连续先验图" class="slide level2">
+<h2>连续先验图</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb3-3"><a href="" aria-label="3"></a><span class="fu">plot</span>(</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>  x, <span class="fu">dbeta</span>(x, <span class="dv">70</span>, <span class="dv">30</span>),</span>
+<span id="cb3-5"><a href="" aria-label="5"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"cyan4"</span>,</span>
+<span id="cb3-6"><a href="" aria-label="6"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
+<span id="cb3-7"><a href="" aria-label="7"></a>  <span class="at">main =</span> <span class="st">"Prior: Beta(70, 30)"</span></span>
+<span id="cb3-8"><a href="" aria-label="8"></a>)</span>
+<span id="cb3-9"><a href="" aria-label="9"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.70</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb3-10"><a href="" aria-label="10"></a><span class="fu">text</span>(<span class="fl">0.72</span>, <span class="fu">max</span>(<span class="fu">dbeta</span>(x, <span class="dv">70</span>, <span class="dv">30</span>)) <span class="sc">*</span> <span class="fl">0.85</span>, <span class="st">"Mean = 0.70"</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-4-1.png" width="844"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="part-3-binomial-与似然" class="slide level2">
+<h2>Part 3: Binomial 与似然</h2>
+<p>现在收集 50 次随机点运动任务数据。每次试验只有两个结果：正确 <code>1</code> 或错误 <code>0</code>。</p>
+<p>记正确次数为 <code>Y</code>，总试次数为 <code>n = 50</code>。</p>
+<p>如果每次试验正确概率都是 <code>ACC</code>，并且试验相互独立：</p>
+<p><span class="math display">\[
+Y | ACC \sim \text{Bin}(50, ACC)
+\]</span></p>
+<p>概率质量函数为：</p>
+<p><span class="math display">\[
+P(Y = y | ACC) = \binom{50}{y}ACC^y(1-ACC)^{50-y}
+\]</span></p>
+</section>
+<section id="不同-acc-产生不同-y" class="slide level2">
+<h2>不同 ACC 产生不同 Y</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb4-2"><a href="" aria-label="2"></a><span class="fu">local</span>({</span>
+<span id="cb4-3"><a href="" aria-label="3"></a>  y <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb4-4"><a href="" aria-label="4"></a>  p_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb4-5"><a href="" aria-label="5"></a>  op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">3.0</span>, <span class="fl">3.0</span>, <span class="fl">2.0</span>, <span class="fl">0.8</span>))</span>
+<span id="cb4-6"><a href="" aria-label="6"></a>  <span class="fu">on.exit</span>(<span class="fu">par</span>(op))</span>
+<span id="cb4-7"><a href="" aria-label="7"></a>  <span class="cf">for</span> (p <span class="cf">in</span> p_values) {</span>
+<span id="cb4-8"><a href="" aria-label="8"></a>    prob <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(y, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> p)</span>
+<span id="cb4-9"><a href="" aria-label="9"></a>    <span class="fu">barplot</span>(</span>
+<span id="cb4-10"><a href="" aria-label="10"></a>      prob,</span>
+<span id="cb4-11"><a href="" aria-label="11"></a>      <span class="at">names.arg =</span> <span class="fu">ifelse</span>(y <span class="sc">%%</span> <span class="dv">10</span> <span class="sc">==</span> <span class="dv">0</span>, y, <span class="st">""</span>),</span>
+<span id="cb4-12"><a href="" aria-label="12"></a>      <span class="at">col =</span> <span class="st">"grey75"</span>, <span class="at">border =</span> <span class="cn">NA</span>,</span>
+<span id="cb4-13"><a href="" aria-label="13"></a>      <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.20</span>),</span>
+<span id="cb4-14"><a href="" aria-label="14"></a>      <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>,</span>
+<span id="cb4-15"><a href="" aria-label="15"></a>      <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Bin(50, "</span>, p, <span class="st">")"</span>)</span>
+<span id="cb4-16"><a href="" aria-label="16"></a>    )</span>
+<span id="cb4-17"><a href="" aria-label="17"></a>  }</span>
+<span id="cb4-18"><a href="" aria-label="18"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-5-1.png" width="1056"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="观察到的数据" class="slide level2">
+<h2>观察到的数据</h2>
+<p>教材案例聚焦于：</p>
+<p><span class="math display">\[
+n = 50, \quad y = 30
+\]</span></p>
+<p>也就是 50 次试验中有 30 次正确。</p>
+<p>问题变成：</p>
+<blockquote>
+<p>哪些 <code>ACC</code> 更容易生成 <code>Y = 30</code> 这样的数据？</p>
+</blockquote>
+</section>
+<section id="从数据到似然" class="slide level2">
+<h2>从数据到似然</h2>
+<p>对于任意一个候选 <code>ACC</code>，都可以计算：</p>
+<p><span class="math display">\[
+P(Y=30 | ACC)
+\]</span></p>
+<p>当我们把 <code>Y=30</code> 固定，把 <code>ACC</code> 当作横轴变化时，就得到似然函数：</p>
+<p><span class="math display">\[
+L(ACC | Y=30) = \binom{50}{30}ACC^{30}(1-ACC)^{20}
+\]</span></p>
+</section>
+<section id="似然函数" class="slide level2">
+<h2>似然函数</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>acc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-3"><a href="" aria-label="3"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> acc)</span>
+<span id="cb5-4"><a href="" aria-label="4"></a><span class="fu">plot</span>(</span>
+<span id="cb5-5"><a href="" aria-label="5"></a>  acc, lik,</span>
+<span id="cb5-6"><a href="" aria-label="6"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"grey35"</span>,</span>
+<span id="cb5-7"><a href="" aria-label="7"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Likelihood"</span>,</span>
+<span id="cb5-8"><a href="" aria-label="8"></a>  <span class="at">main =</span> <span class="st">"Likelihood: L(ACC | Y = 30)"</span></span>
+<span id="cb5-9"><a href="" aria-label="9"></a>)</span>
+<span id="cb5-10"><a href="" aria-label="10"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.60</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-11"><a href="" aria-label="11"></a><span class="fu">text</span>(<span class="fl">0.62</span>, <span class="fu">max</span>(lik) <span class="sc">*</span> <span class="fl">0.85</span>, <span class="st">"Maximum near ACC = 0.60"</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-6-1.png" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="似然不是后验" class="slide level2">
+<h2>似然不是后验</h2>
+<p>似然回答的是：</p>
+<blockquote>
+<p>如果 <code>ACC</code> 是某个值，观察到 <code>Y=30</code> 有多可能？</p>
+</blockquote>
+<p>它还没有回答：</p>
+<blockquote>
+<p>看到 <code>Y=30</code> 后，<code>ACC</code> 的后验分布是什么？</p>
+</blockquote>
+<p>要回答第二个问题，需要合并先验和似然。</p>
+</section>
+<section id="part-4-后验模型" class="slide level2">
+<h2>Part 4: 后验模型</h2>
+<p>本课的模型为：</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y | ACC &amp;\sim \text{Bin}(50, ACC) \\
+ACC &amp;\sim \text{Beta}(70, 30)
+\end{aligned}
+\]</span></p>
+<p>贝叶斯更新的核心：</p>
+<p><span class="math display">\[
+f(ACC | Y=30) \propto f(ACC)L(ACC | Y=30)
+\]</span></p>
+<p>似然只看数据；后验同时结合先验和数据。</p>
+</section>
+<section id="先验似然与课堂判断" class="slide level2">
+<h2>先验、似然与课堂判断</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>acc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb6-3"><a href="" aria-label="3"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(acc, <span class="dv">70</span>, <span class="dv">30</span>)</span>
+<span id="cb6-4"><a href="" aria-label="4"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="dv">50</span>, acc)</span>
+<span id="cb6-5"><a href="" aria-label="5"></a>lik_scaled <span class="ot">&lt;-</span> lik <span class="sc">/</span> <span class="fu">max</span>(lik) <span class="sc">*</span> <span class="fu">max</span>(prior)</span>
+<span id="cb6-6"><a href="" aria-label="6"></a><span class="fu">plot</span>(</span>
+<span id="cb6-7"><a href="" aria-label="7"></a>  acc, prior,</span>
+<span id="cb6-8"><a href="" aria-label="8"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#f0b400"</span>,</span>
+<span id="cb6-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Scaled density"</span>,</span>
+<span id="cb6-10"><a href="" aria-label="10"></a>  <span class="at">main =</span> <span class="st">"Prior and likelihood"</span>,</span>
+<span id="cb6-11"><a href="" aria-label="11"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(prior) <span class="sc">*</span> <span class="fl">1.05</span>)</span>
+<span id="cb6-12"><a href="" aria-label="12"></a>)</span>
+<span id="cb6-13"><a href="" aria-label="13"></a><span class="fu">lines</span>(acc, lik_scaled, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#0071b2"</span>)</span>
+<span id="cb6-14"><a href="" aria-label="14"></a><span class="fu">legend</span>(</span>
+<span id="cb6-15"><a href="" aria-label="15"></a>  <span class="st">"topright"</span>,</span>
+<span id="cb6-16"><a href="" aria-label="16"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Prior: center near 0.70"</span>, <span class="st">"Likelihood: peak near 0.60"</span>),</span>
+<span id="cb6-17"><a href="" aria-label="17"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#f0b400"</span>, <span class="st">"#0071b2"</span>),</span>
+<span id="cb6-18"><a href="" aria-label="18"></a>  <span class="at">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb6-19"><a href="" aria-label="19"></a>  <span class="at">bty =</span> <span class="st">"n"</span></span>
+<span id="cb6-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-7-1.png" width="902"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>后验应该位于二者之间，并且比先验更集中。</p>
+</section>
+<section id="后验分布" class="slide level2">
+<h2>后验分布</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>acc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">2000</span>)</span>
+<span id="cb7-3"><a href="" aria-label="3"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(acc, <span class="dv">70</span>, <span class="dv">30</span>)</span>
+<span id="cb7-4"><a href="" aria-label="4"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="dv">50</span>, acc)</span>
+<span id="cb7-5"><a href="" aria-label="5"></a>lik_scaled <span class="ot">&lt;-</span> lik <span class="sc">/</span> <span class="fu">max</span>(lik) <span class="sc">*</span> <span class="fu">max</span>(prior)</span>
+<span id="cb7-6"><a href="" aria-label="6"></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(acc, <span class="dv">100</span>, <span class="dv">50</span>)</span>
+<span id="cb7-7"><a href="" aria-label="7"></a><span class="fu">plot</span>(</span>
+<span id="cb7-8"><a href="" aria-label="8"></a>  acc, prior,</span>
+<span id="cb7-9"><a href="" aria-label="9"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#f0b400"</span>,</span>
+<span id="cb7-10"><a href="" aria-label="10"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Density / scaled likelihood"</span>,</span>
+<span id="cb7-11"><a href="" aria-label="11"></a>  <span class="at">main =</span> <span class="st">"Prior, likelihood, and posterior"</span>,</span>
+<span id="cb7-12"><a href="" aria-label="12"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(posterior) <span class="sc">*</span> <span class="fl">1.1</span>)</span>
+<span id="cb7-13"><a href="" aria-label="13"></a>)</span>
+<span id="cb7-14"><a href="" aria-label="14"></a><span class="fu">lines</span>(acc, lik_scaled, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#0071b2"</span>)</span>
+<span id="cb7-15"><a href="" aria-label="15"></a><span class="fu">lines</span>(acc, posterior, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#009e74"</span>)</span>
+<span id="cb7-16"><a href="" aria-label="16"></a><span class="fu">legend</span>(</span>
+<span id="cb7-17"><a href="" aria-label="17"></a>  <span class="st">"topright"</span>,</span>
+<span id="cb7-18"><a href="" aria-label="18"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood (scaled)"</span>, <span class="st">"Posterior"</span>),</span>
+<span id="cb7-19"><a href="" aria-label="19"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#f0b400"</span>, <span class="st">"#0071b2"</span>, <span class="st">"#009e74"</span>),</span>
+<span id="cb7-20"><a href="" aria-label="20"></a>  <span class="at">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb7-21"><a href="" aria-label="21"></a>  <span class="at">bty =</span> <span class="st">"n"</span></span>
+<span id="cb7-22"><a href="" aria-label="22"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-8-1.png" width="1008"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="共轭分布" class="slide level2">
+<h2>共轭分布</h2>
+<p>Beta-Binomial 模型有一个简单的后验结果：</p>
+<p><span class="math display">\[
+ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
+\]</span></p>
+<p>带入本课数值：</p>
+<p><span class="math display">\[
+ACC | (Y=30) \sim \text{Beta}(70+30, 30+20)
+\]</span></p>
+<p><span class="math display">\[
+ACC | (Y=30) \sim \text{Beta}(100, 50)
+\]</span></p>
+<p>这也是 Beta 作为 Binomial 共轭先验带来的计算便利。</p>
+</section>
+<section id="参数如何更新" class="slide level2">
+<h2>参数如何更新？</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>先验：</p>
+<p><span class="math display">\[
+ACC \sim \text{Beta}(70, 30)
+\]</span></p>
+<p>数据：</p>
+<p><span class="math display">\[
+y = 30, \quad n-y = 20
+\]</span></p>
+</div><div class="column" style="width:50%;">
+<p>后验：</p>
+<p><span class="math display">\[
+\alpha_{\text{post}} = 70 + 30 = 100
+\]</span></p>
+<p><span class="math display">\[
+\beta_{\text{post}} = 30 + 20 = 50
+\]</span></p>
+</div></div>
+</section>
+<section id="更新前后比较" class="slide level2">
+<h2>更新前后比较</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>指标</th>
+<th style="text-align: right;">Prior: Beta(70,30)</th>
+<th style="text-align: right;">Posterior: Beta(100,50)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta\)</span></td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td>mean</td>
+<td style="text-align: right;">0.700</td>
+<td style="text-align: right;">0.667</td>
+</tr>
+<tr class="even">
+<td>mode</td>
+<td style="text-align: right;">0.704</td>
+<td style="text-align: right;">0.668</td>
+</tr>
+<tr class="odd">
+<td>sd</td>
+<td style="text-align: right;">0.0456</td>
+<td style="text-align: right;">0.0384</td>
+</tr>
+</tbody>
+</table>
+<p>数据把中心从 0.70 拉向 0.60，同时减少了不确定性。</p>
+</section>
+<section id="part-5-用模拟理解后验" class="slide level2">
+<h2>Part 5: 用模拟理解后验</h2>
+<p>公式告诉我们后验是 <code>Beta(100,50)</code>。模拟帮助我们理解：</p>
+<blockquote>
+<p>后验可以看作“那些能生成观察数据的参数值”的分布。</p>
+</blockquote>
+<ol type="1">
+<li>从先验中抽很多个可能的 <code>ACC</code></li>
+<li>对每个 <code>ACC</code> 模拟 50 次试验中的正确次数 <code>Y</code></li>
+<li>只保留那些 <code>Y = 30</code> 的模拟样本</li>
+<li>查看保留下来的 <code>ACC</code> 分布</li>
+</ol>
+</section>
+<section id="生成模拟数据" class="slide level2">
+<h2>生成模拟数据</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>n_sim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb8-2"><a href="" aria-label="2"></a>sim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-3"><a href="" aria-label="3"></a>  <span class="at">ACC =</span> <span class="fu">rbeta</span>(n_sim, <span class="at">shape1 =</span> <span class="dv">70</span>, <span class="at">shape2 =</span> <span class="dv">30</span>)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>)</span>
+<span id="cb8-5"><a href="" aria-label="5"></a>sim<span class="sc">$</span>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n_sim, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> sim<span class="sc">$</span>ACC)</span>
+<span id="cb8-6"><a href="" aria-label="6"></a><span class="fu">head</span>(sim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        ACC  Y
+1 0.6635932 27
+2 0.7063811 36
+3 0.6568537 33
+4 0.6875516 38
+5 0.6559095 31
+6 0.6017017 30</code></pre>
+</div>
+</div>
+</section>
+<section id="哪些模拟样本匹配-y-30" class="slide level2">
+<h2>哪些模拟样本匹配 Y = 30？</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb10-2"><a href="" aria-label="2"></a>matched <span class="ot">&lt;-</span> sim<span class="sc">$</span>Y <span class="sc">==</span> <span class="dv">30</span></span>
+<span id="cb10-3"><a href="" aria-label="3"></a><span class="fu">plot</span>(</span>
+<span id="cb10-4"><a href="" aria-label="4"></a>  sim<span class="sc">$</span>ACC[<span class="sc">!</span>matched], sim<span class="sc">$</span>Y[<span class="sc">!</span>matched],</span>
+<span id="cb10-5"><a href="" aria-label="5"></a>  <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.22</span>), <span class="at">cex =</span> <span class="fl">0.55</span>,</span>
+<span id="cb10-6"><a href="" aria-label="6"></a>  <span class="at">xlab =</span> <span class="st">"Simulated ACC"</span>, <span class="at">ylab =</span> <span class="st">"Simulated Y"</span>,</span>
+<span id="cb10-7"><a href="" aria-label="7"></a>  <span class="at">main =</span> <span class="st">"Simulated ACC and Y"</span></span>
+<span id="cb10-8"><a href="" aria-label="8"></a>)</span>
+<span id="cb10-9"><a href="" aria-label="9"></a><span class="fu">points</span>(</span>
+<span id="cb10-10"><a href="" aria-label="10"></a>  sim<span class="sc">$</span>ACC[matched], sim<span class="sc">$</span>Y[matched],</span>
+<span id="cb10-11"><a href="" aria-label="11"></a>  <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="dv">1</span>, <span class="fl">0.8</span>), <span class="at">cex =</span> <span class="fl">0.8</span></span>
+<span id="cb10-12"><a href="" aria-label="12"></a>)</span>
+<span id="cb10-13"><a href="" aria-label="13"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb10-14"><a href="" aria-label="14"></a><span class="fu">legend</span>(</span>
+<span id="cb10-15"><a href="" aria-label="15"></a>  <span class="st">"topleft"</span>,</span>
+<span id="cb10-16"><a href="" aria-label="16"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Y != 30"</span>, <span class="st">"Y = 30"</span>),</span>
+<span id="cb10-17"><a href="" aria-label="17"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"grey30"</span>, <span class="st">"blue"</span>),</span>
+<span id="cb10-18"><a href="" aria-label="18"></a>  <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb10-19"><a href="" aria-label="19"></a>  <span class="at">bty =</span> <span class="st">"n"</span></span>
+<span id="cb10-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-10-1.png" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="筛选后的-acc-近似后验" class="slide level2">
+<h2>筛选后的 ACC 近似后验</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
+<span id="cb11-2"><a href="" aria-label="2"></a>posterior_sim <span class="ot">&lt;-</span> sim<span class="sc">$</span>ACC[sim<span class="sc">$</span>Y <span class="sc">==</span> <span class="dv">30</span>]</span>
+<span id="cb11-3"><a href="" aria-label="3"></a><span class="fu">hist</span>(</span>
+<span id="cb11-4"><a href="" aria-label="4"></a>  posterior_sim,</span>
+<span id="cb11-5"><a href="" aria-label="5"></a>  <span class="at">breaks =</span> <span class="dv">18</span>,</span>
+<span id="cb11-6"><a href="" aria-label="6"></a>  <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-7"><a href="" aria-label="7"></a>  <span class="at">col =</span> <span class="st">"lightblue"</span>,</span>
+<span id="cb11-8"><a href="" aria-label="8"></a>  <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb11-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>,</span>
+<span id="cb11-10"><a href="" aria-label="10"></a>  <span class="at">main =</span> <span class="st">"Simulated posterior: keep ACC where Y = 30"</span></span>
+<span id="cb11-11"><a href="" aria-label="11"></a>)</span>
+<span id="cb11-12"><a href="" aria-label="12"></a><span class="fu">lines</span>(<span class="fu">density</span>(posterior_sim), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb11-13"><a href="" aria-label="13"></a><span class="fu">curve</span>(<span class="fu">dbeta</span>(x, <span class="dv">100</span>, <span class="dv">50</span>), <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#009e74"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb11-14"><a href="" aria-label="14"></a><span class="fu">legend</span>(</span>
+<span id="cb11-15"><a href="" aria-label="15"></a>  <span class="st">"topright"</span>,</span>
+<span id="cb11-16"><a href="" aria-label="16"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Simulation"</span>, <span class="st">"Beta(100,50)"</span>),</span>
+<span id="cb11-17"><a href="" aria-label="17"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"#009e74"</span>),</span>
+<span id="cb11-18"><a href="" aria-label="18"></a>  <span class="at">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb11-19"><a href="" aria-label="19"></a>  <span class="at">bty =</span> <span class="st">"n"</span></span>
+<span id="cb11-20"><a href="" aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lecture3_files/figure-revealjs/unnamed-chunk-11-1.png" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="课堂练习" class="slide level2">
+<h2>课堂练习</h2>
+<p>把同样的思路迁移到“心理学研究可重复性”：</p>
+<ul>
+<li>假设可重复研究出现的概率为 <span class="math inline">\(\pi\)</span></li>
+<li>自行选择一个 Beta 先验</li>
+<li>模拟 10,000 个 <span class="math inline">\(\pi\)</span> 值</li>
+<li>假设总研究数量 <span class="math inline">\(n=100\)</span>，根据 <span class="math inline">\(\pi\)</span> 模拟可重复研究数量 <span class="math inline">\(Y\)</span></li>
+<li>绘制先验分布和后验分布</li>
+</ul>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+</section>
+<section id="本课模型" class="slide level2">
+<h2>本课模型</h2>
+<p>Beta-Binomial 模型：</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y | ACC &amp;\sim \text{Bin}(n, ACC) \\
+ACC &amp;\sim \text{Beta}(\alpha, \beta)
+\end{aligned}
+\]</span></p>
+<p>后验：</p>
+<p><span class="math display">\[
+ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
+\]</span></p>
+</section>
+<section id="四个建模要素" class="slide level2">
+<h2>四个建模要素</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>要素</th>
+<th>本课对应</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>参数</td>
+<td><code>ACC</code>: 被试真正做对的概率</td>
+</tr>
+<tr class="even">
+<td>先验</td>
+<td><code>ACC ~ Beta(70,30)</code></td>
+</tr>
+<tr class="odd">
+<td>数据模型</td>
+<td><code>Y | ACC ~ Bin(50, ACC)</code></td>
+</tr>
+<tr class="even">
+<td>似然</td>
+<td><code>L(ACC | Y=30)</code></td>
+</tr>
+<tr class="odd">
+<td>后验</td>
+<td><code>ACC | Y=30 ~ Beta(100,50)</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="带走一句话" class="slide level2">
+<h2>带走一句话</h2>
+<p>贝叶斯建模不是只报告一个正确率。</p>
+<p>它把研究问题改写为：</p>
+<p><span class="math display">\[
+\text{先验信念} + \text{数据证据}
+\Rightarrow
+\text{更新后的不确定性}
+\]</span></p>
+<p>在本课中，这个更新过程被 Beta-Binomial 模型完整表达。</p>
+</section>
+<section id="references" class="slide level2">
+<h2>References</h2>
+<ul>
+<li>Evans, N. J., Hawkins, G. E., &amp; Brown, S. D. (2020). The role of passing time in decision-making. <em>Journal of Experimental Psychology: Learning, Memory, and Cognition, 46</em>(2), 316-326.</li>
+<li>Shooshtari, S. V., Sadrabadi, J. E., Azizi, Z., &amp; Ebrahimpour, R. (2019). Confidence representation of perceptual decision by EEG and eye data in a random dot motion task. <em>Neuroscience, 406</em>, 510-527.</li>
+</ul>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Lecture3_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Lecture3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Lecture3_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Lecture3_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Lecture3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Lecture3_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Lecture3_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Lecture3_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Lecture3_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Lecture3_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1600,
+
+        height: 900,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

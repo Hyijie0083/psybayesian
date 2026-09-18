@@ -1,0 +1,629 @@
+---
+title: "高级心理统计 · 第3讲"
+subtitle: "The Beta-Binomial Bayesian Model"
+author: "胡传鹏 (Dr. Hu Chuan-Peng)"
+institute: "南京师范大学心理学院 · School of Psychology, Nanjing Normal University"
+output-file: Lecture3.html
+format:
+  revealjs:
+    theme: default
+    auto-stretch: false
+    slide-number: true
+    show-slide-number: all
+    transition: slide
+    width: 1600
+    height: 900
+    css: lecture.css
+    lib-dir: Lecture3_files/libs
+    code-overflow: scroll
+    code-copy: true
+    code-fold: true
+execute:
+  fig-path: Lecture3_files/figure-revealjs/
+  echo: true
+  message: false
+  warning: false
+---
+
+```{r}
+#| include: false
+set.seed(84735)
+theme_set <- function() {
+  par(
+    mar = c(4.2, 4.4, 2.2, 1.2),
+    cex.axis = 1.15,
+    cex.lab = 1.25,
+    cex.main = 1.25
+  )
+}
+fixme <- function(text) {
+  paste0("<span style='color:#c1121f; font-weight:700;'>", text, "</span>")
+}
+```
+
+## 本讲问题
+
+我们想估计：
+
+> 被试在随机点运动任务某一条件下，真正做对的能力是多少？
+
+今天用一个最小完整模型回答这个问题：
+
+$$
+Y | ACC \sim \text{Bin}(n, ACC), \quad ACC \sim \text{Beta}(\alpha, \beta)
+$$
+
+## 学习目标
+
+学完本讲，你应该能够：
+
+- 用 **Beta 分布**表达 `[0,1]` 上的先验信念
+- 用 **Binomial 分布**描述正确/错误数据
+- 解释 **likelihood** 如何比较不同 `ACC` 与数据的兼容性
+- 写出 Beta-Binomial 模型的后验更新公式
+- 用模拟理解“后验分布”从哪里来
+
+## Outlines
+
+- **1. 研究问题** — 随机点运动任务中的正确率
+- **2. 理论模型** — Beta 先验与 Binomial 数据模型
+- **3. 贝叶斯更新** — 似然函数与后验分布
+- **4. 模拟理解** — 用模拟近似后验
+- **5. 总结练习** — 四个建模要素与迁移练习
+
+## Part 1: 从正确率到参数
+
+随机点运动任务 (Random dot motion task) 用于研究感知决策。
+
+被试需要判断随机点阵的整体运动方向；点的一致性越高，方向信息越清楚，任务通常越容易。
+
+:::: {.columns}
+
+::: {.column width="50%"}
+<center>
+<img src="https://cdn.kesci.com/upload/sjwnyi477j.gif?imageView2/0/w/400/h/400" style="height:360px;">
+
+一致性 10%
+</center>
+:::
+
+::: {.column width="50%"}
+<center>
+<img src="https://cdn.kesci.com/upload/sjwnyt1yq4.gif?imageView2/0/w/400/h/400" style="height:360px;">
+
+一致性 60%
+</center>
+:::
+
+::::
+
+## 正确率不是终点
+
+一次实验后，我们可以得到一个观察到的正确率。
+
+但贝叶斯建模关心的是：
+
+$$
+\text{观察到的正确次数 } Y
+\quad \Rightarrow \quad
+\text{潜在正确能力 } ACC
+$$
+
+`ACC` 不是直接观察到的值，而是我们要推断的参数。
+
+## 为什么需要不确定性？
+
+假设 50 次试验中有 30 次正确。
+
+$$
+\hat{ACC} = \frac{30}{50} = 0.60
+$$
+
+这个数很有用，但它没有回答：
+
+- 真正的 `ACC` 可能是 0.55 吗？
+- 可能是 0.70 吗？
+- 我们对这些可能性有多确定？
+
+## 先验从哪里来？
+
+在看到当前数据前，我们可能已经知道：
+
+- 5% 一致性条件下任务不容易
+- 先前研究中个体正确率约在 0.70 附近
+- `ACC` 必须位于 `[0,1]`
+
+因此，我们需要一个定义在 `[0,1]` 上的先验模型。
+
+## 离散先验的直觉
+
+:::: {.columns}
+
+::: {.column width="52%"}
+
+```{r}
+#| fig-width: 7.2
+#| fig-height: 4.2
+theme_set()
+acc_disc <- seq(0.1, 1.0, by = 0.1)
+prior_prob <- c(0, 0, 0, 0, 0, 0.1, 0.8, 0.1, 0, 0)
+barplot(
+  prior_prob,
+  names.arg = acc_disc,
+  col = "skyblue",
+  border = "white",
+  xlab = "ACC",
+  ylab = "Prior probability",
+  main = "Discrete prior"
+)
+```
+:::
+
+::: {.column width="48%"}
+::: {style="font-size:0.78em; line-height:1.18;"}
+先从上节课熟悉的离散信念开始。
+
+但如果 `ACC` 可以是 `[0,1]` 中任意值，只允许 0.6、0.7、0.8 就过于粗糙。
+
+$$
+f(ACC), \quad 0 \le ACC \le 1
+$$
+
+并且曲线下面积为 1：
+
+$$
+\int_0^1 f(ACC)dACC = 1
+$$
+:::
+:::
+
+::::
+
+## Part 2: Beta 先验
+
+Beta 分布非常适合表示 `[0,1]` 上的概率参数。
+
+$$
+ACC \sim \text{Beta}(\alpha, \beta)
+$$
+
+其中：
+
+- $\alpha > 0, \beta > 0$
+- 参数控制分布形状
+- 可以表达“偏低”“偏高”“集中”“分散”等先验信念
+
+## Beta 分布的形状
+
+```{r}
+#| fig-width: 11
+#| fig-height: 6.4
+theme_set()
+local({
+  x <- seq(0, 1, length.out = 1000)
+  params <- list(c(1, 5), c(1, 2), c(3, 7),
+                 c(1, 1), c(5, 5), c(20, 20),
+                 c(7, 3), c(2, 1), c(5, 1))
+  op <- par(mfrow = c(3, 3), mar = c(3.1, 3.2, 2.1, 0.8))
+  on.exit(par(op))
+  for (p in params) {
+    y <- dbeta(x, p[1], p[2])
+    plot(
+      x, y, type = "l", lwd = 2, col = "cyan4",
+      xlab = "ACC", ylab = "Density",
+      main = paste0("Beta(", p[1], ", ", p[2], ")")
+    )
+  }
+})
+```
+
+## 本课采用的先验
+
+根据教材中的设定，本课使用：
+
+$$
+ACC \sim \text{Beta}(70, 30)
+$$
+
+其均值为：
+
+$$
+E(ACC) = \frac{70}{70 + 30} = 0.70
+$$
+
+这表达了：当前数据出现前，我们认为 `ACC` 大约在 0.70 附近。
+
+直观上，$\alpha$ 越大越偏向 1，$\beta$ 越大越偏向 0，$\alpha+\beta$ 越大分布越集中。
+
+## 连续先验图
+
+```{r}
+#| fig-width: 8.8
+#| fig-height: 5
+theme_set()
+x <- seq(0, 1, length.out = 1000)
+plot(
+  x, dbeta(x, 70, 30),
+  type = "l", lwd = 3, col = "cyan4",
+  xlab = "ACC", ylab = "Density",
+  main = "Prior: Beta(70, 30)"
+)
+abline(v = 0.70, lty = 2, col = "red", lwd = 2)
+text(0.72, max(dbeta(x, 70, 30)) * 0.85, "Mean = 0.70", col = "red", adj = 0)
+```
+
+## Part 3: Binomial 与似然
+
+现在收集 50 次随机点运动任务数据。每次试验只有两个结果：正确 `1` 或错误 `0`。
+
+记正确次数为 `Y`，总试次数为 `n = 50`。
+
+如果每次试验正确概率都是 `ACC`，并且试验相互独立：
+
+$$
+Y | ACC \sim \text{Bin}(50, ACC)
+$$
+
+概率质量函数为：
+
+$$
+P(Y = y | ACC) = \binom{50}{y}ACC^y(1-ACC)^{50-y}
+$$
+
+## 不同 ACC 产生不同 Y
+
+```{r}
+#| fig-width: 11
+#| fig-height: 6.2
+theme_set()
+local({
+  y <- 0:50
+  p_values <- seq(0.1, 0.9, by = 0.1)
+  op <- par(mfrow = c(3, 3), mar = c(3.0, 3.0, 2.0, 0.8))
+  on.exit(par(op))
+  for (p in p_values) {
+    prob <- dbinom(y, size = 50, prob = p)
+    barplot(
+      prob,
+      names.arg = ifelse(y %% 10 == 0, y, ""),
+      col = "grey75", border = NA,
+      ylim = c(0, 0.20),
+      xlab = "", ylab = "",
+      main = paste0("Bin(50, ", p, ")")
+    )
+  }
+})
+```
+
+## 观察到的数据
+
+教材案例聚焦于：
+
+$$
+n = 50, \quad y = 30
+$$
+
+也就是 50 次试验中有 30 次正确。
+
+问题变成：
+
+> 哪些 `ACC` 更容易生成 `Y = 30` 这样的数据？
+
+## 从数据到似然
+
+对于任意一个候选 `ACC`，都可以计算：
+
+$$
+P(Y=30 | ACC)
+$$
+
+当我们把 `Y=30` 固定，把 `ACC` 当作横轴变化时，就得到似然函数：
+
+$$
+L(ACC | Y=30) = \binom{50}{30}ACC^{30}(1-ACC)^{20}
+$$
+
+## 似然函数
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+theme_set()
+acc <- seq(0, 1, length.out = 1000)
+lik <- dbinom(30, size = 50, prob = acc)
+plot(
+  acc, lik,
+  type = "l", lwd = 3, col = "grey35",
+  xlab = "ACC", ylab = "Likelihood",
+  main = "Likelihood: L(ACC | Y = 30)"
+)
+abline(v = 0.60, lty = 2, col = "red", lwd = 2)
+text(0.62, max(lik) * 0.85, "Maximum near ACC = 0.60", col = "red", adj = 0)
+```
+
+## 似然不是后验
+
+似然回答的是：
+
+> 如果 `ACC` 是某个值，观察到 `Y=30` 有多可能？
+
+它还没有回答：
+
+> 看到 `Y=30` 后，`ACC` 的后验分布是什么？
+
+要回答第二个问题，需要合并先验和似然。
+
+## Part 4: 后验模型
+
+本课的模型为：
+
+$$
+\begin{aligned}
+Y | ACC &\sim \text{Bin}(50, ACC) \\
+ACC &\sim \text{Beta}(70, 30)
+\end{aligned}
+$$
+
+贝叶斯更新的核心：
+
+$$ 
+f(ACC | Y=30) \propto f(ACC)L(ACC | Y=30)
+$$
+
+似然只看数据；后验同时结合先验和数据。
+
+## 先验、似然与课堂判断
+
+```{r}
+#| fig-width: 9.4
+#| fig-height: 5.2
+theme_set()
+acc <- seq(0, 1, length.out = 1000)
+prior <- dbeta(acc, 70, 30)
+lik <- dbinom(30, 50, acc)
+lik_scaled <- lik / max(lik) * max(prior)
+plot(
+  acc, prior,
+  type = "l", lwd = 3, col = "#f0b400",
+  xlab = "ACC", ylab = "Scaled density",
+  main = "Prior and likelihood",
+  ylim = c(0, max(prior) * 1.05)
+)
+lines(acc, lik_scaled, lwd = 3, col = "#0071b2")
+legend(
+  "topright",
+  legend = c("Prior: center near 0.70", "Likelihood: peak near 0.60"),
+  col = c("#f0b400", "#0071b2"),
+  lwd = 3,
+  bty = "n"
+)
+```
+
+后验应该位于二者之间，并且比先验更集中。
+
+## 后验分布
+
+```{r}
+#| fig-width: 10.5
+#| fig-height: 5.4
+theme_set()
+acc <- seq(0, 1, length.out = 2000)
+prior <- dbeta(acc, 70, 30)
+lik <- dbinom(30, 50, acc)
+lik_scaled <- lik / max(lik) * max(prior)
+posterior <- dbeta(acc, 100, 50)
+plot(
+  acc, prior,
+  type = "l", lwd = 3, col = "#f0b400",
+  xlab = "ACC", ylab = "Density / scaled likelihood",
+  main = "Prior, likelihood, and posterior",
+  ylim = c(0, max(posterior) * 1.1)
+)
+lines(acc, lik_scaled, lwd = 3, col = "#0071b2")
+lines(acc, posterior, lwd = 3, col = "#009e74")
+legend(
+  "topright",
+  legend = c("Prior", "Likelihood (scaled)", "Posterior"),
+  col = c("#f0b400", "#0071b2", "#009e74"),
+  lwd = 3,
+  bty = "n"
+)
+```
+
+## 共轭分布
+
+Beta-Binomial 模型有一个简单的后验结果：
+
+$$
+ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
+$$
+
+带入本课数值：
+
+$$
+ACC | (Y=30) \sim \text{Beta}(70+30, 30+20)
+$$
+
+$$
+ACC | (Y=30) \sim \text{Beta}(100, 50)
+$$
+
+这也是 Beta 作为 Binomial 共轭先验带来的计算便利。
+
+## 参数如何更新？
+
+:::: {.columns}
+
+::: {.column width="50%"}
+先验：
+
+$$
+ACC \sim \text{Beta}(70, 30)
+$$
+
+数据：
+
+$$
+y = 30, \quad n-y = 20
+$$
+:::
+
+::: {.column width="50%"}
+后验：
+
+$$
+\alpha_{\text{post}} = 70 + 30 = 100
+$$
+
+$$
+\beta_{\text{post}} = 30 + 20 = 50
+$$
+:::
+
+::::
+
+## 更新前后比较
+
+| 指标 | Prior: Beta(70,30) | Posterior: Beta(100,50) |
+|---|---:|---:|
+| $\alpha$ | 70 | 100 |
+| $\beta$ | 30 | 50 |
+| mean | 0.700 | 0.667 |
+| mode | 0.704 | 0.668 |
+| sd | 0.0456 | 0.0384 |
+
+数据把中心从 0.70 拉向 0.60，同时减少了不确定性。
+
+## Part 5: 用模拟理解后验
+
+公式告诉我们后验是 `Beta(100,50)`。模拟帮助我们理解：
+
+> 后验可以看作“那些能生成观察数据的参数值”的分布。
+
+1. 从先验中抽很多个可能的 `ACC`
+2. 对每个 `ACC` 模拟 50 次试验中的正确次数 `Y`
+3. 只保留那些 `Y = 30` 的模拟样本
+4. 查看保留下来的 `ACC` 分布
+
+## 生成模拟数据
+
+```{r}
+n_sim <- 10000
+sim <- data.frame(
+  ACC = rbeta(n_sim, shape1 = 70, shape2 = 30)
+)
+sim$Y <- rbinom(n_sim, size = 50, prob = sim$ACC)
+head(sim)
+```
+
+## 哪些模拟样本匹配 Y = 30？
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+theme_set()
+matched <- sim$Y == 30
+plot(
+  sim$ACC[!matched], sim$Y[!matched],
+  pch = 16, col = rgb(0, 0, 0, 0.22), cex = 0.55,
+  xlab = "Simulated ACC", ylab = "Simulated Y",
+  main = "Simulated ACC and Y"
+)
+points(
+  sim$ACC[matched], sim$Y[matched],
+  pch = 16, col = rgb(0, 0.25, 1, 0.8), cex = 0.8
+)
+abline(h = 30, col = "blue", lwd = 2, lty = 2)
+legend(
+  "topleft",
+  legend = c("Y != 30", "Y = 30"),
+  col = c("grey30", "blue"),
+  pch = 16,
+  bty = "n"
+)
+```
+
+## 筛选后的 ACC 近似后验
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+theme_set()
+posterior_sim <- sim$ACC[sim$Y == 30]
+hist(
+  posterior_sim,
+  breaks = 18,
+  probability = TRUE,
+  col = "lightblue",
+  border = "white",
+  xlab = "ACC",
+  main = "Simulated posterior: keep ACC where Y = 30"
+)
+lines(density(posterior_sim), col = "blue", lwd = 3)
+curve(dbeta(x, 100, 50), from = 0, to = 1, add = TRUE, col = "#009e74", lwd = 3)
+legend(
+  "topright",
+  legend = c("Simulation", "Beta(100,50)"),
+  col = c("blue", "#009e74"),
+  lwd = 3,
+  bty = "n"
+)
+```
+
+## 课堂练习
+
+把同样的思路迁移到“心理学研究可重复性”：
+
+- 假设可重复研究出现的概率为 $\pi$
+- 自行选择一个 Beta 先验
+- 模拟 10,000 个 $\pi$ 值
+- 假设总研究数量 $n=100$，根据 $\pi$ 模拟可重复研究数量 $Y$
+- 绘制先验分布和后验分布
+
+## Summary
+
+## 本课模型
+
+Beta-Binomial 模型：
+
+$$
+\begin{aligned}
+Y | ACC &\sim \text{Bin}(n, ACC) \\
+ACC &\sim \text{Beta}(\alpha, \beta)
+\end{aligned}
+$$
+
+后验：
+
+$$
+ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
+$$
+
+## 四个建模要素
+
+| 要素 | 本课对应 |
+|---|---|
+| 参数 | `ACC`: 被试真正做对的概率 |
+| 先验 | `ACC ~ Beta(70,30)` |
+| 数据模型 | `Y | ACC ~ Bin(50, ACC)` |
+| 似然 | `L(ACC | Y=30)` |
+| 后验 | `ACC | Y=30 ~ Beta(100,50)` |
+
+## 带走一句话
+
+贝叶斯建模不是只报告一个正确率。
+
+它把研究问题改写为：
+
+$$
+\text{先验信念} + \text{数据证据}
+\Rightarrow
+\text{更新后的不确定性}
+$$
+
+在本课中，这个更新过程被 Beta-Binomial 模型完整表达。
+
+## References
+
+- Evans, N. J., Hawkins, G. E., & Brown, S. D. (2020). The role of passing time in decision-making. *Journal of Experimental Psychology: Learning, Memory, and Cognition, 46*(2), 316-326.
+- Shooshtari, S. V., Sadrabadi, J. E., Azizi, Z., & Ebrahimpour, R. (2019). Confidence representation of perceptual decision by EEG and eye data in a random dot motion task. *Neuroscience, 406*, 510-527.
