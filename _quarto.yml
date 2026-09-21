@@ -1,0 +1,7 @@
+project:
+  type: default
+  # 库文件集中到共享目录；lib-dir 仅在 project 级生效（写在 format 级会被静默忽略）
+  lib-dir: assets/libs
+  # 限定渲染范围，避免 tmpdata/ 下的散落 .qmd 被一起渲染
+  render:
+    - "lec*.qmd"

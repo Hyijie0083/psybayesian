@@ -67,3 +67,7 @@ panNote.md
 
 # MCMC sampling cache (brms file=)
 tmpdata/
+
+# Quarto project cache (created once _quarto.yml exists)
+/.quarto/
+**/*.quarto_ipynb
