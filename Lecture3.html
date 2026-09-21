@@ -201,7 +201,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">高级心理统计 · 第3讲</h1>
-  <p class="subtitle">The Beta-Binomial Bayesian Model</p>
+  <p class="subtitle">《贝叶斯统计与应用》 · Bayesian Statistics and Applications</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -215,16 +215,53 @@
 </div>
 
 </section>
-<section id="本讲问题" class="slide level2">
-<h2>本讲问题</h2>
-<p>我们想估计：</p>
-<blockquote>
-<p>被试在随机点运动任务某一条件下，真正做对的能力是多少？</p>
-</blockquote>
-<p>今天用一个最小完整模型回答这个问题：</p>
-<p><span class="math display">\[
-Y | ACC \sim \text{Bin}(n, ACC), \quad ACC \sim \text{Beta}(\alpha, \beta)
-\]</span></p>
+<section id="回顾第2讲的两个例子与贝叶斯公式的四个成分" class="slide level2">
+<h2>回顾：第2讲的两个例子与贝叶斯公式的四个成分</h2>
+<div style="font-size:0.82em;">
+<p><strong>前提</strong>：两个例子的参数 <span class="math inline">\(\theta\)</span> 都只取少数几个<strong>离散</strong>值</p>
+</div>
+<ul>
+<li>例1：<span class="math inline">\(\theta \in \{0,\ 0.25,\ 0.5,\ 0.75,\ 1\}\)</span>；</li>
+<li>例2：<span class="math inline">\(\theta \in \{0.2,\ 0.5,\ 0.8\}\)</span></li>
+</ul>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>成分</th>
+<th>例1：蓝色小球计数（数据 = “蓝白蓝”）</th>
+<th>例2：复现成功率（数据 = 6 项中成功 1 项）</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>先验</strong> prior <span class="math inline">\(P(\theta)\)</span></td>
+<td>5 种推测等可能，各 <strong>0.2</strong></td>
+<td><strong>0.10 / 0.25 / 0.65</strong></td>
+</tr>
+<tr class="even">
+<td><strong>似然</strong> likelihood <span class="math inline">\(P(D \mid \theta)\)</span></td>
+<td>ways = <strong>0 / 3 / 8 / 9 / 0</strong></td>
+<td><strong>0.3932 / 0.0938 / 0.0015</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>归一化因子</strong> <span class="math inline">\(P(D)\)</span></td>
+<td><span class="math inline">\(0\times.2+3\times.2+8\times.2+9\times.2+0\times.2 =\)</span> <strong>4.0</strong></td>
+<td><span class="math inline">\(0.10\times.3932+0.25\times.0938+0.65\times.0015 \approx\)</span> <strong>0.0637</strong></td>
+</tr>
+<tr class="even">
+<td><strong>后验</strong> posterior <span class="math inline">\(P(\theta \mid D)\)</span></td>
+<td><strong>0 / 0.15 / 0.40 / 0.45 / 0</strong></td>
+<td><strong>0.617 / 0.368 / 0.015</strong></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(P(\theta \mid D) = \frac{P(D\mid \theta)P(\theta)}{P(D)}\)</span></p>
+<p>本讲把离散的 <span class="math inline">\(\theta\)</span> 换成连续的 <span class="math inline">\(ACC\)</span>。</p>
 </section>
 <section id="学习目标" class="slide level2">
 <h2>学习目标</h2>
@@ -328,17 +365,69 @@ Y | ACC \sim \text{Bin}(n, ACC), \quad ACC \sim \text{Beta}(\alpha, \beta)
 </div>
 </div><div class="column" style="width:48%;">
 <div style="font-size:0.78em; line-height:1.18;">
-<p>先从上节课熟悉的离散信念开始。</p>
-<p>但如果 <code>ACC</code> 可以是 <code>[0,1]</code> 中任意值，只允许 0.6、0.7、0.8 就过于粗糙。</p>
+<p>第2讲两个例子的先验都是“<strong>有限个取值 + 各自概率，和为 1</strong>”。</p>
+<p>但 <code>ACC</code> 可以是 <code>[0,1]</code> 中任意值：只允许 0.6、0.7、0.8 就过于粗糙；把取值网格<strong>不断加密</strong>，离散先验的极限就是一条连续曲线。</p>
 <p><span class="math display">\[
 f(ACC), \quad 0 \le ACC \le 1
 \]</span></p>
-<p>并且曲线下面积为 1：</p>
+<p>它同样要满足“总面积 = 1”，只是把求和换成积分：</p>
 <p><span class="math display">\[
 \int_0^1 f(ACC)dACC = 1
 \]</span></p>
 </div>
 </div></div>
+</section>
+<section id="从第2讲到本讲四成分不变取值从离散到连续" class="slide level2">
+<h2>从第2讲到本讲：四成分不变，取值从离散到连续</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>环节</th>
+<th>上一课（离散）</th>
+<th>本讲（连续）</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>数据模型</td>
+<td><span class="math inline">\(\text{Bin}(6, \theta)\)</span></td>
+<td><span class="math inline">\(\text{Bin}(50, ACC)\)</span></td>
+</tr>
+<tr class="even">
+<td>参数</td>
+<td><span class="math inline">\(\theta \in \{0.2,\ 0.5,\ 0.8\}\)</span>（或 5 种蓝球占比）</td>
+<td><span class="math inline">\(ACC \in [0, 1]\)</span></td>
+</tr>
+<tr class="odd">
+<td>先验</td>
+<td>表格：有限个取值，概率<strong>和为 1</strong></td>
+<td><span class="math inline">\(\text{Beta}(70, 30)\)</span>：曲线，<strong>积分为 1</strong></td>
+</tr>
+<tr class="even">
+<td>似然</td>
+<td>只在 3 个点上计算</td>
+<td>在 <span class="math inline">\([0,1]\)</span> 上<strong>处处</strong>可计算</td>
+</tr>
+<tr class="odd">
+<td>归一化因子</td>
+<td>求和 <span class="math inline">\(\sum f(\theta)L(\theta \mid y)\)</span></td>
+<td>积分 <span class="math inline">\(\int_0^1 f(ACC)L(ACC \mid y)\,dACC\)</span></td>
+</tr>
+<tr class="even">
+<td>后验</td>
+<td>三个点的概率</td>
+<td><span class="math inline">\(\text{Beta}(100, 50)\)</span>（共轭直接计算）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>变的只是“取值个数：有限 → 无限”；先验、似然、证据、后验的<strong>含义与用法完全不变</strong>。</p>
+</blockquote>
 </section>
 <section id="part-2-beta-先验" class="slide level2">
 <h2>Part 2: Beta 先验</h2>
@@ -385,9 +474,9 @@ ACC \sim \text{Beta}(\alpha, \beta)
 </div>
 </div>
 </section>
-<section id="本课采用的先验" class="slide level2">
-<h2>本课采用的先验</h2>
-<p>根据教材中的设定，本课使用：</p>
+<section id="先验" class="slide level2">
+<h2>先验</h2>
+<p>我们首先设定一下直觉上合理的先验：</p>
 <p><span class="math display">\[
 ACC \sim \text{Beta}(70, 30)
 \]</span></p>
@@ -395,7 +484,7 @@ ACC \sim \text{Beta}(70, 30)
 <p><span class="math display">\[
 E(ACC) = \frac{70}{70 + 30} = 0.70
 \]</span></p>
-<p>这表达了：当前数据出现前，我们认为 <code>ACC</code> 大约在 0.70 附近。</p>
+<p>当前数据出现前，我们认为 <code>ACC</code> 大约在 0.70 附近。</p>
 <p>直观上，<span class="math inline">\(\alpha\)</span> 越大越偏向 1，<span class="math inline">\(\beta\)</span> 越大越偏向 0，<span class="math inline">\(\alpha+\beta\)</span> 越大分布越集中。</p>
 </section>
 <section id="连续先验图" class="slide level2">
@@ -445,20 +534,23 @@ P(Y = y | ACC) = \binom{50}{y}ACC^y(1-ACC)^{50-y}
 <span id="cb4-2"><a href="" aria-label="2"></a><span class="fu">local</span>({</span>
 <span id="cb4-3"><a href="" aria-label="3"></a>  y <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">50</span></span>
 <span id="cb4-4"><a href="" aria-label="4"></a>  p_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
-<span id="cb4-5"><a href="" aria-label="5"></a>  op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">3.0</span>, <span class="fl">3.0</span>, <span class="fl">2.0</span>, <span class="fl">0.8</span>))</span>
-<span id="cb4-6"><a href="" aria-label="6"></a>  <span class="fu">on.exit</span>(<span class="fu">par</span>(op))</span>
-<span id="cb4-7"><a href="" aria-label="7"></a>  <span class="cf">for</span> (p <span class="cf">in</span> p_values) {</span>
-<span id="cb4-8"><a href="" aria-label="8"></a>    prob <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(y, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> p)</span>
-<span id="cb4-9"><a href="" aria-label="9"></a>    <span class="fu">barplot</span>(</span>
-<span id="cb4-10"><a href="" aria-label="10"></a>      prob,</span>
-<span id="cb4-11"><a href="" aria-label="11"></a>      <span class="at">names.arg =</span> <span class="fu">ifelse</span>(y <span class="sc">%%</span> <span class="dv">10</span> <span class="sc">==</span> <span class="dv">0</span>, y, <span class="st">""</span>),</span>
-<span id="cb4-12"><a href="" aria-label="12"></a>      <span class="at">col =</span> <span class="st">"grey75"</span>, <span class="at">border =</span> <span class="cn">NA</span>,</span>
-<span id="cb4-13"><a href="" aria-label="13"></a>      <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.20</span>),</span>
-<span id="cb4-14"><a href="" aria-label="14"></a>      <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>,</span>
-<span id="cb4-15"><a href="" aria-label="15"></a>      <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Bin(50, "</span>, p, <span class="st">")"</span>)</span>
-<span id="cb4-16"><a href="" aria-label="16"></a>    )</span>
-<span id="cb4-17"><a href="" aria-label="17"></a>  }</span>
-<span id="cb4-18"><a href="" aria-label="18"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-5"><a href="" aria-label="5"></a>  ticks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)   <span class="co"># X 轴显示的刻度</span></span>
+<span id="cb4-6"><a href="" aria-label="6"></a>  op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">3.0</span>, <span class="fl">3.0</span>, <span class="fl">2.0</span>, <span class="fl">0.8</span>))</span>
+<span id="cb4-7"><a href="" aria-label="7"></a>  <span class="fu">on.exit</span>(<span class="fu">par</span>(op))</span>
+<span id="cb4-8"><a href="" aria-label="8"></a>  <span class="cf">for</span> (p <span class="cf">in</span> p_values) {</span>
+<span id="cb4-9"><a href="" aria-label="9"></a>    prob <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(y, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> p)</span>
+<span id="cb4-10"><a href="" aria-label="10"></a>    bp <span class="ot">&lt;-</span> <span class="fu">barplot</span>(</span>
+<span id="cb4-11"><a href="" aria-label="11"></a>      prob,</span>
+<span id="cb4-12"><a href="" aria-label="12"></a>      <span class="at">names.arg =</span> <span class="fu">rep</span>(<span class="st">""</span>, <span class="fu">length</span>(y)),  <span class="co"># 栏内不写字，交给下面的 axis()</span></span>
+<span id="cb4-13"><a href="" aria-label="13"></a>      <span class="at">xaxt =</span> <span class="st">"n"</span>,                      <span class="co"># 关掉默认坐标轴</span></span>
+<span id="cb4-14"><a href="" aria-label="14"></a>      <span class="at">col =</span> <span class="st">"grey75"</span>, <span class="at">border =</span> <span class="cn">NA</span>,</span>
+<span id="cb4-15"><a href="" aria-label="15"></a>      <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.20</span>),</span>
+<span id="cb4-16"><a href="" aria-label="16"></a>      <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">""</span>,</span>
+<span id="cb4-17"><a href="" aria-label="17"></a>      <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Bin(50, "</span>, p, <span class="st">")"</span>)</span>
+<span id="cb4-18"><a href="" aria-label="18"></a>    )</span>
+<span id="cb4-19"><a href="" aria-label="19"></a>    <span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="fu">as.numeric</span>(bp)[y <span class="sc">%in%</span> ticks], <span class="at">labels =</span> ticks)</span>
+<span id="cb4-20"><a href="" aria-label="20"></a>  }</span>
+<span id="cb4-21"><a href="" aria-label="21"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -529,10 +621,13 @@ L(ACC | Y=30) = \binom{50}{30}ACC^{30}(1-ACC)^{20}
 <p>看到 <code>Y=30</code> 后，<code>ACC</code> 的后验分布是什么？</p>
 </blockquote>
 <p>要回答第二个问题，需要合并先验和似然。</p>
+<blockquote>
+<p>📌 这正是第2讲“<strong>后验 ∝ 先验 × 似然</strong>（省略分母）”那条性质：那里是<strong>求和</strong>，这里是<strong>积分</strong>。而 Beta-Binomial 的好处是——连积分都不必做（共轭，见后）。</p>
+</blockquote>
 </section>
 <section id="part-4-后验模型" class="slide level2">
 <h2>Part 4: 后验模型</h2>
-<p>本课的模型为：</p>
+<p>正确率的二项分布模型可以完整地写为：</p>
 <p><span class="math display">\[
 \begin{aligned}
 Y | ACC &amp;\sim \text{Bin}(50, ACC) \\
@@ -624,7 +719,7 @@ f(ACC | Y=30) \propto f(ACC)L(ACC | Y=30)
 <p><span class="math display">\[
 ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
 \]</span></p>
-<p>带入本课数值：</p>
+<p>带入这里的数值：</p>
 <p><span class="math display">\[
 ACC | (Y=30) \sim \text{Beta}(70+30, 30+20)
 \]</span></p>
@@ -701,6 +796,7 @@ y = 30, \quad n-y = 20
 <blockquote>
 <p>后验可以看作“那些能生成观察数据的参数值”的分布。</p>
 </blockquote>
+<p><strong>这四步就是第2讲的 posterior simulation</strong>——只把“抽离散的 <span class="math inline">\(\theta\)</span>”换成“抽连续的 <span class="math inline">\(ACC\)</span>”：</p>
 <ol type="1">
 <li>从先验中抽很多个可能的 <code>ACC</code></li>
 <li>对每个 <code>ACC</code> 模拟 50 次试验中的正确次数 <code>Y</code></li>
@@ -803,7 +899,7 @@ y = 30, \quad n-y = 20
 </section>
 <section id="课堂练习" class="slide level2">
 <h2>课堂练习</h2>
-<p>把同样的思路迁移到“心理学研究可重复性”：</p>
+<p>沿用第2讲“心理学研究可重复性”的情境（当时 <span class="math inline">\(\theta \in \{0.2, 0.5, 0.8\}\)</span>，6 项研究只成功复现 1 项），这次把它做成<strong>连续版</strong>：</p>
 <ul>
 <li>假设可重复研究出现的概率为 <span class="math inline">\(\pi\)</span></li>
 <li>自行选择一个 Beta 先验</li>
@@ -815,8 +911,8 @@ y = 30, \quad n-y = 20
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 </section>
-<section id="本课模型" class="slide level2">
-<h2>本课模型</h2>
+<section id="本例模型" class="slide level2">
+<h2>本例模型</h2>
 <p>Beta-Binomial 模型：</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -831,47 +927,47 @@ ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
 </section>
 <section id="四个建模要素" class="slide level2">
 <h2>四个建模要素</h2>
+<p><strong>前提</strong> 数据模型 <code>Y | ACC ~ Bin(50, ACC)</code> 感兴趣的参数：<code>ACC</code> 被试真正做对的概率</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th>要素</th>
-<th>本课对应</th>
+<th>本例对应</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>参数</td>
-<td><code>ACC</code>: 被试真正做对的概率</td>
-</tr>
-<tr class="even">
 <td>先验</td>
 <td><code>ACC ~ Beta(70,30)</code></td>
-</tr>
-<tr class="odd">
-<td>数据模型</td>
-<td><code>Y | ACC ~ Bin(50, ACC)</code></td>
 </tr>
 <tr class="even">
 <td>似然</td>
 <td><code>L(ACC | Y=30)</code></td>
 </tr>
 <tr class="odd">
+<td>归一化因子</td>
+<td>所有<code>L(ACC | Y=30)</code>的和</td>
+</tr>
+<tr class="even">
 <td>后验</td>
 <td><code>ACC | Y=30 ~ Beta(100,50)</code></td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>与第2讲那张四成分表<strong>一一对应</strong>，只是 <span class="math inline">\(\theta\)</span> 从离散变成了连续的 <span class="math inline">\(ACC\)</span>。</p>
+</blockquote>
 </section>
-<section id="带走一句话" class="slide level2">
-<h2>带走一句话</h2>
-<p>贝叶斯建模不是只报告一个正确率。</p>
-<p>它把研究问题改写为：</p>
+<section id="贝叶斯框架下的acc" class="slide level2">
+<h2>贝叶斯框架下的ACC</h2>
+<p>正确率不再是一个描述统计值</p>
+<p>它是一个概率分布，可以被更新：</p>
 <p><span class="math display">\[
 \text{先验信念} + \text{数据证据}
 \Rightarrow
 \text{更新后的不确定性}
 \]</span></p>
-<p>在本课中，这个更新过程被 Beta-Binomial 模型完整表达。</p>
+<p>在本课中，我们使用一个完整的统计模型 —— Beta-Binomial —— 对这一过程进行表示。</p>
 </section>
 <section id="references" class="slide level2">
 <h2>References</h2>
@@ -1097,80 +1193,42 @@ ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -1,6 +1,6 @@
 ---
 title: "高级心理统计 · 第1讲"
-subtitle: "《贝叶斯统计及其在Python中的实现》 · Bayesian Statistics with Python"
+subtitle: "《贝叶斯统计与应用》 · Bayesian Statistics and Applications"
 author: "胡传鹏 (Dr. Hu Chuan-Peng)"
 institute: "南京师范大学心理学院 · School of Psychology, Nanjing Normal University"
 format:

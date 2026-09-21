@@ -201,7 +201,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">“高级心理统计 · 第2讲”</h1>
-  <p class="subtitle">“《贝叶斯统计及其在Python中的实现》 · Bayesian Statistics with Python”</p>
+  <p class="subtitle">《贝叶斯统计与应用》 · Bayesian Statistics and Applications</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -408,7 +408,7 @@
 </tr>
 <tr class="odd">
 <td>所有 (似然 × 先验) 的总和</td>
-<td><strong>证据 (evidence)</strong>，即归一化常数</td>
+<td><strong>证据 (evidence)</strong>，即归一化因子</td>
 <td><span class="math inline">\(P(D)\)</span></td>
 </tr>
 <tr class="even">
@@ -919,7 +919,7 @@ f(\theta|y{=}1) = \frac{f(\theta)\,L(\theta|y{=}1)}{f(y{=}1)} = \frac{f(\theta)\
 </section>
 <section id="补充材料后验-先验-似然省略分母" class="slide level2">
 <h2>补充材料：后验 ∝ 先验 × 似然（省略分母！）</h2>
-<p>分母 <span class="math inline">\(f(y)\)</span> 是一个与 <span class="math inline">\(\theta\)</span> 无关的<strong>归一化常数</strong>：</p>
+<p>分母 <span class="math inline">\(f(y)\)</span> 是一个与 <span class="math inline">\(\theta\)</span> 无关的<strong>归一化因子</strong>：</p>
 <p><span class="math display">\[
 f(\theta | y) = \frac{f(\theta)L(\theta|y)}{f(y)} \;\propto\; f(\theta)\,L(\theta|y) \qquad \Rightarrow \qquad \text{posterior} \propto \text{prior} \times \text{likelihood}
 \]</span></p>

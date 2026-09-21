@@ -1,6 +1,6 @@
 ---
 title: “高级心理统计 · 第2讲”
-subtitle: “《贝叶斯统计及其在Python中的实现》 · Bayesian Statistics with Python”
+subtitle: "《贝叶斯统计与应用》 · Bayesian Statistics and Applications"
 author: “胡传鹏 (Dr. Hu Chuan-Peng)”
 institute: “南京师范大学心理学院 · School of Psychology, Nanjing Normal University”
 format:
@@ -176,7 +176,7 @@ pacman::p_load("tidyverse", "papaja", "gridExtra")
 |---|---|---|
 | ways：假设 $\theta$ 能产生数据 $D$ 的方式数 | **似然 (likelihood)** | $P(D \mid \theta)$ |
 | 数据之前对 $\theta$ 的信念 | **先验 (prior)** | $P(\theta)$，本例 = 0.2 |
-| 所有 (似然 × 先验) 的总和 | **证据 (evidence)**，即归一化常数 | $P(D)$ |
+| 所有 (似然 × 先验) 的总和 | **证据 (evidence)**，即归一化因子 | $P(D)$ |
 | 数据之后更新过的信念 | **后验 (posterior)** | $P(\theta \mid D)$ |
 
 $$
@@ -489,7 +489,7 @@ gridExtra::grid.arrange(grobs = list(p1, p2, p3), ncol = 3)
 
 ## 补充材料：后验 ∝ 先验 × 似然（省略分母！）
 
-分母 $f(y)$ 是一个与 $\theta$ 无关的**归一化常数**：
+分母 $f(y)$ 是一个与 $\theta$ 无关的**归一化因子**：
 
 $$
 f(\theta | y) = \frac{f(\theta)L(\theta|y)}{f(y)} \;\propto\; f(\theta)\,L(\theta|y) \qquad \Rightarrow \qquad \text{posterior} \propto \text{prior} \times \text{likelihood}

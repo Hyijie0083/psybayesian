@@ -94,6 +94,52 @@ PyBayesian/
 pacman::p_load( "brms", "rstan", "bayesplot", "tidybayes", "bayestestR", "loo")
 ```
 
+## 使用 Quarto 渲染课件（终端）
+
+课件使用 [Quarto](https://quarto.org/) 的 revealjs 格式：`Lecture{id}.qmd` 是源文件，渲染后生成同名的 `Lecture{id}.html`（1600×900，浏览器直接放映）。
+
+**1. 安装 Quarto**
+
+```bash
+# macOS（Homebrew）
+brew install --cask quarto
+
+# 其他系统见 https://quarto.org/docs/get-started/
+
+quarto --version    # 确认安装成功
+```
+
+**2. 渲染单讲**
+
+在仓库根目录执行。渲染时会真实运行 `.qmd` 里的 R 代码，请先完成上一节的 R 包配置：
+
+```bash
+cd path/to/PsyBayesian
+
+quarto render Lecture3.qmd    # 生成 Lecture3.html
+```
+
+- 产物为 `Lecture{id}.html` 与 `Lecture{id}_files/`（R 图与 revealjs 库），两者都需要保留
+- 首次渲染要下载并缓存 revealjs 等资源，之后会明显加快
+- 渲染需要写 Quarto 的缓存目录（macOS 为 `~/Library/Caches/quarto`）；若在容器或受限环境中报 `unable to open database file`，即该目录不可写
+
+**3. 渲染全部 / 实时预览**
+
+```bash
+quarto render                 # 渲染根目录下全部 .qmd（含 MCMC 的讲次耗时较长，建议后台运行）
+
+quarto preview Lecture3.qmd   # 本地起服务并预览，保存后自动刷新
+```
+
+**4. 常见问题**
+
+| 情况 | 处理方式 |
+|---|---|
+| 想快速确认代码能不能跑通 | `SMOKE_TEST=true quarto render Lecture1.qmd`（目前仅第 1 讲支持：会减小 MCMC 迭代量） |
+| 想重跑贝叶斯模型 | 删除 `tmpdata/` 下对应的 `.rds`；`brms::brm(file=)` 只要缓存存在就直接加载 |
+| 内容超出 1600×900 被截断 | 优先合并多图 → 拆分 slide → 再调 `lecture.css` 的字号与行距 |
+| 打开 HTML 后图片不显示 | 用 `python3 -m http.server` 起本地服务再访问，避开浏览器对 `file://` 的限制 |
+
 ## dockerhub镜像使用
 
 我们已经将 docker 镜像上传至 [dockerhub](https://hub.docker.com/repository/docker/hcp4715/pybayesian)，你可以使用以下命令进行使用。

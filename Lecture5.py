@@ -72,7 +72,7 @@ likelihood = st.binom.pmf(
     90, 100, pi_grid
 )  
 
-# 计算后验概率，即先验概率和似然函数的乘积，然后除以归一化常数（分母和）
+# 计算后验概率，即先验概率和似然函数的乘积，然后除以归一化因子（分母和）
 posterior = (
     prior * likelihood / np.sum(prior * likelihood)
 )  
