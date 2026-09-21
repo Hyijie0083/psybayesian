@@ -261,16 +261,16 @@
 </tbody>
 </table>
 <p><span class="math inline">\(P(\theta \mid D) = \frac{P(D\mid \theta)P(\theta)}{P(D)}\)</span></p>
-<p>本讲把离散的 <span class="math inline">\(\theta\)</span> 换成连续的 <span class="math inline">\(ACC\)</span>。</p>
+<p>本讲把离散的 <span class="math inline">\(\theta\)</span> 换成连续的 <span class="math inline">\(\theta\)</span> (正确率)。</p>
 </section>
 <section id="学习目标" class="slide level2">
 <h2>学习目标</h2>
-<p>学完本讲，你应该能够：</p>
+<p>学习完本课，应该可以：</p>
 <ul>
-<li>用 <strong>Beta 分布</strong>表达 <code>[0,1]</code> 上的先验信念</li>
-<li>用 <strong>Binomial 分布</strong>描述正确/错误数据</li>
-<li>解释 <strong>likelihood</strong> 如何比较不同 <code>ACC</code> 与数据的兼容性</li>
-<li>写出 Beta-Binomial 模型的后验更新公式</li>
+<li>用 <strong>Beta 分布</strong>表达对取值范围在 <span class="math inline">\([0,1]\)</span> 间的 <span class="math inline">\(\theta\)</span> 的先验信念</li>
+<li>用 <strong>Binomial 分布</strong>描述从 <span class="math inline">\(\theta\)</span> 到数据 “正确/错误” 二分数据的关系</li>
+<li>解释 <strong>likelihood</strong> 如何比较不同 <span class="math inline">\(\theta\)</span> 与观测数据的兼容性</li>
+<li>理解 Beta-Binomial 模型的后验更新公式</li>
 <li>用模拟理解“后验分布”从哪里来</li>
 </ul>
 </section>
@@ -291,36 +291,36 @@
 <div class="columns">
 <div class="column" style="width:50%;">
 <center>
-<p><img src="https://cdn.kesci.com/upload/sjwnyi477j.gif?imageView2/0/w/400/h/400" style="height:360px;"></p>
+<p><img src="figs/lec3/rdk_10.gif" style="height:360px;"></p>
 一致性 10%
 </center>
 </div><div class="column" style="width:50%;">
 <center>
-<p><img src="https://cdn.kesci.com/upload/sjwnyt1yq4.gif?imageView2/0/w/400/h/400" style="height:360px;"></p>
+<p><img src="figs/lec3/rdk_60.gif" style="height:360px;"></p>
 一致性 60%
 </center>
 </div></div>
 </section>
 <section id="正确率不是终点" class="slide level2">
 <h2>正确率不是终点</h2>
-<p>一次实验后，我们可以得到一个观察到的正确率。</p>
+<p>一次实验后，我们可以得到一个观察到的正确率（多个试次中正确试次的百分比）。</p>
 <p>但贝叶斯建模关心的是：</p>
 <p><span class="math display">\[
 \text{观察到的正确次数 } Y
 \quad \Rightarrow \quad
-\text{潜在正确能力 } ACC
+\text{潜在正确能力 } \theta
 \]</span></p>
-<p><code>ACC</code> 不是直接观察到的值，而是我们要推断的参数。</p>
+<p><span class="math inline">\(\theta\)</span> 不是直接观察到的值，而是我们要推断的参数。</p>
 </section>
 <section id="为什么需要不确定性" class="slide level2">
 <h2>为什么需要不确定性？</h2>
 <p>假设 50 次试验中有 30 次正确。</p>
 <p><span class="math display">\[
-\hat{ACC} = \frac{30}{50} = 0.60
+\hat{\theta} = \frac{30}{50} = 0.60
 \]</span></p>
 <p>这个数很有用，但它没有回答：</p>
 <ul>
-<li>真正的 <code>ACC</code> 可能是 0.55 吗？</li>
+<li>真正的 <span class="math inline">\(\theta\)</span> 可能是 0.55 吗？</li>
 <li>可能是 0.70 吗？</li>
 <li>我们对这些可能性有多确定？</li>
 </ul>
@@ -331,9 +331,9 @@
 <ul>
 <li>5% 一致性条件下任务不容易</li>
 <li>先前研究中个体正确率约在 0.70 附近</li>
-<li><code>ACC</code> 必须位于 <code>[0,1]</code></li>
+<li><span class="math inline">\(\theta\)</span> 必须位于 <span class="math inline">\([0,1]\)</span></li>
 </ul>
-<p>因此，我们需要一个定义在 <code>[0,1]</code> 上的先验模型。</p>
+<p>因此，我们需要一个定义在 <span class="math inline">\([0,1]\)</span> 上的先验模型。</p>
 </section>
 <section id="离散先验的直觉" class="slide level2">
 <h2>离散先验的直觉</h2>
@@ -343,14 +343,14 @@
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
-<span id="cb1-2"><a href="" aria-label="2"></a>acc_disc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>theta_disc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
 <span id="cb1-3"><a href="" aria-label="3"></a>prior_prob <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.1</span>, <span class="fl">0.8</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
 <span id="cb1-4"><a href="" aria-label="4"></a><span class="fu">barplot</span>(</span>
 <span id="cb1-5"><a href="" aria-label="5"></a>  prior_prob,</span>
-<span id="cb1-6"><a href="" aria-label="6"></a>  <span class="at">names.arg =</span> acc_disc,</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>  <span class="at">names.arg =</span> theta_disc,</span>
 <span id="cb1-7"><a href="" aria-label="7"></a>  <span class="at">col =</span> <span class="st">"skyblue"</span>,</span>
 <span id="cb1-8"><a href="" aria-label="8"></a>  <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb1-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>,</span>
+<span id="cb1-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(theta),</span>
 <span id="cb1-10"><a href="" aria-label="10"></a>  <span class="at">ylab =</span> <span class="st">"Prior probability"</span>,</span>
 <span id="cb1-11"><a href="" aria-label="11"></a>  <span class="at">main =</span> <span class="st">"Discrete prior"</span></span>
 <span id="cb1-12"><a href="" aria-label="12"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -366,13 +366,13 @@
 </div><div class="column" style="width:48%;">
 <div style="font-size:0.78em; line-height:1.18;">
 <p>第2讲两个例子的先验都是“<strong>有限个取值 + 各自概率，和为 1</strong>”。</p>
-<p>但 <code>ACC</code> 可以是 <code>[0,1]</code> 中任意值：只允许 0.6、0.7、0.8 就过于粗糙；把取值网格<strong>不断加密</strong>，离散先验的极限就是一条连续曲线。</p>
+<p>但 <span class="math inline">\(\theta\)</span> 可以是 <span class="math inline">\([0,1]\)</span> 中任意值：只允许 0.6、0.7、0.8 就过于粗糙；把取值网格<strong>不断加密</strong>，离散先验的极限就是一条连续曲线。</p>
 <p><span class="math display">\[
-f(ACC), \quad 0 \le ACC \le 1
+f(\theta), \quad 0 \le \theta \le 1
 \]</span></p>
 <p>它同样要满足“总面积 = 1”，只是把求和换成积分：</p>
 <p><span class="math display">\[
-\int_0^1 f(ACC)dACC = 1
+\int_0^1 f(\theta)\,d\theta = 1
 \]</span></p>
 </div>
 </div></div>
@@ -396,12 +396,12 @@ f(ACC), \quad 0 \le ACC \le 1
 <tr class="odd">
 <td>数据模型</td>
 <td><span class="math inline">\(\text{Bin}(6, \theta)\)</span></td>
-<td><span class="math inline">\(\text{Bin}(50, ACC)\)</span></td>
+<td><span class="math inline">\(\text{Bin}(50, \theta)\)</span></td>
 </tr>
 <tr class="even">
 <td>参数</td>
 <td><span class="math inline">\(\theta \in \{0.2,\ 0.5,\ 0.8\}\)</span>（或 5 种蓝球占比）</td>
-<td><span class="math inline">\(ACC \in [0, 1]\)</span></td>
+<td><span class="math inline">\(\theta \in [0, 1]\)</span></td>
 </tr>
 <tr class="odd">
 <td>先验</td>
@@ -416,7 +416,7 @@ f(ACC), \quad 0 \le ACC \le 1
 <tr class="odd">
 <td>归一化因子</td>
 <td>求和 <span class="math inline">\(\sum f(\theta)L(\theta \mid y)\)</span></td>
-<td>积分 <span class="math inline">\(\int_0^1 f(ACC)L(ACC \mid y)\,dACC\)</span></td>
+<td>积分 <span class="math inline">\(\int_0^1 f(\theta)L(\theta \mid y)\,d\theta\)</span></td>
 </tr>
 <tr class="even">
 <td>后验</td>
@@ -431,9 +431,9 @@ f(ACC), \quad 0 \le ACC \le 1
 </section>
 <section id="part-2-beta-先验" class="slide level2">
 <h2>Part 2: Beta 先验</h2>
-<p>Beta 分布非常适合表示 <code>[0,1]</code> 上的概率参数。</p>
+<p>Beta 分布非常适合表示 <span class="math inline">\([0,1]\)</span> 上的概率参数。</p>
 <p><span class="math display">\[
-ACC \sim \text{Beta}(\alpha, \beta)
+\theta \sim \text{Beta}(\alpha, \beta)
 \]</span></p>
 <p>其中：</p>
 <ul>
@@ -459,7 +459,7 @@ ACC \sim \text{Beta}(\alpha, \beta)
 <span id="cb2-10"><a href="" aria-label="10"></a>    y <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x, p[<span class="dv">1</span>], p[<span class="dv">2</span>])</span>
 <span id="cb2-11"><a href="" aria-label="11"></a>    <span class="fu">plot</span>(</span>
 <span id="cb2-12"><a href="" aria-label="12"></a>      x, y, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"cyan4"</span>,</span>
-<span id="cb2-13"><a href="" aria-label="13"></a>      <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
+<span id="cb2-13"><a href="" aria-label="13"></a>      <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
 <span id="cb2-14"><a href="" aria-label="14"></a>      <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"Beta("</span>, p[<span class="dv">1</span>], <span class="st">", "</span>, p[<span class="dv">2</span>], <span class="st">")"</span>)</span>
 <span id="cb2-15"><a href="" aria-label="15"></a>    )</span>
 <span id="cb2-16"><a href="" aria-label="16"></a>  }</span>
@@ -478,13 +478,13 @@ ACC \sim \text{Beta}(\alpha, \beta)
 <h2>先验</h2>
 <p>我们首先设定一下直觉上合理的先验：</p>
 <p><span class="math display">\[
-ACC \sim \text{Beta}(70, 30)
+\theta \sim \text{Beta}(70, 30)
 \]</span></p>
 <p>其均值为：</p>
 <p><span class="math display">\[
-E(ACC) = \frac{70}{70 + 30} = 0.70
+E(\theta) = \frac{70}{70 + 30} = 0.70
 \]</span></p>
-<p>当前数据出现前，我们认为 <code>ACC</code> 大约在 0.70 附近。</p>
+<p>当前数据出现前，我们认为 <span class="math inline">\(\theta\)</span> 大约在 0.70 附近。</p>
 <p>直观上，<span class="math inline">\(\alpha\)</span> 越大越偏向 1，<span class="math inline">\(\beta\)</span> 越大越偏向 0，<span class="math inline">\(\alpha+\beta\)</span> 越大分布越集中。</p>
 </section>
 <section id="连续先验图" class="slide level2">
@@ -497,7 +497,7 @@ E(ACC) = \frac{70}{70 + 30} = 0.70
 <span id="cb3-3"><a href="" aria-label="3"></a><span class="fu">plot</span>(</span>
 <span id="cb3-4"><a href="" aria-label="4"></a>  x, <span class="fu">dbeta</span>(x, <span class="dv">70</span>, <span class="dv">30</span>),</span>
 <span id="cb3-5"><a href="" aria-label="5"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"cyan4"</span>,</span>
-<span id="cb3-6"><a href="" aria-label="6"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
+<span id="cb3-6"><a href="" aria-label="6"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
 <span id="cb3-7"><a href="" aria-label="7"></a>  <span class="at">main =</span> <span class="st">"Prior: Beta(70, 30)"</span></span>
 <span id="cb3-8"><a href="" aria-label="8"></a>)</span>
 <span id="cb3-9"><a href="" aria-label="9"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.70</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
@@ -516,17 +516,17 @@ E(ACC) = \frac{70}{70 + 30} = 0.70
 <h2>Part 3: Binomial 与似然</h2>
 <p>现在收集 50 次随机点运动任务数据。每次试验只有两个结果：正确 <code>1</code> 或错误 <code>0</code>。</p>
 <p>记正确次数为 <code>Y</code>，总试次数为 <code>n = 50</code>。</p>
-<p>如果每次试验正确概率都是 <code>ACC</code>，并且试验相互独立：</p>
+<p>如果每次试验正确概率都是 <span class="math inline">\(\theta\)</span>，并且试验相互独立：</p>
 <p><span class="math display">\[
-Y | ACC \sim \text{Bin}(50, ACC)
+Y | \theta \sim \text{Bin}(50, \theta)
 \]</span></p>
 <p>概率质量函数为：</p>
 <p><span class="math display">\[
-P(Y = y | ACC) = \binom{50}{y}ACC^y(1-ACC)^{50-y}
+P(Y = y | \theta) = \binom{50}{y}\theta^y(1-\theta)^{50-y}
 \]</span></p>
 </section>
-<section id="不同-acc-产生不同-y" class="slide level2">
-<h2>不同 ACC 产生不同 Y</h2>
+<section id="不同-theta-产生不同-y" class="slide level2">
+<h2>不同 <span class="math inline">\(\theta\)</span> 产生不同 Y</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -570,18 +570,18 @@ n = 50, \quad y = 30
 <p>也就是 50 次试验中有 30 次正确。</p>
 <p>问题变成：</p>
 <blockquote>
-<p>哪些 <code>ACC</code> 更容易生成 <code>Y = 30</code> 这样的数据？</p>
+<p>哪些 <span class="math inline">\(\theta\)</span> 更容易生成 <code>Y = 30</code> 这样的数据？</p>
 </blockquote>
 </section>
 <section id="从数据到似然" class="slide level2">
 <h2>从数据到似然</h2>
-<p>对于任意一个候选 <code>ACC</code>，都可以计算：</p>
+<p>对于任意一个候选 <span class="math inline">\(\theta\)</span>，都可以计算：</p>
 <p><span class="math display">\[
-P(Y=30 | ACC)
+P(Y=30 | \theta)
 \]</span></p>
-<p>当我们把 <code>Y=30</code> 固定，把 <code>ACC</code> 当作横轴变化时，就得到似然函数：</p>
+<p>当我们把 <code>Y=30</code> 固定，把 <span class="math inline">\(\theta\)</span> 当作横轴变化时，就得到似然函数：</p>
 <p><span class="math display">\[
-L(ACC | Y=30) = \binom{50}{30}ACC^{30}(1-ACC)^{20}
+L(\theta | Y=30) = \binom{50}{30}\theta^{30}(1-\theta)^{20}
 \]</span></p>
 </section>
 <section id="似然函数" class="slide level2">
@@ -590,16 +590,16 @@ L(ACC | Y=30) = \binom{50}{30}ACC^{30}(1-ACC)^{20}
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
-<span id="cb5-2"><a href="" aria-label="2"></a>acc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb5-3"><a href="" aria-label="3"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> acc)</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-3"><a href="" aria-label="3"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> theta)</span>
 <span id="cb5-4"><a href="" aria-label="4"></a><span class="fu">plot</span>(</span>
-<span id="cb5-5"><a href="" aria-label="5"></a>  acc, lik,</span>
+<span id="cb5-5"><a href="" aria-label="5"></a>  theta, lik,</span>
 <span id="cb5-6"><a href="" aria-label="6"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"grey35"</span>,</span>
-<span id="cb5-7"><a href="" aria-label="7"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Likelihood"</span>,</span>
-<span id="cb5-8"><a href="" aria-label="8"></a>  <span class="at">main =</span> <span class="st">"Likelihood: L(ACC | Y = 30)"</span></span>
+<span id="cb5-7"><a href="" aria-label="7"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">ylab =</span> <span class="st">"Likelihood"</span>,</span>
+<span id="cb5-8"><a href="" aria-label="8"></a>  <span class="at">main =</span> <span class="st">"Likelihood: L(θ | Y = 30)"</span></span>
 <span id="cb5-9"><a href="" aria-label="9"></a>)</span>
 <span id="cb5-10"><a href="" aria-label="10"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.60</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb5-11"><a href="" aria-label="11"></a><span class="fu">text</span>(<span class="fl">0.62</span>, <span class="fu">max</span>(lik) <span class="sc">*</span> <span class="fl">0.85</span>, <span class="st">"Maximum near ACC = 0.60"</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-11"><a href="" aria-label="11"></a><span class="fu">text</span>(<span class="fl">0.62</span>, <span class="fu">max</span>(lik) <span class="sc">*</span> <span class="fl">0.85</span>, <span class="st">"Maximum near θ = 0.60"</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -614,11 +614,11 @@ L(ACC | Y=30) = \binom{50}{30}ACC^{30}(1-ACC)^{20}
 <h2>似然不是后验</h2>
 <p>似然回答的是：</p>
 <blockquote>
-<p>如果 <code>ACC</code> 是某个值，观察到 <code>Y=30</code> 有多可能？</p>
+<p>如果 <span class="math inline">\(\theta\)</span> 是某个值，观察到 <code>Y=30</code> 有多可能？</p>
 </blockquote>
 <p>它还没有回答：</p>
 <blockquote>
-<p>看到 <code>Y=30</code> 后，<code>ACC</code> 的后验分布是什么？</p>
+<p>看到 <code>Y=30</code> 后，<span class="math inline">\(\theta\)</span> 的后验分布是什么？</p>
 </blockquote>
 <p>要回答第二个问题，需要合并先验和似然。</p>
 <blockquote>
@@ -630,13 +630,13 @@ L(ACC | Y=30) = \binom{50}{30}ACC^{30}(1-ACC)^{20}
 <p>正确率的二项分布模型可以完整地写为：</p>
 <p><span class="math display">\[
 \begin{aligned}
-Y | ACC &amp;\sim \text{Bin}(50, ACC) \\
-ACC &amp;\sim \text{Beta}(70, 30)
+Y | \theta &amp;\sim \text{Bin}(50, \theta) \\
+\theta &amp;\sim \text{Beta}(70, 30)
 \end{aligned}
 \]</span></p>
 <p>贝叶斯更新的核心：</p>
 <p><span class="math display">\[
-f(ACC | Y=30) \propto f(ACC)L(ACC | Y=30)
+f(\theta | Y=30) \propto f(\theta)L(\theta | Y=30)
 \]</span></p>
 <p>似然只看数据；后验同时结合先验和数据。</p>
 </section>
@@ -646,18 +646,18 @@ f(ACC | Y=30) \propto f(ACC)L(ACC | Y=30)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
-<span id="cb6-2"><a href="" aria-label="2"></a>acc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb6-3"><a href="" aria-label="3"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(acc, <span class="dv">70</span>, <span class="dv">30</span>)</span>
-<span id="cb6-4"><a href="" aria-label="4"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="dv">50</span>, acc)</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb6-3"><a href="" aria-label="3"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta, <span class="dv">70</span>, <span class="dv">30</span>)</span>
+<span id="cb6-4"><a href="" aria-label="4"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="dv">50</span>, theta)</span>
 <span id="cb6-5"><a href="" aria-label="5"></a>lik_scaled <span class="ot">&lt;-</span> lik <span class="sc">/</span> <span class="fu">max</span>(lik) <span class="sc">*</span> <span class="fu">max</span>(prior)</span>
 <span id="cb6-6"><a href="" aria-label="6"></a><span class="fu">plot</span>(</span>
-<span id="cb6-7"><a href="" aria-label="7"></a>  acc, prior,</span>
+<span id="cb6-7"><a href="" aria-label="7"></a>  theta, prior,</span>
 <span id="cb6-8"><a href="" aria-label="8"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#f0b400"</span>,</span>
-<span id="cb6-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Scaled density"</span>,</span>
+<span id="cb6-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">ylab =</span> <span class="st">"Scaled density"</span>,</span>
 <span id="cb6-10"><a href="" aria-label="10"></a>  <span class="at">main =</span> <span class="st">"Prior and likelihood"</span>,</span>
 <span id="cb6-11"><a href="" aria-label="11"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(prior) <span class="sc">*</span> <span class="fl">1.05</span>)</span>
 <span id="cb6-12"><a href="" aria-label="12"></a>)</span>
-<span id="cb6-13"><a href="" aria-label="13"></a><span class="fu">lines</span>(acc, lik_scaled, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#0071b2"</span>)</span>
+<span id="cb6-13"><a href="" aria-label="13"></a><span class="fu">lines</span>(theta, lik_scaled, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#0071b2"</span>)</span>
 <span id="cb6-14"><a href="" aria-label="14"></a><span class="fu">legend</span>(</span>
 <span id="cb6-15"><a href="" aria-label="15"></a>  <span class="st">"topright"</span>,</span>
 <span id="cb6-16"><a href="" aria-label="16"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Prior: center near 0.70"</span>, <span class="st">"Likelihood: peak near 0.60"</span>),</span>
@@ -682,20 +682,20 @@ f(ACC | Y=30) \propto f(ACC)L(ACC | Y=30)
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
-<span id="cb7-2"><a href="" aria-label="2"></a>acc <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">2000</span>)</span>
-<span id="cb7-3"><a href="" aria-label="3"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(acc, <span class="dv">70</span>, <span class="dv">30</span>)</span>
-<span id="cb7-4"><a href="" aria-label="4"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="dv">50</span>, acc)</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">2000</span>)</span>
+<span id="cb7-3"><a href="" aria-label="3"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta, <span class="dv">70</span>, <span class="dv">30</span>)</span>
+<span id="cb7-4"><a href="" aria-label="4"></a>lik <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">30</span>, <span class="dv">50</span>, theta)</span>
 <span id="cb7-5"><a href="" aria-label="5"></a>lik_scaled <span class="ot">&lt;-</span> lik <span class="sc">/</span> <span class="fu">max</span>(lik) <span class="sc">*</span> <span class="fu">max</span>(prior)</span>
-<span id="cb7-6"><a href="" aria-label="6"></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(acc, <span class="dv">100</span>, <span class="dv">50</span>)</span>
+<span id="cb7-6"><a href="" aria-label="6"></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta, <span class="dv">100</span>, <span class="dv">50</span>)</span>
 <span id="cb7-7"><a href="" aria-label="7"></a><span class="fu">plot</span>(</span>
-<span id="cb7-8"><a href="" aria-label="8"></a>  acc, prior,</span>
+<span id="cb7-8"><a href="" aria-label="8"></a>  theta, prior,</span>
 <span id="cb7-9"><a href="" aria-label="9"></a>  <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#f0b400"</span>,</span>
-<span id="cb7-10"><a href="" aria-label="10"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>, <span class="at">ylab =</span> <span class="st">"Density / scaled likelihood"</span>,</span>
+<span id="cb7-10"><a href="" aria-label="10"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(theta), <span class="at">ylab =</span> <span class="st">"Density / scaled likelihood"</span>,</span>
 <span id="cb7-11"><a href="" aria-label="11"></a>  <span class="at">main =</span> <span class="st">"Prior, likelihood, and posterior"</span>,</span>
 <span id="cb7-12"><a href="" aria-label="12"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(posterior) <span class="sc">*</span> <span class="fl">1.1</span>)</span>
 <span id="cb7-13"><a href="" aria-label="13"></a>)</span>
-<span id="cb7-14"><a href="" aria-label="14"></a><span class="fu">lines</span>(acc, lik_scaled, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#0071b2"</span>)</span>
-<span id="cb7-15"><a href="" aria-label="15"></a><span class="fu">lines</span>(acc, posterior, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#009e74"</span>)</span>
+<span id="cb7-14"><a href="" aria-label="14"></a><span class="fu">lines</span>(theta, lik_scaled, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#0071b2"</span>)</span>
+<span id="cb7-15"><a href="" aria-label="15"></a><span class="fu">lines</span>(theta, posterior, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#009e74"</span>)</span>
 <span id="cb7-16"><a href="" aria-label="16"></a><span class="fu">legend</span>(</span>
 <span id="cb7-17"><a href="" aria-label="17"></a>  <span class="st">"topright"</span>,</span>
 <span id="cb7-18"><a href="" aria-label="18"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Prior"</span>, <span class="st">"Likelihood (scaled)"</span>, <span class="st">"Posterior"</span>),</span>
@@ -717,14 +717,14 @@ f(ACC | Y=30) \propto f(ACC)L(ACC | Y=30)
 <h2>共轭分布</h2>
 <p>Beta-Binomial 模型有一个简单的后验结果：</p>
 <p><span class="math display">\[
-ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
+\theta | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
 \]</span></p>
 <p>带入这里的数值：</p>
 <p><span class="math display">\[
-ACC | (Y=30) \sim \text{Beta}(70+30, 30+20)
+\theta | (Y=30) \sim \text{Beta}(70+30, 30+20)
 \]</span></p>
 <p><span class="math display">\[
-ACC | (Y=30) \sim \text{Beta}(100, 50)
+\theta | (Y=30) \sim \text{Beta}(100, 50)
 \]</span></p>
 <p>这也是 Beta 作为 Binomial 共轭先验带来的计算便利。</p>
 </section>
@@ -734,7 +734,7 @@ ACC | (Y=30) \sim \text{Beta}(100, 50)
 <div class="column" style="width:50%;">
 <p>先验：</p>
 <p><span class="math display">\[
-ACC \sim \text{Beta}(70, 30)
+\theta \sim \text{Beta}(70, 30)
 \]</span></p>
 <p>数据：</p>
 <p><span class="math display">\[
@@ -796,12 +796,12 @@ y = 30, \quad n-y = 20
 <blockquote>
 <p>后验可以看作“那些能生成观察数据的参数值”的分布。</p>
 </blockquote>
-<p><strong>这四步就是第2讲的 posterior simulation</strong>——只把“抽离散的 <span class="math inline">\(\theta\)</span>”换成“抽连续的 <span class="math inline">\(ACC\)</span>”：</p>
+<p><strong>这四步就是第2讲的 posterior simulation</strong>——区别只在取值方式：第2讲抽的是<strong>离散</strong>的 <span class="math inline">\(\theta\)</span>，本讲抽的是<strong>连续</strong>的 <span class="math inline">\(\theta\)</span>：</p>
 <ol type="1">
-<li>从先验中抽很多个可能的 <code>ACC</code></li>
-<li>对每个 <code>ACC</code> 模拟 50 次试验中的正确次数 <code>Y</code></li>
+<li>从先验中抽很多个可能的 <span class="math inline">\(\theta\)</span></li>
+<li>对每个 <span class="math inline">\(\theta\)</span> 模拟 50 次试验中的正确次数 <code>Y</code></li>
 <li>只保留那些 <code>Y = 30</code> 的模拟样本</li>
-<li>查看保留下来的 <code>ACC</code> 分布</li>
+<li>查看保留下来的 <span class="math inline">\(\theta\)</span> 分布</li>
 </ol>
 </section>
 <section id="生成模拟数据" class="slide level2">
@@ -811,13 +811,13 @@ y = 30, \quad n-y = 20
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>n_sim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
 <span id="cb8-2"><a href="" aria-label="2"></a>sim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb8-3"><a href="" aria-label="3"></a>  <span class="at">ACC =</span> <span class="fu">rbeta</span>(n_sim, <span class="at">shape1 =</span> <span class="dv">70</span>, <span class="at">shape2 =</span> <span class="dv">30</span>)</span>
+<span id="cb8-3"><a href="" aria-label="3"></a>  <span class="at">theta =</span> <span class="fu">rbeta</span>(n_sim, <span class="at">shape1 =</span> <span class="dv">70</span>, <span class="at">shape2 =</span> <span class="dv">30</span>)</span>
 <span id="cb8-4"><a href="" aria-label="4"></a>)</span>
-<span id="cb8-5"><a href="" aria-label="5"></a>sim<span class="sc">$</span>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n_sim, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> sim<span class="sc">$</span>ACC)</span>
+<span id="cb8-5"><a href="" aria-label="5"></a>sim<span class="sc">$</span>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n_sim, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">prob =</span> sim<span class="sc">$</span>theta)</span>
 <span id="cb8-6"><a href="" aria-label="6"></a><span class="fu">head</span>(sim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>        ACC  Y
+<pre><code>      theta  Y
 1 0.6635932 27
 2 0.7063811 36
 3 0.6568537 33
@@ -835,13 +835,13 @@ y = 30, \quad n-y = 20
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
 <span id="cb10-2"><a href="" aria-label="2"></a>matched <span class="ot">&lt;-</span> sim<span class="sc">$</span>Y <span class="sc">==</span> <span class="dv">30</span></span>
 <span id="cb10-3"><a href="" aria-label="3"></a><span class="fu">plot</span>(</span>
-<span id="cb10-4"><a href="" aria-label="4"></a>  sim<span class="sc">$</span>ACC[<span class="sc">!</span>matched], sim<span class="sc">$</span>Y[<span class="sc">!</span>matched],</span>
+<span id="cb10-4"><a href="" aria-label="4"></a>  sim<span class="sc">$</span>theta[<span class="sc">!</span>matched], sim<span class="sc">$</span>Y[<span class="sc">!</span>matched],</span>
 <span id="cb10-5"><a href="" aria-label="5"></a>  <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.22</span>), <span class="at">cex =</span> <span class="fl">0.55</span>,</span>
-<span id="cb10-6"><a href="" aria-label="6"></a>  <span class="at">xlab =</span> <span class="st">"Simulated ACC"</span>, <span class="at">ylab =</span> <span class="st">"Simulated Y"</span>,</span>
-<span id="cb10-7"><a href="" aria-label="7"></a>  <span class="at">main =</span> <span class="st">"Simulated ACC and Y"</span></span>
+<span id="cb10-6"><a href="" aria-label="6"></a>  <span class="at">xlab =</span> <span class="st">"Simulated θ"</span>, <span class="at">ylab =</span> <span class="st">"Simulated Y"</span>,</span>
+<span id="cb10-7"><a href="" aria-label="7"></a>  <span class="at">main =</span> <span class="st">"Simulated θ and Y"</span></span>
 <span id="cb10-8"><a href="" aria-label="8"></a>)</span>
 <span id="cb10-9"><a href="" aria-label="9"></a><span class="fu">points</span>(</span>
-<span id="cb10-10"><a href="" aria-label="10"></a>  sim<span class="sc">$</span>ACC[matched], sim<span class="sc">$</span>Y[matched],</span>
+<span id="cb10-10"><a href="" aria-label="10"></a>  sim<span class="sc">$</span>theta[matched], sim<span class="sc">$</span>Y[matched],</span>
 <span id="cb10-11"><a href="" aria-label="11"></a>  <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="dv">1</span>, <span class="fl">0.8</span>), <span class="at">cex =</span> <span class="fl">0.8</span></span>
 <span id="cb10-12"><a href="" aria-label="12"></a>)</span>
 <span id="cb10-13"><a href="" aria-label="13"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
@@ -862,21 +862,21 @@ y = 30, \quad n-y = 20
 </div>
 </div>
 </section>
-<section id="筛选后的-acc-近似后验" class="slide level2">
-<h2>筛选后的 ACC 近似后验</h2>
+<section id="筛选后的-theta-近似后验" class="slide level2">
+<h2>筛选后的 <span class="math inline">\(\theta\)</span> 近似后验</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a><span class="fu">theme_set</span>()</span>
-<span id="cb11-2"><a href="" aria-label="2"></a>posterior_sim <span class="ot">&lt;-</span> sim<span class="sc">$</span>ACC[sim<span class="sc">$</span>Y <span class="sc">==</span> <span class="dv">30</span>]</span>
+<span id="cb11-2"><a href="" aria-label="2"></a>posterior_sim <span class="ot">&lt;-</span> sim<span class="sc">$</span>theta[sim<span class="sc">$</span>Y <span class="sc">==</span> <span class="dv">30</span>]</span>
 <span id="cb11-3"><a href="" aria-label="3"></a><span class="fu">hist</span>(</span>
 <span id="cb11-4"><a href="" aria-label="4"></a>  posterior_sim,</span>
 <span id="cb11-5"><a href="" aria-label="5"></a>  <span class="at">breaks =</span> <span class="dv">18</span>,</span>
 <span id="cb11-6"><a href="" aria-label="6"></a>  <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb11-7"><a href="" aria-label="7"></a>  <span class="at">col =</span> <span class="st">"lightblue"</span>,</span>
 <span id="cb11-8"><a href="" aria-label="8"></a>  <span class="at">border =</span> <span class="st">"white"</span>,</span>
-<span id="cb11-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="st">"ACC"</span>,</span>
-<span id="cb11-10"><a href="" aria-label="10"></a>  <span class="at">main =</span> <span class="st">"Simulated posterior: keep ACC where Y = 30"</span></span>
+<span id="cb11-9"><a href="" aria-label="9"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(theta),</span>
+<span id="cb11-10"><a href="" aria-label="10"></a>  <span class="at">main =</span> <span class="st">"Simulated posterior: keep θ where Y = 30"</span></span>
 <span id="cb11-11"><a href="" aria-label="11"></a>)</span>
 <span id="cb11-12"><a href="" aria-label="12"></a><span class="fu">lines</span>(<span class="fu">density</span>(posterior_sim), <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
 <span id="cb11-13"><a href="" aria-label="13"></a><span class="fu">curve</span>(<span class="fu">dbeta</span>(x, <span class="dv">100</span>, <span class="dv">50</span>), <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#009e74"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
@@ -910,24 +910,21 @@ y = 30, \quad n-y = 20
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
-</section>
-<section id="本例模型" class="slide level2">
-<h2>本例模型</h2>
 <p>Beta-Binomial 模型：</p>
 <p><span class="math display">\[
 \begin{aligned}
-Y | ACC &amp;\sim \text{Bin}(n, ACC) \\
-ACC &amp;\sim \text{Beta}(\alpha, \beta)
+Y | \theta &amp;\sim \text{Bin}(n, \theta) \\
+\theta &amp;\sim \text{Beta}(\alpha, \beta)
 \end{aligned}
 \]</span></p>
 <p>后验：</p>
 <p><span class="math display">\[
-ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
+\theta | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
 \]</span></p>
 </section>
 <section id="四个建模要素" class="slide level2">
 <h2>四个建模要素</h2>
-<p><strong>前提</strong> 数据模型 <code>Y | ACC ~ Bin(50, ACC)</code> 感兴趣的参数：<code>ACC</code> 被试真正做对的概率</p>
+<p><strong>前提</strong> 数据模型 <span class="math inline">\(Y \mid \theta \sim \text{Bin}(50, \theta)\)</span> 感兴趣的参数：<span class="math inline">\(\theta\)</span> 被试真正做对的概率</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -938,28 +935,28 @@ ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
 <tbody>
 <tr class="odd">
 <td>先验</td>
-<td><code>ACC ~ Beta(70,30)</code></td>
+<td><span class="math inline">\(\theta \sim \text{Beta}(70, 30)\)</span></td>
 </tr>
 <tr class="even">
 <td>似然</td>
-<td><code>L(ACC | Y=30)</code></td>
+<td><span class="math inline">\(L(\theta \mid Y=30)\)</span></td>
 </tr>
 <tr class="odd">
 <td>归一化因子</td>
-<td>所有<code>L(ACC | Y=30)</code>的和</td>
+<td>所有 <span class="math inline">\(L(\theta \mid Y=30)\)</span> 的和</td>
 </tr>
 <tr class="even">
 <td>后验</td>
-<td><code>ACC | Y=30 ~ Beta(100,50)</code></td>
+<td><span class="math inline">\(\theta \mid Y=30 \sim \text{Beta}(100, 50)\)</span></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p>与第2讲那张四成分表<strong>一一对应</strong>，只是 <span class="math inline">\(\theta\)</span> 从离散变成了连续的 <span class="math inline">\(ACC\)</span>。</p>
+<p>与第2讲那张四成分表<strong>一一对应</strong>，只是 <span class="math inline">\(\theta\)</span> 从离散取值变成了连续取值。</p>
 </blockquote>
 </section>
-<section id="贝叶斯框架下的acc" class="slide level2">
-<h2>贝叶斯框架下的ACC</h2>
+<section id="贝叶斯框架下的-theta" class="slide level2">
+<h2>贝叶斯框架下的 <span class="math inline">\(\theta\)</span></h2>
 <p>正确率不再是一个描述统计值</p>
 <p>它是一个概率分布，可以被更新：</p>
 <p><span class="math display">\[

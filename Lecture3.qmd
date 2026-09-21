@@ -59,16 +59,16 @@ fixme <- function(text) {
 
 $P(\theta \mid D) = \frac{P(D\mid \theta)P(\theta)}{P(D)}$ 
 
-本讲把离散的 $\theta$ 换成连续的 $ACC$。
+本讲把离散的 $\theta$ 换成连续的 $\theta$ (正确率)。
 
 ## 学习目标
 
-学完本讲，你应该能够：
+学习完本课，应该可以：
 
-- 用 **Beta 分布**表达 `[0,1]` 上的先验信念
-- 用 **Binomial 分布**描述正确/错误数据
-- 解释 **likelihood** 如何比较不同 `ACC` 与数据的兼容性
-- 写出 Beta-Binomial 模型的后验更新公式
+- 用 **Beta 分布**表达对取值范围在 $[0,1]$ 间的 $\theta$ 的先验信念
+- 用 **Binomial 分布**描述从 $\theta$ 到数据 “正确/错误” 二分数据的关系
+- 解释 **likelihood** 如何比较不同 $\theta$  与观测数据的兼容性
+- 理解 Beta-Binomial 模型的后验更新公式
 - 用模拟理解“后验分布”从哪里来
 
 ## Outlines
@@ -89,7 +89,7 @@ $P(\theta \mid D) = \frac{P(D\mid \theta)P(\theta)}{P(D)}$
 
 ::: {.column width="50%"}
 <center>
-<img src="https://cdn.kesci.com/upload/sjwnyi477j.gif?imageView2/0/w/400/h/400" style="height:360px;">
+<img src="figs/lec3/rdk_10.gif" style="height:360px;">
 
 一致性 10%
 </center>
@@ -97,7 +97,7 @@ $P(\theta \mid D) = \frac{P(D\mid \theta)P(\theta)}{P(D)}$
 
 ::: {.column width="50%"}
 <center>
-<img src="https://cdn.kesci.com/upload/sjwnyt1yq4.gif?imageView2/0/w/400/h/400" style="height:360px;">
+<img src="figs/lec3/rdk_60.gif" style="height:360px;">
 
 一致性 60%
 </center>
@@ -107,29 +107,29 @@ $P(\theta \mid D) = \frac{P(D\mid \theta)P(\theta)}{P(D)}$
 
 ## 正确率不是终点
 
-一次实验后，我们可以得到一个观察到的正确率。
+一次实验后，我们可以得到一个观察到的正确率（多个试次中正确试次的百分比）。
 
 但贝叶斯建模关心的是：
 
 $$
 \text{观察到的正确次数 } Y
 \quad \Rightarrow \quad
-\text{潜在正确能力 } ACC
+\text{潜在正确能力 } \theta
 $$
 
-`ACC` 不是直接观察到的值，而是我们要推断的参数。
+$\theta$ 不是直接观察到的值，而是我们要推断的参数。
 
 ## 为什么需要不确定性？
 
 假设 50 次试验中有 30 次正确。
 
 $$
-\hat{ACC} = \frac{30}{50} = 0.60
+\hat{\theta} = \frac{30}{50} = 0.60
 $$
 
 这个数很有用，但它没有回答：
 
-- 真正的 `ACC` 可能是 0.55 吗？
+- 真正的 $\theta$ 可能是 0.55 吗？
 - 可能是 0.70 吗？
 - 我们对这些可能性有多确定？
 
@@ -139,9 +139,9 @@ $$
 
 - 5% 一致性条件下任务不容易
 - 先前研究中个体正确率约在 0.70 附近
-- `ACC` 必须位于 `[0,1]`
+- $\theta$ 必须位于 $[0,1]$
 
-因此，我们需要一个定义在 `[0,1]` 上的先验模型。
+因此，我们需要一个定义在 $[0,1]$ 上的先验模型。
 
 ## 离散先验的直觉
 
@@ -153,14 +153,14 @@ $$
 #| fig-width: 7.2
 #| fig-height: 4.2
 theme_set()
-acc_disc <- seq(0.1, 1.0, by = 0.1)
+theta_disc <- seq(0.1, 1.0, by = 0.1)
 prior_prob <- c(0, 0, 0, 0, 0, 0.1, 0.8, 0.1, 0, 0)
 barplot(
   prior_prob,
-  names.arg = acc_disc,
+  names.arg = theta_disc,
   col = "skyblue",
   border = "white",
-  xlab = "ACC",
+  xlab = expression(theta),
   ylab = "Prior probability",
   main = "Discrete prior"
 )
@@ -171,16 +171,16 @@ barplot(
 ::: {style="font-size:0.78em; line-height:1.18;"}
 第2讲两个例子的先验都是“**有限个取值 + 各自概率，和为 1**”。
 
-但 `ACC` 可以是 `[0,1]` 中任意值：只允许 0.6、0.7、0.8 就过于粗糙；把取值网格**不断加密**，离散先验的极限就是一条连续曲线。
+但 $\theta$ 可以是 $[0,1]$ 中任意值：只允许 0.6、0.7、0.8 就过于粗糙；把取值网格**不断加密**，离散先验的极限就是一条连续曲线。
 
 $$
-f(ACC), \quad 0 \le ACC \le 1
+f(\theta), \quad 0 \le \theta \le 1
 $$
 
 它同样要满足“总面积 = 1”，只是把求和换成积分：
 
 $$
-\int_0^1 f(ACC)dACC = 1
+\int_0^1 f(\theta)\,d\theta = 1
 $$
 :::
 :::
@@ -191,21 +191,21 @@ $$
 
 | 环节 | 上一课（离散） | 本讲（连续） |
 |---|---|---|
-| 数据模型 | $\text{Bin}(6, \theta)$ | $\text{Bin}(50, ACC)$ |
-| 参数 | $\theta \in \{0.2,\ 0.5,\ 0.8\}$（或 5 种蓝球占比） | $ACC \in [0, 1]$ |
+| 数据模型 | $\text{Bin}(6, \theta)$ | $\text{Bin}(50, \theta)$ |
+| 参数 | $\theta \in \{0.2,\ 0.5,\ 0.8\}$（或 5 种蓝球占比） | $\theta \in [0, 1]$ |
 | 先验 | 表格：有限个取值，概率**和为 1** | $\text{Beta}(70, 30)$：曲线，**积分为 1** |
 | 似然 | 只在 3 个点上计算 | 在 $[0,1]$ 上**处处**可计算 |
-| 归一化因子 | 求和 $\sum f(\theta)L(\theta \mid y)$ | 积分 $\int_0^1 f(ACC)L(ACC \mid y)\,dACC$ |
+| 归一化因子 | 求和 $\sum f(\theta)L(\theta \mid y)$ | 积分 $\int_0^1 f(\theta)L(\theta \mid y)\,d\theta$ |
 | 后验 | 三个点的概率 | $\text{Beta}(100, 50)$（共轭直接计算） |
 
 > 变的只是“取值个数：有限 → 无限”；先验、似然、证据、后验的**含义与用法完全不变**。
 
 ## Part 2: Beta 先验
 
-Beta 分布非常适合表示 `[0,1]` 上的概率参数。
+Beta 分布非常适合表示 $[0,1]$ 上的概率参数。
 
 $$
-ACC \sim \text{Beta}(\alpha, \beta)
+\theta \sim \text{Beta}(\alpha, \beta)
 $$
 
 其中：
@@ -231,7 +231,7 @@ local({
     y <- dbeta(x, p[1], p[2])
     plot(
       x, y, type = "l", lwd = 2, col = "cyan4",
-      xlab = "ACC", ylab = "Density",
+      xlab = expression(theta), ylab = "Density",
       main = paste0("Beta(", p[1], ", ", p[2], ")")
     )
   }
@@ -243,16 +243,16 @@ local({
 我们首先设定一下直觉上合理的先验：
 
 $$
-ACC \sim \text{Beta}(70, 30)
+\theta \sim \text{Beta}(70, 30)
 $$
 
 其均值为：
 
 $$
-E(ACC) = \frac{70}{70 + 30} = 0.70
+E(\theta) = \frac{70}{70 + 30} = 0.70
 $$
 
-当前数据出现前，我们认为 `ACC` 大约在 0.70 附近。
+当前数据出现前，我们认为 $\theta$ 大约在 0.70 附近。
 
 直观上，$\alpha$ 越大越偏向 1，$\beta$ 越大越偏向 0，$\alpha+\beta$ 越大分布越集中。
 
@@ -266,7 +266,7 @@ x <- seq(0, 1, length.out = 1000)
 plot(
   x, dbeta(x, 70, 30),
   type = "l", lwd = 3, col = "cyan4",
-  xlab = "ACC", ylab = "Density",
+  xlab = expression(theta), ylab = "Density",
   main = "Prior: Beta(70, 30)"
 )
 abline(v = 0.70, lty = 2, col = "red", lwd = 2)
@@ -279,19 +279,19 @@ text(0.72, max(dbeta(x, 70, 30)) * 0.85, "Mean = 0.70", col = "red", adj = 0)
 
 记正确次数为 `Y`，总试次数为 `n = 50`。
 
-如果每次试验正确概率都是 `ACC`，并且试验相互独立：
+如果每次试验正确概率都是 $\theta$，并且试验相互独立：
 
 $$
-Y | ACC \sim \text{Bin}(50, ACC)
+Y | \theta \sim \text{Bin}(50, \theta)
 $$
 
 概率质量函数为：
 
 $$
-P(Y = y | ACC) = \binom{50}{y}ACC^y(1-ACC)^{50-y}
+P(Y = y | \theta) = \binom{50}{y}\theta^y(1-\theta)^{50-y}
 $$
 
-## 不同 ACC 产生不同 Y
+## 不同 $\theta$ 产生不同 Y
 
 ```{r}
 #| fig-width: 11
@@ -331,20 +331,20 @@ $$
 
 问题变成：
 
-> 哪些 `ACC` 更容易生成 `Y = 30` 这样的数据？
+> 哪些 $\theta$ 更容易生成 `Y = 30` 这样的数据？
 
 ## 从数据到似然
 
-对于任意一个候选 `ACC`，都可以计算：
+对于任意一个候选 $\theta$，都可以计算：
 
 $$
-P(Y=30 | ACC)
+P(Y=30 | \theta)
 $$
 
-当我们把 `Y=30` 固定，把 `ACC` 当作横轴变化时，就得到似然函数：
+当我们把 `Y=30` 固定，把 $\theta$ 当作横轴变化时，就得到似然函数：
 
 $$
-L(ACC | Y=30) = \binom{50}{30}ACC^{30}(1-ACC)^{20}
+L(\theta | Y=30) = \binom{50}{30}\theta^{30}(1-\theta)^{20}
 $$
 
 ## 似然函数
@@ -353,27 +353,27 @@ $$
 #| fig-width: 9
 #| fig-height: 5
 theme_set()
-acc <- seq(0, 1, length.out = 1000)
-lik <- dbinom(30, size = 50, prob = acc)
+theta <- seq(0, 1, length.out = 1000)
+lik <- dbinom(30, size = 50, prob = theta)
 plot(
-  acc, lik,
+  theta, lik,
   type = "l", lwd = 3, col = "grey35",
-  xlab = "ACC", ylab = "Likelihood",
-  main = "Likelihood: L(ACC | Y = 30)"
+  xlab = expression(theta), ylab = "Likelihood",
+  main = "Likelihood: L(θ | Y = 30)"
 )
 abline(v = 0.60, lty = 2, col = "red", lwd = 2)
-text(0.62, max(lik) * 0.85, "Maximum near ACC = 0.60", col = "red", adj = 0)
+text(0.62, max(lik) * 0.85, "Maximum near θ = 0.60", col = "red", adj = 0)
 ```
 
 ## 似然不是后验
 
 似然回答的是：
 
-> 如果 `ACC` 是某个值，观察到 `Y=30` 有多可能？
+> 如果 $\theta$ 是某个值，观察到 `Y=30` 有多可能？
 
 它还没有回答：
 
-> 看到 `Y=30` 后，`ACC` 的后验分布是什么？
+> 看到 `Y=30` 后，$\theta$ 的后验分布是什么？
 
 要回答第二个问题，需要合并先验和似然。
 
@@ -385,15 +385,15 @@ text(0.62, max(lik) * 0.85, "Maximum near ACC = 0.60", col = "red", adj = 0)
 
 $$
 \begin{aligned}
-Y | ACC &\sim \text{Bin}(50, ACC) \\
-ACC &\sim \text{Beta}(70, 30)
+Y | \theta &\sim \text{Bin}(50, \theta) \\
+\theta &\sim \text{Beta}(70, 30)
 \end{aligned}
 $$
 
 贝叶斯更新的核心：
 
 $$ 
-f(ACC | Y=30) \propto f(ACC)L(ACC | Y=30)
+f(\theta | Y=30) \propto f(\theta)L(\theta | Y=30)
 $$
 
 似然只看数据；后验同时结合先验和数据。
@@ -404,18 +404,18 @@ $$
 #| fig-width: 9.4
 #| fig-height: 5.2
 theme_set()
-acc <- seq(0, 1, length.out = 1000)
-prior <- dbeta(acc, 70, 30)
-lik <- dbinom(30, 50, acc)
+theta <- seq(0, 1, length.out = 1000)
+prior <- dbeta(theta, 70, 30)
+lik <- dbinom(30, 50, theta)
 lik_scaled <- lik / max(lik) * max(prior)
 plot(
-  acc, prior,
+  theta, prior,
   type = "l", lwd = 3, col = "#f0b400",
-  xlab = "ACC", ylab = "Scaled density",
+  xlab = expression(theta), ylab = "Scaled density",
   main = "Prior and likelihood",
   ylim = c(0, max(prior) * 1.05)
 )
-lines(acc, lik_scaled, lwd = 3, col = "#0071b2")
+lines(theta, lik_scaled, lwd = 3, col = "#0071b2")
 legend(
   "topright",
   legend = c("Prior: center near 0.70", "Likelihood: peak near 0.60"),
@@ -433,20 +433,20 @@ legend(
 #| fig-width: 10.5
 #| fig-height: 5.4
 theme_set()
-acc <- seq(0, 1, length.out = 2000)
-prior <- dbeta(acc, 70, 30)
-lik <- dbinom(30, 50, acc)
+theta <- seq(0, 1, length.out = 2000)
+prior <- dbeta(theta, 70, 30)
+lik <- dbinom(30, 50, theta)
 lik_scaled <- lik / max(lik) * max(prior)
-posterior <- dbeta(acc, 100, 50)
+posterior <- dbeta(theta, 100, 50)
 plot(
-  acc, prior,
+  theta, prior,
   type = "l", lwd = 3, col = "#f0b400",
-  xlab = "ACC", ylab = "Density / scaled likelihood",
+  xlab = expression(theta), ylab = "Density / scaled likelihood",
   main = "Prior, likelihood, and posterior",
   ylim = c(0, max(posterior) * 1.1)
 )
-lines(acc, lik_scaled, lwd = 3, col = "#0071b2")
-lines(acc, posterior, lwd = 3, col = "#009e74")
+lines(theta, lik_scaled, lwd = 3, col = "#0071b2")
+lines(theta, posterior, lwd = 3, col = "#009e74")
 legend(
   "topright",
   legend = c("Prior", "Likelihood (scaled)", "Posterior"),
@@ -461,17 +461,17 @@ legend(
 Beta-Binomial 模型有一个简单的后验结果：
 
 $$
-ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
+\theta | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
 $$
 
 带入这里的数值：
 
 $$
-ACC | (Y=30) \sim \text{Beta}(70+30, 30+20)
+\theta | (Y=30) \sim \text{Beta}(70+30, 30+20)
 $$
 
 $$
-ACC | (Y=30) \sim \text{Beta}(100, 50)
+\theta | (Y=30) \sim \text{Beta}(100, 50)
 $$
 
 这也是 Beta 作为 Binomial 共轭先验带来的计算便利。
@@ -484,7 +484,7 @@ $$
 先验：
 
 $$
-ACC \sim \text{Beta}(70, 30)
+\theta \sim \text{Beta}(70, 30)
 $$
 
 数据：
@@ -526,21 +526,21 @@ $$
 
 > 后验可以看作“那些能生成观察数据的参数值”的分布。
 
-**这四步就是第2讲的 posterior simulation**——只把“抽离散的 $\theta$”换成“抽连续的 $ACC$”：
+**这四步就是第2讲的 posterior simulation**——区别只在取值方式：第2讲抽的是**离散**的 $\theta$，本讲抽的是**连续**的 $\theta$：
 
-1. 从先验中抽很多个可能的 `ACC`
-2. 对每个 `ACC` 模拟 50 次试验中的正确次数 `Y`
+1. 从先验中抽很多个可能的 $\theta$
+2. 对每个 $\theta$ 模拟 50 次试验中的正确次数 `Y`
 3. 只保留那些 `Y = 30` 的模拟样本
-4. 查看保留下来的 `ACC` 分布
+4. 查看保留下来的 $\theta$ 分布
 
 ## 生成模拟数据
 
 ```{r}
 n_sim <- 10000
 sim <- data.frame(
-  ACC = rbeta(n_sim, shape1 = 70, shape2 = 30)
+  theta = rbeta(n_sim, shape1 = 70, shape2 = 30)
 )
-sim$Y <- rbinom(n_sim, size = 50, prob = sim$ACC)
+sim$Y <- rbinom(n_sim, size = 50, prob = sim$theta)
 head(sim)
 ```
 
@@ -552,13 +552,13 @@ head(sim)
 theme_set()
 matched <- sim$Y == 30
 plot(
-  sim$ACC[!matched], sim$Y[!matched],
+  sim$theta[!matched], sim$Y[!matched],
   pch = 16, col = rgb(0, 0, 0, 0.22), cex = 0.55,
-  xlab = "Simulated ACC", ylab = "Simulated Y",
-  main = "Simulated ACC and Y"
+  xlab = "Simulated θ", ylab = "Simulated Y",
+  main = "Simulated θ and Y"
 )
 points(
-  sim$ACC[matched], sim$Y[matched],
+  sim$theta[matched], sim$Y[matched],
   pch = 16, col = rgb(0, 0.25, 1, 0.8), cex = 0.8
 )
 abline(h = 30, col = "blue", lwd = 2, lty = 2)
@@ -571,21 +571,21 @@ legend(
 )
 ```
 
-## 筛选后的 ACC 近似后验
+## 筛选后的 $\theta$ 近似后验
 
 ```{r}
 #| fig-width: 9
 #| fig-height: 5
 theme_set()
-posterior_sim <- sim$ACC[sim$Y == 30]
+posterior_sim <- sim$theta[sim$Y == 30]
 hist(
   posterior_sim,
   breaks = 18,
   probability = TRUE,
   col = "lightblue",
   border = "white",
-  xlab = "ACC",
-  main = "Simulated posterior: keep ACC where Y = 30"
+  xlab = expression(theta),
+  main = "Simulated posterior: keep θ where Y = 30"
 )
 lines(density(posterior_sim), col = "blue", lwd = 3)
 curve(dbeta(x, 100, 50), from = 0, to = 1, add = TRUE, col = "#009e74", lwd = 3)
@@ -610,39 +610,37 @@ legend(
 
 ## Summary
 
-## 本例模型
-
 Beta-Binomial 模型：
 
 $$
 \begin{aligned}
-Y | ACC &\sim \text{Bin}(n, ACC) \\
-ACC &\sim \text{Beta}(\alpha, \beta)
+Y | \theta &\sim \text{Bin}(n, \theta) \\
+\theta &\sim \text{Beta}(\alpha, \beta)
 \end{aligned}
 $$
 
 后验：
 
 $$
-ACC | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
+\theta | (Y=y) \sim \text{Beta}(\alpha + y, \beta + n - y)
 $$
 
 ## 四个建模要素
 
 **前提**
-数据模型 `Y | ACC ~ Bin(50, ACC)` 
-感兴趣的参数：`ACC` 被试真正做对的概率
+数据模型 $Y \mid \theta \sim \text{Bin}(50, \theta)$ 
+感兴趣的参数：$\theta$ 被试真正做对的概率
 
 | 要素 | 本例对应 |
 |---|---|
-| 先验 | `ACC ~ Beta(70,30)` |
-| 似然 | `L(ACC | Y=30)` |
-| 归一化因子 | 所有`L(ACC | Y=30)`的和 |
-| 后验 | `ACC | Y=30 ~ Beta(100,50)` |
+| 先验 | $\theta \sim \text{Beta}(70, 30)$ |
+| 似然 | $L(\theta \mid Y=30)$ |
+| 归一化因子 | 所有 $L(\theta \mid Y=30)$ 的和 |
+| 后验 | $\theta \mid Y=30 \sim \text{Beta}(100, 50)$ |
 
-> 与第2讲那张四成分表**一一对应**，只是 $\theta$ 从离散变成了连续的 $ACC$。
+> 与第2讲那张四成分表**一一对应**，只是 $\theta$ 从离散取值变成了连续取值。
 
-## 贝叶斯框架下的ACC
+## 贝叶斯框架下的 $\theta$
 
 正确率不再是一个描述统计值
 
