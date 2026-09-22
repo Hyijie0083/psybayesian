@@ -1,9 +1,11 @@
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import beta as beta_dist
+from IPython.display import display
 
-try:
-  data = pd.read_csv("/home/mw/input/bayes3797/evans2020JExpPsycholLearn_exp1_full_data.csv")
-except:
-  data = pd.read_csv('data/evans2020JExpPsycholLearn_exp1_full_data.csv')
+data = pd.read_csv("data/evans2020JExpPsycholLearn_exp1_full_data.csv")
 
 print("被试数量：", len(data.subject.unique()))
 data.groupby(["subject"])[["correct"]].mean().head(10)
@@ -20,16 +22,6 @@ data_subj1.head(5)
 
 # 统计 'binary' 列中各个值的出现次数
 data_subj1['correct'].value_counts()
-
-# 导入数字和向量处理包：numpy
-import numpy as np
-# 导入基本绘图工具：matplotlib
-import matplotlib.pyplot as plt
-# 导入高级绘图工具 seaborn 为 sns
-import seaborn as sns
-# 导入概率分布计算和可视化包：preliz
-import preliz as pz
-
 
 def bayesian_analysis_plot(
         alpha, beta, y, n,
@@ -56,27 +48,39 @@ def bayesian_analysis_plot(
 
     if plot_prior:
         # 先验分布
-        prior = pz.Beta(alpha, beta)
-        prior.plot_pdf(color="black", ax=ax, legend="None")
-        x_prior = np.linspace(prior.ppf(0.0001), prior.ppf(0.9999), 100)
-        ax.fill_between(x_prior, prior.pdf(x_prior), color="#f0e442", alpha=0.5, label="prior")
+        x_prior = np.linspace(
+            beta_dist.ppf(0.0001, alpha, beta),
+            beta_dist.ppf(0.9999, alpha, beta),
+            100,
+        )
+        prior_density = beta_dist.pdf(x_prior, alpha, beta)
+        ax.plot(x_prior, prior_density, color="black", label="prior")
+        ax.fill_between(x_prior, prior_density, color="#f0e442", alpha=0.5)
 
     if plot_likelihood:
-        # 似然分布 (两种写法等价)
-        # likelihood = pz.Beta(y,n-y)
-        # likelihood.plot_pdf(color="black", ax=ax, legend="None")
+        # 固定数据 (y, n) 后，二项似然关于参数 pi 的归一化曲线
         x = np.linspace(0, 1, 1000)
-        likelihood = pz.Binomial(n=n, p=y / n).pdf(x=x * n)
-        likelihood = likelihood * n
-        ax.plot(x, likelihood, color="black", label=r"$\mathbf{Binomial}$" + rf"(n={n},p={round(y / n, 2)})")
+        likelihood = beta_dist.pdf(x, y + 1, n - y + 1)
+        ax.plot(
+            x,
+            likelihood,
+            color="black",
+            label=r"$\mathbf{Binomial}$" + rf"(n={n},p={round(y / n, 2)})",
+        )
         ax.fill_between(x, likelihood, color="#0071b2", alpha=0.5, label="likelihood")
 
     if plot_posterior:
         # 后验分布
-        posterior = pz.Beta(alpha + y, beta + n - y)
-        posterior.plot_pdf(color="black", ax=ax, legend="None")
-        x_posterior = np.linspace(posterior.ppf(0.0001), posterior.ppf(0.9999), 100)
-        ax.fill_between(x_posterior, posterior.pdf(x_posterior), color="#009e74", alpha=0.5, label="posterior")
+        post_alpha = alpha + y
+        post_beta = beta + n - y
+        x_posterior = np.linspace(
+            beta_dist.ppf(0.0001, post_alpha, post_beta),
+            beta_dist.ppf(0.9999, post_alpha, post_beta),
+            100,
+        )
+        posterior_density = beta_dist.pdf(x_posterior, post_alpha, post_beta)
+        ax.plot(x_posterior, posterior_density, color="black", label="posterior")
+        ax.fill_between(x_posterior, posterior_density, color="#009e74", alpha=0.5)
 
     if show_legend:
         ax.legend(loc=legend_loc)
@@ -85,7 +89,8 @@ def bayesian_analysis_plot(
 
     # 设置图形
     ax.set_xlabel(xlabel)
-    sns.despine()
+    sns.despine(ax=ax)
+    return ax
 
 # 创建一个单独的图和轴
 fig, ax = plt.subplots(figsize=(9, 5))
@@ -103,7 +108,7 @@ alpha = 70
 beta = 30
 
 # 根据数据定义不同的二项分布数据 (y, n)
-data_list = [(77, 128), (152, 254), (231, 385)]
+data_list = [(77, 128), (152, 253), (231, 385)]
 
 # 创建一个包含三个子图的画布
 fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharex=True, sharey=True)
@@ -121,7 +126,7 @@ alpha = 70
 beta = 30
 
 # 根据数据定义不同的二项分布数据 (y, n)
-data_list = [(77, 128), (152, 254), (231, 385)]
+data_list = [(77, 128), (152, 253), (231, 385)]
 
 # 创建一个包含三个子图的画布
 fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharex=True, sharey=True)
@@ -134,12 +139,7 @@ for i, ax in enumerate(axes):
 plt.tight_layout()
 plt.show()
 
-import preliz as pz
-import matplotlib.pyplot as plt
-import numpy as np
 import ipywidgets as widgets
-import seaborn as sns
-import pandas as pd
 import warnings
 
 # 忽略 FutureWarning
@@ -160,10 +160,10 @@ def update_plot():
 
 # 创建按钮并绑定点击事件
 button = widgets.Button(description="Update with more data",
-                        layout=widgets.Layout(width='400px', height='60px', border_radius='10px'))
+                        layout=widgets.Layout(width='400px', height='60px'))
 # 设置按钮的背景颜色为蓝色，字体颜色为白色
 button.style.button_color = '#1E90FF'  # 浅蓝色 (可以调整为其他蓝色)
-button.style.font_color = 'red'  # 字体颜色为白色
+button.style.text_color = 'white'
 button.on_click(on_button_clicked)
 
 
@@ -206,7 +206,7 @@ def plot_func(
 
     # 如果show_prior为True，绘制先验分布
     if show_prior:
-        y = pz.Beta(prior_alpha, prior_beta).pdf(x)
+        y = beta_dist.pdf(x, prior_alpha, prior_beta)
         ax.plot(x, y, "-.", label="prior", color="navy")
 
     # 如果count小于0，只显示先验分布并退出
@@ -233,7 +233,7 @@ def plot_func(
             n_false = data[:trial_number_last].shape[0] - n_correct
             post_alpha = prior_alpha + n_correct
             post_beta = prior_beta + n_false
-            y = pz.Beta(post_alpha, post_beta).pdf(x)
+            y = beta_dist.pdf(x, post_alpha, post_beta)
             ax.plot(x, y, label="posterior (t-1)", color="olive", alpha=0.3)
 
     # 计算当前试验的后验分布并绘制
@@ -243,12 +243,12 @@ def plot_func(
     post_beta = prior_beta + n_false
 
     # 绘制当前试验的后验分布
-    y = pz.Beta(post_alpha, post_beta).pdf(x)
+    y = beta_dist.pdf(x, post_alpha, post_beta)
     ax.plot(x, y, label="posterior", color="orangered")
 
     # 显示图例并去除图框
     ax.legend()
-    sns.despine()
+    sns.despine(ax=ax)
 
 # 使用 interactive 创建界面
 interactive_plot = widgets.interactive(
@@ -266,37 +266,46 @@ display(button, interactive_plot)
 # ----------------------------------------
 # ----------------------------------------
 
-# 导入必要的库
-import scipy.stats as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import preliz as pz
+def plot_pdf(alpha, beta, level=0.95, line_color="#008b92", ax=None, baseline=0):
+    """绘制 Beta 密度及 95%、50% 分位区间和均值。"""
+    if ax is None:
+        ax = plt.gca()
 
-# 为 preliz 绘图设置图形样式
-pz.style.library["preliz-doc"]["figure.dpi"] = 100
-pz.style.library["preliz-doc"]["figure.figsize"] = (10, 4)
-pz.style.use("preliz-doc")
+    x = np.linspace(0, 1, 1000)
+    density = beta_dist.pdf(x, alpha, beta)
+    tail = (1 - level) / 2
+    outer_low, outer_high = beta_dist.ppf([tail, 1 - tail], alpha, beta)
+    inner_low, inner_high = beta_dist.ppf([0.25, 0.75], alpha, beta)
+    mean = alpha / (alpha + beta)
+
+    visible_density = np.where(density >= baseline, density, np.nan)
+    ax.plot(x, visible_density, color=line_color, linewidth=1.6)
+    ax.axhline(baseline, linestyle="--", color="0.6")
+    ax.plot([outer_low, outer_high], [baseline, baseline], color="black", linewidth=2)
+    ax.plot([inner_low, inner_high], [baseline, baseline], color="black", linewidth=4)
+    ax.scatter(mean, baseline, s=70, facecolor="white", edgecolor="black", zorder=3)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(baseline, density.max() * 1.08)
+    ax.set_title(f"Beta(alpha={alpha}, beta={beta})")
+    ax.set_xlabel("x")
+    ax.set_ylabel("Density")
+    ax.tick_params(axis="y", left=False, labelleft=False)
+    sns.despine(ax=ax, left=True)
+    return ax
 
 # 创建一个1x3的网格子图
-fig, axs = plt.subplots(1, 3)
+fig, axs = plt.subplots(1, 3, figsize=(10, 4))
 
-# 绘制 Beta分布的PDF，并显示置信区间
-pz.Beta(70, 30).plot_pdf(pointinterval=True, ax=axs[0], legend="title")
-pz.Beta(10, 1).plot_pdf(pointinterval=True, ax=axs[1], legend="title")
-pz.Beta(1, 1).plot_pdf(pointinterval=True, ax=axs[2], legend="title")
+# 绘制 Beta 分布的 PDF，并显示与 R 版本一致的分位区间
+plot_pdf(70, 30, ax=axs[0])
+plot_pdf(10, 1, ax=axs[1])
+plot_pdf(1, 1, ax=axs[2])
 
 # 设置每个子图的X轴范围为0到1
-for ax in axs:
-    ax.set_xlim(0, 1)
-
-# 显示绘制的图形
+plt.tight_layout()
 plt.show()
 
-try:
-  data = pd.read_csv("/home/mw/input/bayes3797/evans2020JExpPsycholLearn_exp1_full_data.csv")
-except:
-  data = pd.read_csv('data/evans2020JExpPsycholLearn_exp1_full_data.csv')
+data = pd.read_csv("data/evans2020JExpPsycholLearn_exp1_full_data.csv")
 
 # 选取需要的列
 data = data[["subject", "percentCoherence", "correct", "RT"]]
@@ -320,8 +329,8 @@ for (alpha_, beta_), ax in zip(params, axes.flatten()):
     # 设置子图标题
     ax.set_title(f'prior: Beta({alpha_},{beta_})')
 
-# 移除图的上、右边框线
-sns.despine()
+plt.tight_layout()
+plt.show()
 
 # 定义不同的 Beta 分布参数
 params = [(70, 30), (10, 1), (1, 1)]
@@ -335,8 +344,8 @@ for (alpha_, beta_), ax in zip(params, axes.flatten()):
     # 设置子图标题
     ax.set_title(f'prior: Beta({alpha_},{beta_})')
 
-# 移除图的上、右边框线
-sns.despine()
+plt.tight_layout()
+plt.show()
 
 # ----------------------------------------
 # ----------------------------------------
@@ -353,21 +362,21 @@ for (alpha_, beta_), ax in zip(params, axes.flatten()):
     # 设置子图标题
     ax.set_title(f'prior: Beta({alpha_},{beta_})')
 
-# 移除图的上、右边框线
-sns.despine()
+plt.tight_layout()
+plt.show()
 
 # 创建 3x3 的子图布局
 fig, axes = plt.subplots(3, 3, figsize=(18, 15))
 
 # 调用绘制函数，对不同的先验和似然进行组合
 bayesian_analysis_plot(70, 30, 77, 128, axes[0, 0])
-bayesian_analysis_plot(70, 30, 152, 254, axes[0, 1])
+bayesian_analysis_plot(70, 30, 152, 253, axes[0, 1])
 bayesian_analysis_plot(70, 30, 231, 385, axes[0, 2])
 bayesian_analysis_plot(10, 1, 77, 128, axes[1, 0])
-bayesian_analysis_plot(10, 1, 152, 254, axes[1, 1])
+bayesian_analysis_plot(10, 1, 152, 253, axes[1, 1])
 bayesian_analysis_plot(10, 1, 231, 385, axes[1, 2])
 bayesian_analysis_plot(1, 1, 77, 128, axes[2, 0])
-bayesian_analysis_plot(1, 1, 152, 254, axes[2, 1])
+bayesian_analysis_plot(1, 1, 152, 253, axes[2, 1])
 bayesian_analysis_plot(1, 1, 231, 385, axes[2, 2])
 
 # 设置 x 轴范围
@@ -376,73 +385,7 @@ for ax in axes.flatten():
 
 # 调整布局
 plt.tight_layout()
-
-# 导入数据加载和处理包：pandas
-import pandas as pd
-# 导入数字和向量处理包：numpy
-import numpy as np
-# 导入基本绘图工具：matplotlib
-import matplotlib.pyplot as plt
-# 导入高级绘图工具 seaborn 为 sns
-import seaborn as sns
-# 导入概率分布计算和可视化包：preliz
-import preliz as pz
-
-def bayesian_analysis_plot(
-        alpha, beta, y, n,
-        ax=None,
-        plot_prior=True,
-        plot_likelihood=True,
-        plot_posterior=True,
-        xlabel=r"ACC $\pi$",
-        show_legend=True,
-        legend_loc="upper left"):
-    """
-    该函数绘制先验分布、似然分布和后验分布的 PDF 图示在指定的子图上。
-
-    参数:
-    - alpha: Beta 分布的 alpha 参数（先验）
-    - beta: Beta 分布的 beta 参数（先验）
-    - y: 观测数据中的支持次数
-    - n: 总样本数
-    - ax: 子图对象，在指定子图上绘制图形
-    """
-
-    if ax is None:
-        ax = plt.gca()
-
-    if plot_prior:
-        # 先验分布
-        prior = pz.Beta(alpha, beta)
-        prior.plot_pdf(color="black", ax=ax, legend="None")
-        x_prior = np.linspace(prior.ppf(0.0001), prior.ppf(0.9999), 100)
-        ax.fill_between(x_prior, prior.pdf(x_prior), color="#f0e442", alpha=0.5, label="prior")
-
-    if plot_likelihood:
-        # 似然分布 (两种写法等价)
-        # likelihood = pz.Beta(y,n-y)
-        # likelihood.plot_pdf(color="black", ax=ax, legend="None")
-        x = np.linspace(0, 1, 1000)
-        likelihood = pz.Binomial(n=n, p=y / n).pdf(x=x * n)
-        likelihood = likelihood * n
-        ax.plot(x, likelihood, color="black", label=r"$\mathbf{Binomial}$" + rf"(n={n},p={round(y / n, 2)})")
-        ax.fill_between(x, likelihood, color="#0071b2", alpha=0.5, label="likelihood")
-
-    if plot_posterior:
-        # 后验分布
-        posterior = pz.Beta(alpha + y, beta + n - y)
-        posterior.plot_pdf(color="black", ax=ax, legend="None")
-        x_posterior = np.linspace(posterior.ppf(0.0001), posterior.ppf(0.9999), 100)
-        ax.fill_between(x_posterior, posterior.pdf(x_posterior), color="#009e74", alpha=0.5, label="posterior")
-
-    if show_legend:
-        ax.legend(loc=legend_loc)
-    else:
-        ax.legend().set_visible(False)
-
-    # 设置图形
-    ax.set_xlabel(xlabel)
-    sns.despine()
+plt.show()
 
 #---------------------------------------------------------------------------
 #                            请替换...填入 Beta 分布参数, alpha 和 beta
@@ -460,7 +403,8 @@ n = ...     # n 代表总人数
 #---------------------------------------------------------------------------
 #                            请使用 bayesian_analysis_plot 进行绘图
 #---------------------------------------------------------------------------
-bayesian_analysis_plot(...)
+# 完成上述参数后，取消下一行注释并运行：
+# bayesian_analysis_plot(alpha, beta, y, n)
 
 # 答案
 
@@ -468,13 +412,14 @@ bayesian_analysis_plot(...)
 #                            请填入 Beta 分布参数，alpha 和 beta
 #---------------------------------------------------------------------------
 # 设置 Beta 分布参数
-alpha = 8     # alpha
-beta  = 3     # beta
+alpha = 10     # alpha
+beta  = 50     # beta
 
 #---------------------------------------------------------------------------
 #                            请填入观测数据 y 和 n
 #---------------------------------------------------------------------------
-y = 2     # y 代表支持数
-n = 4     # n 代表总人数
+y = 80     # y 代表支持数
+n = 180     # n 代表总人数
 
 bayesian_analysis_plot(alpha, beta, y, n)
+plt.show()
