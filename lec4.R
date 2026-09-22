@@ -4,14 +4,10 @@ if (!requireNamespace('pacman', quietly = TRUE)) {
   install.packages('pacman')
 }
 pacman::p_load("tidyverse","ggplot2", "dplyr","gridExtra","papaja")
-options(warn = -1)  # 抑制警告
+options(warn = 1)  # 即时显示弃用及其他警告
 
 # 数据导入
-data <- tryCatch({
-  read.csv('/home/mw/input/bayes3797/evans2020JExpPsycholLearn_exp1_full_data.csv') #平台路径
-}, error = function(e) {
-  read.csv('C:/Users/A/Desktop/evans2020JExpPsycholLearn_exp1_full_data.csv') #本地路径
-})
+data <- read.csv("data/evans2020JExpPsycholLearn_exp1_full_data.csv")
 
 cat("被试数量：", length(unique(data$subject)), "\n")
 data %>% 
@@ -102,7 +98,7 @@ bayesian_analysis_plot <- function(
                        alpha = 0.7, position = "identity", colour = NA) +
     ggplot2::geom_line(ggplot2::aes(color = legend_line), linewidth = 1.2, lineend = "round", linejoin = "round") +
     ggplot2::labs(x = xlabel, y = "Density") +
-    ggplot2::scale_y_continuous(expand = c(0, 0)) +
+    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0)) +
     
     ggplot2::scale_fill_manual(
       name   = NULL,
@@ -128,7 +124,7 @@ bayesian_analysis_plot <- function(
     papaja::theme_apa()+ 
     ggplot2::theme(
       legend.margin = margin(t = 2, r = 4, b = 2, l = 4, unit = "pt"),
-      legend.background    = element_rect(fill = "transparent", colour = "NA", linewidth = 0.6),
+      legend.background    = element_rect(fill = "transparent", colour = NA, linewidth = 0.6),
       legend.box.background= element_rect(fill = "transparent", colour = "grey", linewidth = 0.6),
       legend.key           = element_rect(fill = "transparent", colour = NA),
       axis.text.y  = ggplot2::element_blank(),
@@ -136,19 +132,19 @@ bayesian_analysis_plot <- function(
       axis.title.y = ggplot2::element_blank(),
       axis.text.x  = ggplot2::element_text(size = 12), 
       legend.box = "vertical",
-      legend.position      = legend_loc ,
-      legend.justification = c(0, 1) 
+      legend.position             = "inside",
+      legend.position.inside      = legend_loc,
+      legend.justification.inside = c(0, 1)
     )
   
   return(p)
 }
 
-fig <- bayesian_analysis_plot(70, 30, 152, 253) +
+fig <- bayesian_analysis_plot(70, 30, 152, 254) +
   ggplot2::coord_cartesian(xlim = c(0.4, 0.9))  
 print(fig)
 
 
-library(patchwork)
 # 定义先验分布的 alpha 和 beta
 alpha <- 70
 beta  <- 30
@@ -163,7 +159,7 @@ p1 <- bayesian_analysis_plot(alpha, beta, y = 77,  n = 128, plot_posterior = FAL
     legend.spacing.x  = grid::unit(4, "pt")
   )
 
-p2 <- bayesian_analysis_plot(alpha, beta, y = 152, n = 254, plot_posterior = FALSE) +
+p2 <- bayesian_analysis_plot(alpha, beta, y = 152, n = 253, plot_posterior = FALSE) +
   coord_cartesian(xlim = c(0.4, 0.9))+ 
   theme(       
     legend.text       = element_text(size = 10),
@@ -181,7 +177,7 @@ p3 <- bayesian_analysis_plot(alpha, beta, y = 231, n = 385, plot_posterior = FAL
     legend.spacing.x  = grid::unit(4, "pt")
   )
 
-p1 + p2 + p3
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 
 # 分别创建三个图（包含后验）
 p1 <- bayesian_analysis_plot(alpha, beta, y = 77,  n = 128, plot_posterior = TRUE) +
@@ -211,7 +207,7 @@ p3 <- bayesian_analysis_plot(alpha, beta, y = 231, n = 385, plot_posterior = TRU
     legend.spacing.x  = grid::unit(4, "pt")
   )
 
-p1 + p2 + p3
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 
 # ----------------------------------------
 # ----------------------------------------
@@ -298,7 +294,7 @@ server <- function(input, output, session) {
           papaja::theme_apa()+
           ggplot2::theme(
             legend.margin = margin(t = 2, r = 4, b = 2, l = 4, unit = "pt"),
-            legend.background    = element_rect(fill = "transparent", colour = "NA", linewidth = 0.6),
+            legend.background    = element_rect(fill = "transparent", colour = NA, linewidth = 0.6),
             legend.box.background= element_rect(fill = "transparent", colour = "grey", linewidth = 0.6),
             legend.key           = element_rect(fill = "transparent", colour = NA),
             axis.title.x = ggplot2::element_blank(),
@@ -316,7 +312,7 @@ server <- function(input, output, session) {
           papaja::theme_apa()+
           ggplot2::theme(
             legend.margin = margin(t = 2, r = 4, b = 2, l = 4, unit = "pt"),
-            legend.background    = element_rect(fill = "transparent", colour = "NA", linewidth = 0.6),
+            legend.background    = element_rect(fill = "transparent", colour = NA, linewidth = 0.6),
             legend.box.background= element_rect(fill = "transparent", colour = "grey", linewidth = 0.6),
             legend.key           = element_rect(fill = "transparent", colour = NA),
             axis.title.x = ggplot2::element_blank(),
@@ -372,7 +368,7 @@ server <- function(input, output, session) {
       papaja::theme_apa()+
       ggplot2::theme(
         legend.margin = margin(t = 2, r = 4, b = 2, l = 4, unit = "pt"),
-        legend.background    = element_rect(fill = "transparent", colour = "NA", linewidth = 0.6),
+        legend.background    = element_rect(fill = "transparent", colour = NA, linewidth = 0.6),
         legend.box.background= element_rect(fill = "transparent", colour = "grey", linewidth = 0.6),
         legend.key           = element_rect(fill = "transparent", colour = NA),
         axis.title.x = ggplot2::element_blank(),
@@ -431,13 +427,9 @@ plot_pdf <- function(alpha, beta, level = 0.95,
 p1 <- plot_pdf(70, 30)
 p2 <- plot_pdf(10, 1)
 p3 <- plot_pdf(1, 1)
-p1 + p2 + p3
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 
-data <- tryCatch({
-  read.csv('/home/mw/input/bayes3797/evans2020JExpPsycholLearn_exp1_full_data.csv') #平台路径
-}, error = function(e) {
-  read.csv('C:/Users/A/Desktop/evans2020JExpPsycholLearn_exp1_full_data.csv') #本地路径
-})
+data <- read.csv("data/evans2020JExpPsycholLearn_exp1_full_data.csv")
 
 data %>% 
   group_by(subject) %>% 
@@ -484,7 +476,7 @@ ggtitle(sprintf("prior:Beta(alpha=%d, beta=%d)", 1, 1))  +
     legend.spacing.x  = grid::unit(4, "pt")
   )
 
-p1 + p2 + p3
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 
 # 分别创建三个图（包含后验）
 p1 <- bayesian_analysis_plot(70, 30, y = 152,  n = 254, plot_posterior = TRUE) +
@@ -497,7 +489,7 @@ p1 <- bayesian_analysis_plot(70, 30, y = 152,  n = 254, plot_posterior = TRUE) +
   )
 
 p2 <- bayesian_analysis_plot(10, 1, y = 152, n = 254, plot_posterior = TRUE) +
-  ggtitle(sprintf("prior:Beta(alpha=%d, beta=%d)", 700, 300)) + 
+  ggtitle(sprintf("prior:Beta(alpha=%d, beta=%d)", 10, 1)) + 
   theme(       
     legend.text       = element_text(size = 10),
     legend.key.height = grid::unit(6, "pt"),
@@ -506,7 +498,7 @@ p2 <- bayesian_analysis_plot(10, 1, y = 152, n = 254, plot_posterior = TRUE) +
   )
 
 p3 <- bayesian_analysis_plot(1, 1, y = 152,  n = 254, plot_posterior = TRUE) +
-  ggtitle(sprintf("prior:Beta(alpha=%d, beta=%d)", 7000, 3000)) + 
+  ggtitle(sprintf("prior:Beta(alpha=%d, beta=%d)", 1, 1)) + 
   theme(       
     legend.text       = element_text(size = 10),
     legend.key.height = grid::unit(6, "pt"),
@@ -514,7 +506,7 @@ p3 <- bayesian_analysis_plot(1, 1, y = 152,  n = 254, plot_posterior = TRUE) +
     legend.spacing.x  = grid::unit(4, "pt")
   )
 
-p1 + p2 + p3
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 
 # -------
 # -------
@@ -547,7 +539,7 @@ p3 <- bayesian_analysis_plot(7000, 3000, y = 152,  n = 254, plot_posterior = TRU
     legend.spacing.x  = grid::unit(4, "pt")
   )
 
-p1 + p2 + p3
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 
 # 分别创建九个图（包含后验）
 p1 <- bayesian_analysis_plot(70, 30, y = 77,  n = 128, plot_posterior = TRUE) +
@@ -631,7 +623,7 @@ p9 <- bayesian_analysis_plot(1, 1, y = 231,  n = 385, plot_posterior = TRUE) +
 
 
 
-p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9
+gridExtra::grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, p9, ncol = 3)
 
 
 
@@ -700,7 +692,7 @@ bayesian_analysis_plot <- function(
                        alpha = 0.7, position = "identity", colour = NA) +
     ggplot2::geom_line(ggplot2::aes(color = legend_line), linewidth = 1.2, lineend = "round", linejoin = "round") +
     ggplot2::labs(x = xlabel, y = "Density") +
-    ggplot2::scale_y_continuous(expand = c(0, 0)) +
+    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = 0)) +
     
     ggplot2::scale_fill_manual(
       name   = NULL,
@@ -726,7 +718,7 @@ bayesian_analysis_plot <- function(
     papaja::theme_apa()+ 
     ggplot2::theme(
       legend.margin = margin(t = 2, r = 4, b = 2, l = 4, unit = "pt"),
-      legend.background    = element_rect(fill = "transparent", colour = "NA", linewidth = 0.6),
+      legend.background    = element_rect(fill = "transparent", colour = NA, linewidth = 0.6),
       legend.box.background= element_rect(fill = "transparent", colour = "grey", linewidth = 0.6),
       legend.key           = element_rect(fill = "transparent", colour = NA),
       axis.text.y  = ggplot2::element_blank(),
@@ -734,8 +726,9 @@ bayesian_analysis_plot <- function(
       axis.title.y = ggplot2::element_blank(),
       axis.text.x  = ggplot2::element_text(size = 12), 
       legend.box = "vertical",
-      legend.position      = legend_loc ,
-      legend.justification = c(0, 1) 
+      legend.position             = "inside",
+      legend.position.inside      = legend_loc,
+      legend.justification.inside = c(0, 1)
     )
   
   return(p)
