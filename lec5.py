@@ -1,383 +1,417 @@
+"""lec5.py
+
+Python script aligned with the examples in lec5_new_v2.qmd.
+The slide deck uses R as the executable source; this file provides Python
+counterparts for the same grid-approximation and Beta-Binomial MCMC examples.
+"""
+
 import numpy as np
+import pandas as pd
 import scipy.stats as st
 import matplotlib.pyplot as plt
 import seaborn as sns
-import pandas as pd
+
+
+sns.set_theme(style="white")
+
+
+# ---------------------------------------------------------------------------
+# Grid approximation: Beta-Binomial model, 11 grid points
+# ---------------------------------------------------------------------------
 
 pi_grid = np.linspace(0.5, 1, 11)
-print("从0.5~1内的连续变量π中取出11个值:", pi_grid)
+print("从 0.5 到 1 内的连续变量 pi 中取出 11 个值:")
+print(pi_grid)
 
-prior = st.beta.pdf(pi_grid, 70, 30)
-likelihood = st.binom.pmf(90, 100, pi_grid)
+prior = st.beta.pdf(pi_grid, a=70, b=30)
+likelihood = st.binom.pmf(k=90, n=100, p=pi_grid)
 posterior = prior * likelihood / np.sum(prior * likelihood)
 
-# 使用 plt.stem() 绘制垂直柱状图，表示在 pi_grid 上的 posterior 分布
-plt.stem(
-    pi_grid,
-    posterior,  
-    linefmt="black",
-    bottom=-1,
-)
-# 设置 y 轴范围在 0 到 1 之间
-plt.ylim(0, 1)  
-plt.xlabel("pi_grid")  
-plt.ylabel("Posterior")  
-# 去除图形的上方和右侧的边框
-sns.despine()  
+plot_data = pd.DataFrame({"pi_grid": pi_grid, "posterior": posterior})
 
-np.random.seed(84735)
-
-#  从 posterior 分布中抽取 10000 个样本
-posterior_sample = np.random.choice(
-    pi_grid, 
-    size=10000,
-    p=posterior,  
-    replace=True,
-)
-
-# 将抽取的样本存储在 DataFrame 中，列名为 "pi_sample"
-posterior_sample = pd.DataFrame(
-    {"pi_sample": posterior_sample}
-)  
-
-# 对 posterior_sample 中的样本进行计数，并使用 normalize=True 将计数转换为相对频率
-posterior_sample.value_counts(
-    normalize=True
-).reset_index()  
-
-x_beta = np.linspace(0, 1, 10000)  # 生成10000 个点，范围在 [0, 1] 之间
-
-y_beta = st.beta.pdf(x_beta, 160, 40)  # 生成 Beta(160,40)
-
-# 绘制共轭方法计算得到的后验 beta(160,40)
-plt.plot(x_beta, y_beta, label="posterior of conjucated distribution") 
-
-# 绘制网格方法抽样后得到的结果
-plt.hist(
-    posterior_sample["pi_sample"],  
-    density=True,
-    label = "posterior of grid search"
-)
-plt.legend()
-
+plt.figure(figsize=(8, 5))
+plt.vlines(plot_data["pi_grid"], 0, plot_data["posterior"], linewidth=0.8)
+plt.scatter(plot_data["pi_grid"], plot_data["posterior"], s=30)
+plt.ylim(0, 1)
+plt.xlabel("pi")
+plt.title("Posterior")
 sns.despine()
-
-# 生成一个 101 个点，范围在 [0, 1] 之间
-pi_grid = np.linspace(0, 1, 101)  
-# 生成 Beta(70,30)
-prior = st.beta.pdf(pi_grid, 70, 30)  
-
-# 生成二项分布, 参数为 n=100（总试验次数），k=90（正确次数），以及 pi_grid 中的每个概率值
-likelihood = st.binom.pmf(
-    90, 100, pi_grid
-)  
-
-# 计算后验概率，即先验概率和似然函数的乘积，然后除以归一化因子（分母和）
-posterior = (
-    prior * likelihood / np.sum(prior * likelihood)
-)  
-
-# 画图
-plt.stem(pi_grid, posterior, bottom=-1)
-plt.ylim(0, 0.3)
-sns.despine()
-
-np.random.seed(84735)
-
-# 从 posterior 分布中抽取 10000 个样本
-posterior_sample = np.random.choice(
-    pi_grid,  
-    size=10000,  
-    p=posterior,  
-    replace=True,
-)  
-
-# 将抽取的样本存储在 DataFrame 中，列名为 "pi_sample"
-posterior_sample = pd.DataFrame(
-    {"pi_sample": posterior_sample}
-)  
-
-# 对 posterior_sample 中的样本进行计数，并使用 normalize=True 将计数转换为相对频率
-posterior_sample.value_counts(
-    normalize=True
-).reset_index() 
-
-# 生成一个 10000 个点，范围在 [0, 1] 之间
-x_beta = np.linspace(0, 1, 10000)
-# 生成Beta(160,40)  
-y_beta = st.beta.pdf(x_beta, 160, 40)  
-
-# 绘制共轭方法计算得到的后验 beta(160,40)
-plt.plot(x_beta, y_beta, label="posterior of conjucated distribution")  
-
-# 绘制网格方法抽样后得到的结果
-plt.hist(
-    posterior_sample["pi_sample"],  
-    density=True,
-    label = "posterior of grid search"
-)
-plt.legend()
-
-sns.despine()
-
-# 练习部分
-import numpy as np
-import scipy.stats as st
-import matplotlib.pyplot as plt
-
-# 生成模拟数据
-np.random.seed(0)
-data = np.random.normal(loc=550, scale=80, size=10)
-
-# 展示数据
-data.round(0)
-
-##---------------------------------------------------------------------------
-#                            设置网格范围和步长
-#                            1. 假设被试反应的反应时范围为 200 到 800 ms
-#                            2. 设定网格步长为10 (后续可以修改为20,50,100等)
-# ---------------------------------------------------------------------------
-# theta_grid = np.linspace(..., ..., 20) 
-
-##---------------------------------------------------------------------------
-#                            计算先验概率
-#                            1. 设定先验概率服从正态分布
-#                            2. 先验均值为500, 标准差为100
-# ---------------------------------------------------------------------------
-# prior_mean = ... 
-# prior_std = ... 
-
-##---------------------------------------------------------------------------
-#                            计算似然函数
-# ---------------------------------------------------------------------------
-# likelihood = ...
-
-##---------------------------------------------------------------------------
-#                            计算后验
-# ---------------------------------------------------------------------------
-# posterior_prob = ...
-
-# 归一化后验概率
-
-##---------------------------------------------------------------------------
-#                            计算找到后验概率的最大值对应的参数
-# ---------------------------------------------------------------------------
-# max_posterior = ...
-print("最大后验概率对应的参数值：", theta_grid[max_posterior])
-
-# 绘制结果
-plt.plot(theta_grid, prior_prob / prior_prob.sum(), color="orange", label="prior")
-plt.plot(theta_grid, posterior_prob, label="posterior of grid method")
-plt.vlines(data.mean(), 0, posterior_prob.max(), color="red", label="true data")
-plt.legend()
-plt.title("Grid search posterior distribution")
-plt.xlabel("$\mu$")
-plt.ylabel("Density")
 plt.show()
 
-##---------------------------------------------------------------------------
-#                            通过共轭方法计算后验概率 (具体算法见补充材料)
+
+# Step 4: draw posterior samples
+np.random.seed(84735)
+posterior_sample = np.random.choice(
+    pi_grid,
+    size=10000,
+    p=posterior,
+    replace=True,
+)
+posterior_sample = pd.DataFrame({"pi_sample": posterior_sample})
+
+result = (
+    posterior_sample.value_counts(normalize=True)
+    .reset_index(name="proportion")
+    .sort_values("pi_sample")
+)
+print(posterior_sample.info())
+print(result.head())
+
+plt.figure(figsize=(8, 5))
+plt.hist(posterior_sample["pi_sample"], bins=10)
+plt.xlabel("pi_sample")
+plt.ylabel("Count")
+sns.despine()
+plt.show()
+
+
+# Compare grid samples with theoretical Beta(160, 40) posterior
+x_beta = np.linspace(0, 1, 10000)
+y_beta = st.beta.pdf(x_beta, a=160, b=40)
+
+plt.figure(figsize=(10, 5))
+plt.plot(
+    x_beta,
+    y_beta,
+    color="#4169E1",
+    linewidth=2,
+    label="posterior distribution (theoretical)",
+)
+plt.hist(
+    posterior_sample["pi_sample"],
+    bins=40,
+    density=True,
+    color="#E28903",
+    edgecolor="black",
+    alpha=0.5,
+    label="posterior distribution (grid, 11 points)",
+)
+plt.legend()
+sns.despine()
+plt.show()
+
+
 # ---------------------------------------------------------------------------
-x = np.linspace(200,800,10000)
+# Grid approximation: Beta-Binomial model, 101 grid points
+# ---------------------------------------------------------------------------
+
+pi_grid = np.linspace(0, 1, 101)
+
+prior = st.beta.pdf(pi_grid, a=70, b=30)
+likelihood = st.binom.pmf(k=90, n=100, p=pi_grid)
+unstd_posterior = prior * likelihood
+posterior = unstd_posterior / np.sum(unstd_posterior)
+
+df = pd.DataFrame({"pi": pi_grid, "posterior": posterior})
+
+plt.figure(figsize=(8, 5))
+plt.vlines(df["pi"], 0, df["posterior"], color="#1f77b4", linewidth=0.8)
+plt.scatter(df["pi"], df["posterior"], color="#1f77b4", s=18)
+plt.ylim(0, 0.3)
+plt.title("Grid Approximation (101 points)")
+sns.despine()
+plt.show()
+
+
+np.random.seed(84735)
+posterior_sample = np.random.choice(
+    pi_grid,
+    size=10000,
+    p=posterior,
+    replace=True,
+)
+posterior_sample = pd.DataFrame({"pi_sample": posterior_sample})
+
+result = (
+    posterior_sample.value_counts(normalize=True)
+    .reset_index(name="relative_frequency")
+    .sort_values("pi_sample")
+)
+print(result.head(20))
+
+plt.figure(figsize=(8, 5))
+plt.hist(posterior_sample["pi_sample"], bins=50)
+plt.xlabel("pi_sample")
+plt.ylabel("Count")
+sns.despine()
+plt.show()
+
+
+x_beta = np.linspace(0, 1, 10000)
+y_beta = st.beta.pdf(x_beta, a=160, b=40)
+posterior_sample = pd.DataFrame(
+    {"pi_sample": st.beta.rvs(a=155, b=38, size=10000, random_state=84735)}
+)
+
+plt.figure(figsize=(10, 5))
+plt.plot(
+    x_beta,
+    y_beta,
+    color="#4169E1",
+    linewidth=2,
+    label="posterior distribution (theoretical)",
+)
+plt.hist(
+    posterior_sample["pi_sample"],
+    bins=160,
+    density=True,
+    color="#E28903",
+    edgecolor="black",
+    alpha=0.7,
+    label="Grid Approximation (101 points)",
+)
+plt.legend()
+sns.despine()
+plt.show()
+
+
+# ---------------------------------------------------------------------------
+# Exercise: one-dimensional grid approximation for a normal mean
+# ---------------------------------------------------------------------------
+
+np.random.seed(0)
+data = np.random.normal(loc=550, scale=80, size=10)
+print(np.round(data, 2))
+
+n_step = 200
+mu_grid = np.linspace(200, 800, n_step)
+
+prior_mean = 500
+prior_std = 100
+prior_prob = st.norm.pdf(mu_grid, loc=prior_mean, scale=prior_std)
+
+likelihood = np.array([
+    np.prod(st.norm.pdf(data, loc=mu, scale=80)) for mu in mu_grid
+])
+
+posterior_prob = prior_prob * likelihood
+posterior_prob = posterior_prob / np.sum(posterior_prob)
+
+max_posterior = np.argmax(posterior_prob)
+print("最大后验概率对应的参数值：", mu_grid[max_posterior])
+
+plt.figure(figsize=(10, 5))
+plt.plot(
+    mu_grid,
+    prior_prob / np.sum(prior_prob),
+    color="orange",
+    linewidth=1.5,
+    label="prior",
+)
+plt.plot(
+    mu_grid,
+    posterior_prob,
+    color="blue",
+    linewidth=1.5,
+    label="posterior of grid method",
+)
+plt.axvline(np.mean(data), color="red", linewidth=1.5, label="data mean")
+plt.title("Grid search posterior distribution")
+plt.xlabel(r"$\mu$")
+plt.ylabel("Density")
+plt.xlim(200, 800)
+plt.ylim(0, np.max(posterior_prob) * 1.1)
+plt.legend()
+sns.despine()
+plt.show()
+
+
+# Normal-Normal conjugate posterior for the same data
+x = np.linspace(200, 800, 10000)
 prior_mean = 500
 prior_variance = 200**2
 sigma2 = 80**2
-n = len(data)  # 观测数据的数量
-posterior_mean = (prior_mean / prior_variance + data.sum() / sigma2) / (1 / prior_variance + n / sigma2)
-posterior_std = np.sqrt((1 / prior_variance + n / sigma2)**-1)
-posterior_conjucate = st.norm.pdf(x, loc=posterior_mean, scale=posterior_std)
+n = len(data)
 
-# 绘制结果
-plt.plot(x, posterior_conjucate, label="posterior of conjucated method")
-plt.vlines(data.mean(), 0, posterior_conjucate.max(), color="red", label="true data")
-plt.legend()
-plt.title("Conjucated posterior distribution")
-plt.xlabel("$\mu$")
+posterior_mean = (
+    prior_mean / prior_variance + np.sum(data) / sigma2
+) / (1 / prior_variance + n / sigma2)
+posterior_std = np.sqrt(1 / (1 / prior_variance + n / sigma2))
+posterior_conjugate = st.norm.pdf(x, loc=posterior_mean, scale=posterior_std)
+
+plt.figure(figsize=(10, 5))
+plt.plot(
+    x,
+    posterior_conjugate,
+    color="blue",
+    linewidth=1.5,
+    label="posterior of conjugated method",
+)
+plt.axvline(np.mean(data), color="red", linewidth=1.5, label="data mean")
+plt.title("Conjugated posterior distribution")
+plt.xlabel(r"$\mu$")
 plt.ylabel("Density")
+plt.xlim(200, 800)
+plt.ylim(0, np.max(posterior_conjugate) * 1.1)
+plt.legend()
+sns.despine()
 plt.show()
 
-##---------------------------------------------------------------------------
-#                            设置网格范围和步长
-#                            1. 假设被试反应的反应时范围为 200 到 800 ms
-#                            2. 假设被试反应时的方差范围为 20 到 200
-# ---------------------------------------------------------------------------
-n_step = 20
-# mean_grid = ...  请补充...
-# std_grid = ...   请补充...
 
+# ---------------------------------------------------------------------------
+# Exercise: two-dimensional grid approximation for normal mean and standard
+# deviation
+# ---------------------------------------------------------------------------
+
+n_step = 20
 mean_grid = np.linspace(200, 800, n_step)
 std_grid = np.linspace(20, 200, n_step)
-mean_mesh, std_mesh = np.meshgrid(mean_grid, std_grid)
+grid_data = pd.MultiIndex.from_product(
+    [mean_grid, std_grid],
+    names=["mean", "std"],
+).to_frame(index=False)
+mean_mesh = grid_data["mean"].to_numpy().reshape(n_step, n_step)
+std_mesh = grid_data["std"].to_numpy().reshape(n_step, n_step)
 
-##---------------------------------------------------------------------------
-#                            计算先验概率
-#                            1. 设定先验概率服从正态分布
-#                            2. 先验均值为500，标准差为100
-# ---------------------------------------------------------------------------
+prior_mean_mean = 500
+prior_mean_std = 200
+prior_std_mean = 100
+prior_std_std = 50
 
-# prior_mean = ...        
-# prior_std = ...         
+mean_mesh_prior = np.linspace(0, 1000, 20)
+std_mesh_prior = np.linspace(0, 200, 20)
 
-# 显示 prior_grid 的形状
-prior_grid.shape
+prior_mean = st.norm.pdf(
+    mean_mesh_prior,
+    loc=prior_mean_mean,
+    scale=prior_mean_std,
+)
+prior_std = st.norm.pdf(
+    std_mesh_prior,
+    loc=prior_std_mean,
+    scale=prior_std_std,
+)
+prior_grid = np.outer(prior_mean, prior_std)
+print(prior_grid.shape)
 
-##---------------------------------------------------------------------------
-#                            计算似然函数
-#                            1. 先计算一种参数条件下的似然值
-#                            2. 通过for循环计算所有参数条件下的似然值，并储存在likelihood_grid中
-# ---------------------------------------------------------------------------
-# likelihood_single = ...
-# likelihood_grid = np.zeros((n_step, n_step))
+likelihood_grid = np.zeros((n_step, n_step))
+for mean_index, mean_value in enumerate(mean_grid):
+    for std_index, std_value in enumerate(std_grid):
+        likelihood_i = np.prod(st.norm.pdf(data, loc=mean_value, scale=std_value))
+        likelihood_grid[mean_index, std_index] = likelihood_i
 
-likelihood_grid.shape
+print(likelihood_grid.shape)
 
-##---------------------------------------------------------------------------
-#                            计算grid的后验概率
-# ---------------------------------------------------------------------------
-# posterior_grid = ...
+posterior_grid = prior_grid * likelihood_grid
+posterior_grid = posterior_grid / np.sum(posterior_grid)
+print(posterior_grid.shape)
 
-posterior_grid /= posterior_grid.sum()  # 归一化
+max_idx = np.unravel_index(np.argmax(posterior_grid), posterior_grid.shape)
+estimated_mean = mean_grid[max_idx[0]]
+estimated_std = std_grid[max_idx[1]]
 
-# 显示 posterior_grid 的形状
-posterior_grid.shape
+print(f"Estimated Mean: {estimated_mean:f}")
+print(f"Estimated Standard Deviation: {estimated_std:f}")
 
-##---------------------------------------------------------------------------
-#                            计算找到后验概率的最大值对应的参数
-# ---------------------------------------------------------------------------
-# max_idx = ...
-# estimated_mean = ...
-# estimated_std = ...
+plot_data = pd.DataFrame(
+    {
+        "mean": [prior_mean_mean, np.mean(data), estimated_mean],
+        "std": [prior_std_mean, np.std(data, ddof=1), estimated_std],
+        "type": ["prior", "data", "max_posterior"],
+    }
+)
 
-print(f"Estimated Mean: {estimated_mean}")
-print(f"Estimated Standard Deviation: {estimated_std}")
-
-# 绘制后验概率分布图
+colors = {"prior": "orange", "data": "black", "max_posterior": "red"}
 plt.figure(figsize=(8, 6))
-
-plt.scatter(prior_mean_mean, prior_std_mean, color="orange", label="prior")
-plt.scatter(data.mean(), data.std(), color="black", label="data")
-plt.scatter(estimated_mean, estimated_std, color="red", label="max_posterior")
-
+for label, subset in plot_data.groupby("type"):
+    plt.scatter(
+        subset["mean"],
+        subset["std"],
+        color=colors[label],
+        s=55,
+        label=label,
+    )
 plt.xlabel("Mean")
 plt.ylabel("Standard Deviation")
 plt.title("Posterior Distribution")
-
 plt.xlim(400, 800)
 plt.ylim(20, 200)
 plt.legend()
+sns.despine()
 plt.show()
 
-# 如何使用 PyMC，通过简单的代码实现之前对于 Beta-Binomial 模型的后验推断
-import pymc as pm
-import numpy as np
-import arviz as az
-import matplotlib.pyplot as plt
-from scipy.stats import beta
 
-# 生成模拟数据
+# ---------------------------------------------------------------------------
+# MCMC counterpart: Beta-Binomial model via PyMC
+# ---------------------------------------------------------------------------
+
 n_trials = 100
 n_successes = 90
 
-# 定义贝叶斯模型
-with pm.Model() as bb_model:
-    # 设置先验
-    p = pm.Beta('p', alpha=70, beta=30)
-    
-    # 设置似然
-    likelihood = pm.Binomial('likelihood', n=n_trials, p=p, observed=n_successes)
-    
-    # 采样
-    trace = pm.sample(10000, return_inferencedata=True)
+try:
+    import arviz as az
+    import pymc as pm
 
-# 显示采样结果
-az.summary(trace)
+    with pm.Model() as bb_model:
+        p = pm.Beta("p", alpha=70, beta=30)
+        pm.Binomial("n_successes", n=n_trials, p=p, observed=n_successes)
 
-# 绘制p的后验分布
-az.plot_posterior(trace)
-plt.show()
+        trace = pm.sample(
+            draws=2000,
+            tune=1000,
+            chains=4,
+            cores=2,
+            random_seed=84735,
+            return_inferencedata=True,
+        )
 
-import seaborn as sns
+    print(az.summary(trace, var_names=["p"]))
 
-fig, ax = plt.subplots(figsize=(10, 5))
+    az.plot_posterior(trace, var_names=["p"])
+    plt.show()
 
-alpha_prior = 70
-beta_prior = 30
+    alpha_prior = 70
+    beta_prior = 30
+    alpha_posterior = alpha_prior + n_successes
+    beta_posterior = beta_prior + (n_trials - n_successes)
 
-# 共轭先验的 Beta 分布
-x = np.linspace(0, 1, 100)
-alpha_posterior = alpha_prior + n_successes
-beta_posterior = beta_prior + (n_trials - n_successes)
+    x = np.linspace(0.5, 1, 100)
+    posterior_samples = trace.posterior["p"].values.ravel()
+    hdi_low, hdi_high = az.hdi(posterior_samples, hdi_prob=0.94)
+    mean_p = np.mean(posterior_samples)
 
-# 绘制 beta-binomial 共轭分布的对比
-ax.plot(
-    x, beta.pdf(x, alpha_prior, beta_prior), 
-    label=f'Prior Beta({alpha_prior},{beta_prior})',
-    color = "green"
+    plt.figure(figsize=(10, 5))
+    plt.plot(
+        x,
+        st.beta.pdf(x, a=alpha_prior, b=beta_prior),
+        color="green",
+        label=f"Prior Beta({alpha_prior},{beta_prior})",
     )
-ax.plot(
-    x, beta.pdf(x, alpha_posterior, beta_posterior), 
-    label=f'Posterior Beta({alpha_posterior},{beta_posterior}) from conjucated prior',
-    color = "red", linestyle='--',
+    plt.plot(
+        x,
+        st.beta.pdf(x, a=alpha_posterior, b=beta_posterior),
+        color="red",
+        linestyle="--",
+        label=(
+            f"Posterior Beta({alpha_posterior},{beta_posterior}) "
+            "from conjugated prior"
+        ),
     )
-ax.legend()
+    sns.kdeplot(
+        posterior_samples,
+        color="blue",
+        linewidth=2,
+        label="MCMC posterior",
+    )
+    plt.hlines(y=0, xmin=hdi_low, xmax=hdi_high, color="black", linewidth=3)
+    plt.text((hdi_low + hdi_high) / 2, 0.5, "94% HDI", ha="center")
+    plt.text(hdi_low, -0.3, f"{hdi_low:.2f}", ha="center")
+    plt.text(hdi_high, -0.3, f"{hdi_high:.2f}", ha="center")
+    plt.text(
+        mean_p,
+        st.beta.pdf(x, a=alpha_posterior, b=beta_posterior).max() + 1,
+        f"mean={mean_p:.2f}",
+        color="blue",
+        ha="center",
+    )
+    plt.xlim(0.5, 1)
+    plt.title("Posterior results")
+    plt.legend()
+    sns.despine()
+    plt.show()
 
-az.plot_posterior(trace, var_names=['p'], ax=ax)  
-
-ax.set_xlim(0.5, 1)
-ax.set_title('Posterior results')
-
-sns.despine()
-plt.tight_layout()
-plt.show()
-
-import numpy as np
-import scipy.stats as st
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# 定义正确率范围
-x = np.linspace(0, 1, 10000)  # 正确率在0到1之间
-
-# 定义先验分布 (基于文献，正确率均值为70%)
-prior_mean = 0.70
-prior_std = 0.05
-prior_y = st.norm.pdf(x, loc=prior_mean, scale=prior_std) / np.sum(
-    st.norm.pdf(x, prior_mean, prior_std)
-)
-
-# 生成似然分布 (基于新实验数据，正确率均值为75%)
-likelihood_mean = 0.75
-likelihood_std = 0.05
-likelihood_values = st.norm.pdf(x, loc=likelihood_mean, scale=likelihood_std) / np.sum(
-    st.norm.pdf(x, likelihood_mean, likelihood_std)
-)
-
-# 计算后验分布
-posterior_mean = (prior_mean * likelihood_std**2 + likelihood_mean * prior_std**2) / (
-    prior_std**2 + likelihood_std**2
-)
-posterior_std = np.sqrt(
-    (prior_std**2 * likelihood_std**2) / (prior_std**2 + likelihood_std**2)
-)
-posterior = st.norm.pdf(x, loc=posterior_mean, scale=posterior_std) / np.sum(
-    st.norm.pdf(x, posterior_mean, posterior_std)
-)
-
-# 绘制先验、似然和后验分布
-plt.plot(x, prior_y, color="#f0e442", label="prior")
-plt.fill_between(x, prior_y, color="#f0e442", alpha=0.5)
-plt.plot(x, likelihood_values, color="#0071b2", label="likelihood")
-plt.fill_between(x, likelihood_values, color="#0071b2", alpha=0.5)
-plt.plot(x, posterior, color="#009e74", label="posterior")
-plt.fill_between(x, posterior, color="#009e74", alpha=0.5)
-
-# 设置 x 和 y 轴标签
-plt.xlabel("$\mu$ for accuracy (correct response rate)")
-plt.ylabel("density")
-plt.legend()
-
-# 移除图的上、右边框线
-sns.despine()
-
-# 展示图像
-plt.show()
+except ImportError:
+    print(
+        "PyMC or ArviZ is not installed. "
+        "Install them to run the MCMC section: pip install pymc arviz"
+    )

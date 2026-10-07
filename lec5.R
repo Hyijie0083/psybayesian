@@ -1,3 +1,9 @@
+# lec5.R
+# Source-aligned script generated from executable R chunks in lec5_new_v2.qmd.
+# qmd is the source of truth for slide code.
+
+# ---- qmd R chunk 2 (line 296) ----
+
 # 安装和加载包
 options(repos = c(CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
 if (!requireNamespace('pacman', quietly = TRUE)) {
@@ -7,14 +13,27 @@ pacman::p_load("tidyverse","ggplot2","dplyr",'rstan',
                "BayesFactor","bayestestR","papaja","bayesplot")
 options(warn = -1)  # 抑制警告
 
+# ---- qmd R chunk 3 (line 323) ----
+
 # 生成从 0.5 到 1 的 11 个值
 pi_grid <- seq(0.5, 1, length.out = 11)
 cat("从0.5~1内的连续变量π中取出11个值:", pi_grid, "\n")
 
+# ---- qmd R chunk 4 (line 344) ----
+
 # 计算先验、似然和后验
-prior <- dbeta(pi_grid, 70, 30)
-likelihood <- dbinom(90, 100, pi_grid)
+prior <- dbeta(x = pi_grid, shape1 = 70, shape2 = 30)
+# dbeta: the value of probability density function of beta distribution
+# given the paramenters of beta distribution.
+
+likelihood <- dbinom(x = 90, size = 100, prob = pi_grid) 
+# dbinom: the value of the probability density function (pdf) of the binomial distribution 
+# given a certain random variable x, number of trials (size) and 
+# probability of success on each trial (prob)
+
 posterior <- prior * likelihood / sum(prior * likelihood)
+
+# ---- qmd R chunk 5 (line 374) ----
 
 # 绘制后验分布茎状图（）
 plot_data <- data.frame(pi_grid = pi_grid, posterior = posterior)
@@ -23,8 +42,11 @@ ggplot2::ggplot(plot_data, ggplot2::aes(x = pi_grid, y = posterior)) +
   ggplot2::geom_point(size = 2) +
   ggplot2::ylim(0, 1) + # 零点与x轴重叠
   ggplot2::scale_y_continuous(limits = c(0, 1), expand = c(0, 0)) +
-  ggplot2::labs(x = "pi_grid", y = "Posterior") +
-  papaja::theme_apa()
+  ggplot2::labs(x = "pi", title = "Posterior") +
+  papaja::theme_apa() +
+  ggplot2::theme(axis.title.y = ggplot2::element_blank())
+
+# ---- qmd R chunk 6 (line 401) ----
 
 # 设置随机种子
 set.seed(84735)
@@ -44,14 +66,25 @@ posterior_sample <- data.frame(pi_sample = posterior_sample)
 result <- as.data.frame(table(posterior_sample) / nrow(posterior_sample))
 colnames(result) <- c("pi_sample", "proportion")
 
-head(result)
+# 检查抽样对象
+str(posterior_sample)
+
+# ---- qmd R chunk 7 (line 439) ----
+
+posterior_sample %>% 
+    ggplot2::ggplot(., ggplot2::aes(x = pi_sample)) + 
+    ggplot2::geom_histogram() +
+    papaja::theme_apa()
+
+# ---- qmd R chunk 8 (line 460) ----
+
+## 对通过公式得到的beta分布进行可视化，注意，这里也会涉及到生成随机概率密度的过程，
+## 但是我们是直接从后验分布中计算后验概率，没有上述的计算后验过程
 
 # 生成10000个点，范围在[0, 1]之间
 x_beta <- seq(0, 1, length.out = 10000)
-
-# 生成Beta(160, 40)分布的概率密度值
+# 根据理论的后验分布Beta(160, 40)获得概率密度值
 y_beta <- dbeta(x_beta, 160, 40)
-
 # 转换为数据框用于ggplot2绘图
 beta_data <- data.frame(x = x_beta, y = y_beta)
 
@@ -61,55 +94,62 @@ ggplot2::ggplot() +
   # 绘制Beta分布曲线 
   ggplot2::geom_line(
     data = beta_data,
-    ggplot2::aes(x = x, y = y, color = "posterior of conjucated distribution"),
-    linewidth = 1
-  ) +
+    ggplot2::aes(x = x, y = y, color = "posterior distribution (theoretical)"),
+    linewidth = 1) +
   # 绘制网格搜索后验样本的直方图
   ggplot2::geom_histogram(
     data = posterior_sample,  # 使用之前创建的posterior_sample数据框
-    ggplot2::aes(x = pi_sample, y = ..density.., fill = "posterior of grid search"),
+    ggplot2::aes(x = pi_sample, y = ggplot2::after_stat(density), fill = "posterior distribution (grid, 11 points)"),
     color = "black",
     alpha = 0.5,
-    bins = 20  # 控制直方图的箱数
-  ) +
+    bins = 40) +  # 控制直方图的箱数
   # 统一设置填充色和线条色的图例
   ggplot2::scale_color_manual(values = "#4169E1") +
   ggplot2::scale_fill_manual(values = "#E28903") +
   ggplot2::labs(x = NULL, y = NULL, color = NULL, fill = NULL) +
-  scale_y_continuous(expand = c(0, 0)) +
+  ggplot2::scale_y_continuous(expand = c(0, 0)) +
   papaja::theme_apa() +
   # 设置图例位置
-  theme(legend.position = "right")
+  ggplot2::theme(legend.position = "right")
+
+# ---- qmd R chunk 9 (line 511) ----
 
 # 生成101个点，范围在[0, 1]之间
 pi_grid <- seq(0, 1, length.out = 101)
 
+# ---- qmd R chunk 10 (line 531) ----
+
 # 生成Beta(70,30)先验分布
-prior <- dbeta(pi_grid, shape1 = 70, shape2 = 30)
+prior <- dbeta(x = pi_grid, shape1 = 70, shape2 = 30)
 
 # 生成二项分布似然函数，参数为n=100，k=90
-likelihood <- dbinom(90, size = 100, prob = pi_grid)
+likelihood <- dbinom(x = 90, size = 100, prob = pi_grid)
 
 # 计算后验概率
 unstd_posterior <- prior * likelihood
+
 # 归一化后验概率
 posterior <- unstd_posterior / sum(unstd_posterior)
 
 # 创建数据框用于绘图
 df <- data.frame(pi = pi_grid, posterior = posterior)
 
+# ---- qmd R chunk 11 (line 563) ----
+
 # 画图
 ggplot2::ggplot(df, ggplot2::aes(x = pi, y = posterior)) +
   ggplot2::geom_segment(ggplot2::aes(xend = pi, yend = 0), color = "#1f77b4") + # 添加茎线
   ggplot2::geom_point(color = "#1f77b4", size = 2) +  # 添加顶部点
-  papaja::theme_apa() +
   ggplot2::scale_y_continuous(expand = c(0, 0), limits = c(0, 0.3)) +
   ggplot2::theme(
     panel.grid.minor = ggplot2::element_blank(),
     axis.line.x = ggplot2::element_line(color = "black"),
     axis.line.y = ggplot2::element_line(color = "black")
   ) +
-  ggplot2::labs(x = "", y = "")
+  ggplot2::labs(x = "", y = "", title = "Grid Approximation (101 points)")+
+  papaja::theme_apa()
+
+# ---- qmd R chunk 12 (line 593) ----
 
 set.seed(84735)
 
@@ -131,14 +171,23 @@ result <- posterior_sample %>%
 
 head(result, n = 20)
 
+# ---- qmd R chunk 13 (line 628) ----
+
+posterior_sample %>% 
+    ggplot2::ggplot(., ggplot2::aes(x = pi_sample)) + 
+    ggplot2::geom_histogram(bins = 50) +
+    papaja::theme_apa()
+
+# ---- qmd R chunk 14 (line 649) ----
+
 # 生成10000个点，范围在[0, 1]之间
 x_beta <- seq(from = 0, to = 1, length.out = 10000)
 
-# 生成Beta(160,40)
+# 直接从理论后验Beta(160,40)中抽取概率密度
 y_beta <- stats::dbeta(x_beta, shape1 = 160, shape2 = 40)
 
 # 创建共轭分布的数据集
-conj_data <- data.frame(x = x_beta, y = y_beta, type = "posterior of conjucated distribution")
+conj_data <- data.frame(x = x_beta, y = y_beta, type = "posterior distribution (theoretical)")
 
 # 生成网格搜索后验样本（模拟数据）
 posterior_sample <- data.frame(pi_sample = stats::rbeta(n = 10000, shape1 = 155, shape2 = 38))
@@ -155,9 +204,9 @@ ggplot2::ggplot() +
   # 绘制网格搜索的后验直方图
   ggplot2::geom_histogram(
     data = posterior_sample,
-    ggplot2::aes(x = pi_sample, y = ..density.., fill = "posterior of grid search"),
+    ggplot2::aes(x = pi_sample, y = ggplot2::after_stat(density), fill = "Grid Approximation (101 points)"),
     alpha = 0.7,  # 调整透明度
-    bins = 30,    # 调整分箱数量
+    bins = 160,    # 调整分箱数量
     color = "black"  # 直方图边框颜色
   ) +
   # 设置颜色
@@ -165,29 +214,38 @@ ggplot2::ggplot() +
   ggplot2::scale_fill_manual(values = "#E28903") +
   ggplot2::labs(x = NULL, y = NULL, color = NULL, fill = NULL) +
   # 合并图例
-  ggplot2::guides(color = ggplot2::guide_legend(order = 1),fill = ggplot2::guide_legend(order = 2)) +
-  scale_y_continuous(expand = c(0, 0)) +
+  ggplot2::guides(color = ggplot2::guide_legend(order = 1), fill = ggplot2::guide_legend(order = 2)) +
+  ggplot2::scale_y_continuous(expand = c(0, 0)) +
   papaja::theme_apa() +
   # 设置图例位置
-  theme(legend.position = "right")
+  ggplot2::theme(legend.position = "right")
 
-# 练习部分
+# ---- qmd R chunk 15 (line 737) ----
 
 set.seed(0)  # 设置随机种子
 data <- stats::rnorm(n = 10, mean = 550, sd = 80)  # 生成正态分布数据
 
+# ---- qmd R chunk 16 (line 754) ----
+
 # 展示数据
 print(data)
+
+# ---- qmd R chunk 18 (line 797) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            设置网格范围和步长
 #                            1. 假设被试反应的反应时范围为 200 到 800 ms
-#                            2. 设定网格步长为10 (后续可以修改为20,50,100等)
+#                            2. 设定网格步长为20 (后续可以修改为30,50,100等)
 # ---------------------------------------------------------------------------
 # theta_grid <- base::seq(from = 200, to = 800, length.out = 20)
 n_step <- 200
 mu_grid <- base::seq(from = 200, to = 800, length.out = n_step)
 
+# ---- qmd R chunk 20 (line 848) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            计算先验概率
@@ -198,6 +256,9 @@ prior_mean <- 500
 prior_std <- 100
 prior_prob <- stats::dnorm(mu_grid, mean = prior_mean, sd = prior_std)
 
+# ---- qmd R chunk 22 (line 895) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            计算似然函数
@@ -207,6 +268,9 @@ likelihood <- sapply(mu_grid, function(mu) {
   prod(stats::dnorm(data, mean = mu, sd = 80))
 })
 
+# ---- qmd R chunk 24 (line 943) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            计算后验
@@ -216,6 +280,9 @@ posterior_prob <- prior_prob * likelihood
 # 归一化后验概率
 posterior_prob <- posterior_prob / sum(posterior_prob)
 
+# ---- qmd R chunk 26 (line 990) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            计算找到后验概率的最大值对应的参数
@@ -223,6 +290,8 @@ posterior_prob <- posterior_prob / sum(posterior_prob)
 
 max_posterior <- which.max(posterior_prob)
 cat("最大后验概率对应的参数值：", mu_grid[max_posterior], "\n")
+
+# ---- qmd R chunk 27 (line 1017) ----
 
 # 绘制结果（直接运行即可）
 options(repr.plot.width=10, repr.plot.height=5) #自定义画布大小
@@ -255,8 +324,10 @@ ggplot2::ggplot() +
   # 设置坐标轴范围
   ggplot2::xlim(200, 800) +
   ggplot2::ylim(0, max(posterior_prob) * 1.1) +
-  scale_y_continuous(expand = c(0, 0)) +
-  papaja::theme_apa() 
+  ggplot2::scale_y_continuous(expand = c(0, 0)) +
+  papaja::theme_apa()
+
+# ---- qmd R chunk 28 (line 1069) ----
 
 ##---------------------------------------------------------------------------
 #                            通过共轭方法计算后验概率 (具体算法见补充材料)
@@ -314,11 +385,14 @@ ggplot2::ggplot() +
   # 图例设置
   ggplot2::guides(color = ggplot2::guide_legend(title = NULL)) +
   # 主题设置
-  scale_y_continuous(expand = c(0, 0)) +
+  ggplot2::scale_y_continuous(expand = c(0, 0)) +
   papaja::theme_apa() +
   # 设置图例位置
-  theme(legend.position = "right")
+  ggplot2::theme(legend.position = "right")
 
+# ---- qmd R chunk 30 (line 1178) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            设置网格范围和步长
@@ -334,6 +408,9 @@ grid_data <- expand.grid(mean = mean_grid, std = std_grid)
 mean_mesh <- matrix(grid_data$mean, nrow = n_step, ncol = n_step)
 std_mesh <- matrix(grid_data$std, nrow = n_step, ncol = n_step)
 
+# ---- qmd R chunk 32 (line 1242) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            计算先验概率
@@ -360,6 +437,9 @@ prior_grid <- outer(prior_mean, prior_std, FUN = "*")
 # 显示prior_grid的维度
 dim(prior_grid)
 
+# ---- qmd R chunk 34 (line 1313) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            计算似然函数
@@ -384,6 +464,9 @@ for (mean_index in 1:n_step) {
 # 查看网格维度
 dim(likelihood_grid)
 
+# ---- qmd R chunk 36 (line 1379) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            计算grid的后验概率
@@ -397,6 +480,9 @@ posterior_grid <- posterior_grid / sum(posterior_grid)
 # 显示 posterior_grid 的形状
 dim(posterior_grid)
 
+# ---- qmd R chunk 38 (line 1435) ----
+
+# 答案
 
 ##---------------------------------------------------------------------------
 #                            计算找到后验概率的最大值对应的参数
@@ -407,12 +493,15 @@ max_idx <- which(posterior_grid == max(posterior_grid), arr.ind = TRUE)
 
 # 提取估计的均值和标准差
 estimated_mean <- mean_grid[max_idx[1, 1]]
-estimated_std <- mean_grid[max_idx[1, 2]]
+estimated_std <- std_grid[max_idx[1, 2]]
 
 # 打印结果
 cat(sprintf("Estimated Mean: %f\n", estimated_mean))
 cat(sprintf("Estimated Standard Deviation: %f\n", estimated_std))
 
+# ---- qmd R chunk 39 (line 1470) ----
+
+library(tidyverse)
 # 绘制后验概率分布图
 # 创建数据框，包含三种不同类型的点及其坐标
 plot_data <- data.frame(
@@ -423,7 +512,7 @@ plot_data <- data.frame(
 )
 
 # 绘制散点图
-ggplot2::ggplot(plot_data, aes(x = mean, y = std, color = type)) +
+ggplot2::ggplot(plot_data, ggplot2::aes(x = mean, y = std, color = type)) +
   ggplot2::geom_point(size = 3) +  # 添加散点
   ggplot2::scale_color_manual(values = c("orange", "black", "red")) +  # 设置颜色
   ggplot2::xlab("Mean") +  # x轴标签
@@ -434,15 +523,17 @@ ggplot2::ggplot(plot_data, aes(x = mean, y = std, color = type)) +
   papaja::theme_apa() +
   # 设置图例位置
   ggplot2::theme(legend.position = "right") +
-  ggplot2::guides(color = guide_legend(title = NULL))  # 移除图例标题
+  ggplot2::guides(color = ggplot2::guide_legend(title = NULL))  # 移除图例标题
 
-# stan模型示例
+# ---- qmd R chunk 40 (line 1614) ----
 
 # 生成模拟数据
 n_trials <- 100
 n_successes <- 90
 
-# Stan 模型
+# ---- qmd R chunk 41 (line 1636) ----
+
+# 使用Stan语法建构模型
 stan_model_code <- "
 data {
   int<lower=0> n_trials;       // 试验次数
@@ -462,6 +553,8 @@ model {
 }
 "
 
+# ---- qmd R chunk 42 (line 1673; displayed in slides with eval: false) ----
+
 # 准备数据
 stan_data <- list(
   n_trials = n_trials,
@@ -470,27 +563,33 @@ stan_data <- list(
 
 # 拟合模型
 fit <- stan(
-  model_code = stan_model_code,   # 模型文件路径
+  model_code = stan_model_code,      # 定义的模型或模型文件路径
   data = stan_data,                  # 输入数据
   chains = 4,                        # 马尔可夫链数量
-  iter = 10000,                      # 总迭代次数（每个链）
-  warmup = 5000,                     # 热身迭代次数（不保存）
-  cores = 4                          # 使用的CPU核心数
+  iter = 2000,                       # 总迭代次数（每个链）
+  warmup = 1000,                     # 热身迭代次数（不保存）
+  cores = 2                          # 使用的CPU核心数
 )
+
+# ---- qmd R chunk 43 (line 1706; displayed in slides with eval: false) ----
 
 # 显示采样结果
 print(fit)
+
+# ---- qmd R chunk 44 (line 1727; displayed in slides with eval: false) ----
 
 # 绘制后验分布
 idata <- rstan::extract(fit)
 posterior_df <- data.frame(p = idata$p)
 
 #后验分布图
-ggplot2::ggplot(posterior_df, aes(x = p)) +
+ggplot2::ggplot(posterior_df, ggplot2::aes(x = p)) +
   ggplot2::geom_density(fill = "orange", alpha = 0.5) +
   ggplot2::labs(title = "Posterior", x = " ", y = " ") +
   ggplot2::scale_y_continuous(expand = c(0, 0)) +
   papaja::theme_apa()
+
+# ---- qmd R chunk 45 (line 1757; displayed in slides with eval: false) ----
 
 # 设置参数
 alpha_prior <- 70
@@ -521,14 +620,14 @@ plot_data <- rbind(prior_data, posterior_conj_data)
 
 # 创建基础绘图
 p <- ggplot2::ggplot(plot_data, ggplot2::aes(x = x, y = density, color = type, linetype = type)) +
-  ggplot2::geom_line(size = 1) +
+  ggplot2::geom_line(linewidth = 1) +
   ggplot2::scale_color_manual(values = c("green", "red")) +
   ggplot2::scale_linetype_manual(values = c("solid", "dashed")) +
   ggplot2::labs(title = "Posterior results", x = NULL, y = NULL) +
   ggplot2::scale_y_continuous(expand = c(0, 1)) +
   papaja::theme_apa() +
   ggplot2::theme(legend.position = "right") # +
-  # ggplot2::guides(color = guide_legend(title = NULL))  # 移除图例标题
+  # ggplot2::guides(color = ggplot2::guide_legend(title = NULL))  # 移除图例标题
 
 # 从模型中提取后验样本并添加到图中
 posterior_samples <- posterior_df  # 假设该数据框已在其他地方定义
@@ -536,10 +635,10 @@ posterior_samples <- posterior_df  # 假设该数据框已在其他地方定义
 # 添加stan模型的后验分布
 p <- p + ggplot2::stat_density(
   data = posterior_samples, 
-  ggplot2::aes(x = p, y = ..density..),
+  ggplot2::aes(x = p, y = ggplot2::after_stat(density)),
   color = "blue", 
   geom = "line", 
-  size = 1, 
+  linewidth = 1, 
   inherit.aes = FALSE
 )
 
@@ -552,7 +651,7 @@ hdi_high <- hdi[[2]]  # 上限值
 # 添加HDI区间
 p <- p + 
   ggplot2::annotate("segment", x = hdi_low, xend = hdi_high, 
-           y = 0, yend = 0, color = "black", size = 2) +
+           y = 0, yend = 0, color = "black", linewidth = 2) +
   ggplot2::annotate("text", x = mean(c(hdi_low, hdi_high)), y = 0.5, label = "94% HDI", 
            color = "black", size = 3.5) +
   ggplot2::annotate("text", x = hdi_low, y = -0.3, label = round(hdi_low, 2), 
@@ -565,45 +664,3 @@ p <- p +
 
 print(p)
 
-# 定义正确率范围
-x <- seq(0, 1, length.out = 10000)  # 正确率在0到1之间
-
-# 定义先验分布 (基于文献，正确率均值为70%)
-prior_mean <- 0.70
-prior_std <- 0.05
-prior_y <- dnorm(x, mean = prior_mean, sd = prior_std)
-prior_y <- prior_y / sum(prior_y)  # 归一化
-
-# 生成似然分布 (基于新实验数据，正确率均值为75%)
-likelihood_mean <- 0.75
-likelihood_std <- 0.05
-likelihood_values <- dnorm(x, mean = likelihood_mean, sd = likelihood_std)
-likelihood_values <- likelihood_values / sum(likelihood_values)  # 归一化
-
-# 计算后验分布
-posterior_mean <- (prior_mean * likelihood_std^2 + likelihood_mean * prior_std^2) / 
-  (prior_std^2 + likelihood_std^2)
-posterior_std <- sqrt((prior_std^2 * likelihood_std^2) / (prior_std^2 + likelihood_std^2))
-posterior <- dnorm(x, mean = posterior_mean, sd = posterior_std)
-posterior <- posterior / sum(posterior)  # 归一化
-
-# 创建数据框用于绘图
-plot_data <- data.frame(
-  x = rep(x, 3),
-  density = c(prior_y, likelihood_values, posterior),
-  distribution = factor(rep(c("prior", "likelihood", "posterior"), each = length(x)),
-                        levels = c("prior", "likelihood", "posterior"))
-)
-
-# 绘制图形
-ggplot(plot_data, aes(x = x, y = density, color = distribution, fill = distribution)) +
-  geom_line(size = 1) +
-  geom_area(alpha = 0.5, position = "identity") +
-  scale_color_manual(values = c("#f0e442", "#0071b2", "#009e74")) +
-  scale_fill_manual(values = c("#f0e442", "#0071b2", "#009e74")) +
-  labs(x = expression(mu ~ "for accuracy (correct response rate)"),y = "density") +
-  scale_y_continuous(expand = c(0, 0)) +
-  papaja::theme_apa() +
-  # 设置图例位置
-  theme(legend.position = "right")
-  
