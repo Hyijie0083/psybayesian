@@ -276,7 +276,7 @@ P(\theta)=0.2
 \]</span></p>
 </div><div class="column" style="width:50%;">
 <p><strong>似然</strong><br>
-似然表示：在某个 <span class="math inline">\(\theta\)</span> 下，观察到“蓝白蓝”的相对可能性。</p>
+在某个 <span class="math inline">\(\theta\)</span> 下，观察到“蓝白蓝”的相对可能性。</p>
 <p><strong>如何得到后验</strong><br>
 将每个 <span class="math inline">\(\theta\)</span> 的“先验 × 似然”归一化，得到：</p>
 <p><span class="math display">\[
@@ -490,7 +490,7 @@ Y|\pi \sim \text{Bin}(100,\pi)
 <span id="cb2-3"><a href="" aria-label="3"></a><span class="fu">cat</span>(<span class="st">"从0.5~1内的连续变量π中取出11个值:"</span>, pi_grid, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;U+4ECE&gt;0.5~1&lt;U+5185&gt;&lt;U+7684&gt;&lt;U+8FDE&gt;&lt;U+7EED&gt;&lt;U+53D8&gt;&lt;U+91CF&gt;&lt;U+03C0&gt;&lt;U+4E2D&gt;&lt;U+53D6&gt;&lt;U+51FA&gt;11&lt;U+4E2A&gt;&lt;U+503C&gt;: 0.5 0.55 0.6 0.65 0.7 0.75 0.8 0.85 0.9 0.95 1 </code></pre>
+<pre><code>从0.5~1内的连续变量π中取出11个值: 0.5 0.55 0.6 0.65 0.7 0.75 0.8 0.85 0.9 0.95 1 </code></pre>
 </div>
 </div>
 </section>
@@ -731,7 +731,7 @@ Y|\pi \sim \text{Bin}(100,\pi)
 <span id="cb13-19"><a href="" aria-label="19"></a><span class="fu">head</span>(result, <span class="at">n =</span> <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 20 x 2
+<pre><code># A tibble: 20 × 2
    pi_sample relative_frequency
        &lt;dbl&gt;              &lt;dbl&gt;
  1      0.67             0.0001
@@ -1029,7 +1029,7 @@ Y_i|\mu &amp; \stackrel{ind}{\sim} N(\mu, \sigma^2) \\
 <span id="cb29-8"><a href="" aria-label="8"></a><span class="fu">cat</span>(<span class="st">"最大后验概率对应的参数值："</span>, mu_grid[max_posterior], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;U+6700&gt;&lt;U+5927&gt;&lt;U+540E&gt;&lt;U+9A8C&gt;&lt;U+6982&gt;&lt;U+7387&gt;&lt;U+5BF9&gt;&lt;U+5E94&gt;&lt;U+7684&gt;&lt;U+53C2&gt;&lt;U+6570&gt;&lt;U+503C&gt;&lt;U+FF1A&gt; 573.8693 </code></pre>
+<pre><code>最大后验概率对应的参数值： 573.8693 </code></pre>
 </div>
 </div>
 </section>
@@ -2063,80 +2063,42 @@ Poisson 描述“事件发生了几次”；Gamma 描述“事件发生率 <span
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {

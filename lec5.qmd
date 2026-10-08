@@ -3,7 +3,7 @@ title: "高级心理统计 · 第5讲"
 subtitle: "《贝叶斯统计与应用》 · Bayesian Inference: 如何获得后验分布"
 author: "胡传鹏 (Dr. Hu Chuan-Peng)"
 institute: "南京师范大学心理学院 · School of Psychology, Nanjing Normal University"
-output-file: lec5_new_v2.html
+output-file: lec5.html
 format:
   revealjs:
     theme: default
