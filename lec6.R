@@ -34,7 +34,8 @@ proposal <- rnorm(1, mean = current, sd = 1)    # 从当前正态分布中抽出
 
 cat("从建议分布中新采样 θ(n+1)为：",proposal)
 # 设置先验
-prior <- dnorm(proposal, mean = 3, sd = 1)  # 先验概率密度
+proposal_prior <- dnorm(proposal, mean = 3, sd = 1)  # 先验概率密度
+current_prior <- dnorm(current, mean = 3, sd = 1)    # 先验概率密度
 
 # 定义似然函数
 likelihood <- function(theta) {
@@ -43,10 +44,10 @@ likelihood <- function(theta) {
 }
 
 # 计算建议位置的未归一化的后验概率值（先验 * 似然）
-proposal_posterior <- prior * likelihood(proposal)
+proposal_posterior <- proposal_prior * likelihood(proposal)
 
 # 计算当前位置的未归一化的后验概率值（先验 * 似然）
-current_posterior <- prior * likelihood(current)
+current_posterior <- current_prior * likelihood(current)
 
 # 计算接受概率α，为两者概率值之比
 alpha <- min(1, proposal_posterior / current_posterior)
@@ -67,7 +68,8 @@ one_mh_iteration <- function(current, sigma = 1) {
   proposal <- rnorm(1, mean = current, sd = sigma)
   
   # 设置先验并计算概率密度
-  prior <- dnorm(proposal, mean = 3, sd = 1)  
+  proposal_prior <- dnorm(proposal, mean = 3, sd = 1)
+  current_prior <- dnorm(current, mean = 3, sd = 1)
   
   # 定义似然函数
   likelihood <- function(theta) {
@@ -76,8 +78,8 @@ one_mh_iteration <- function(current, sigma = 1) {
   }
   
   # 计算未归一化的后验概率
-  proposal_posterior <- prior * likelihood(proposal)
-  current_posterior <- prior * likelihood(current)
+  proposal_posterior <- proposal_prior * likelihood(proposal)
+  current_posterior <- current_prior * likelihood(current)
   
   # 计算接受概率 alpha
   if (is.na(proposal_posterior) || is.na(current_posterior) || current_posterior <= 0) {
@@ -177,7 +179,8 @@ one_mh_iteration <- function(current, sigma = 1) {
   proposal <- rnorm(1, mean = current, sd = sigma)
   
   # 设置先验并计算概率密度
-  prior <- dnorm(proposal, mean = 3, sd = 1)  
+  proposal_prior <- dnorm(proposal, mean = 3, sd = 1)
+  current_prior <- dnorm(current, mean = 3, sd = 1)
   
   # 定义似然函数
   likelihood <- function(theta) {
@@ -186,8 +189,8 @@ one_mh_iteration <- function(current, sigma = 1) {
   }
   
   # 计算未归一化的后验概率
-  proposal_posterior <- prior * likelihood(proposal)
-  current_posterior <- prior * likelihood(current)
+  proposal_posterior <- proposal_prior * likelihood(proposal)
+  current_posterior <- current_prior * likelihood(current)
   
   # 计算接受概率 alpha
   if (is.na(proposal_posterior) || is.na(current_posterior) || current_posterior <= 0) {
@@ -269,9 +272,9 @@ model {  //模型块
 trace <- rstan::stan(
   model_code = stan_model_code,      # 定义的模型或模型文件路径
   data = stan_data,                  # 输入数据
-  chains = 1,                        # 马尔可夫链数量
-  iter = 5000,                       # 总迭代次数（每个链）
-  warmup = 0,                        # 热身迭代次数（不保存）
+  chains = 2,                        # 马尔可夫链数量
+  iter = 2000,                       # 总迭代次数（每个链）
+  warmup = 1000,                     # 热身迭代次数（不保存）
   seed = 202409
 )
 
@@ -368,9 +371,9 @@ model {
 trace <- rstan::stan(
   model_code = stan_code,            # 定义的模型或模型文件路径
   data = data_list,                  # 输入数据
-  chains = 1,                        # 马尔可夫链数量
-  iter = 5000,                       # 总迭代次数
-  warmup = 500,                        # 热身迭代次数
+  chains = 4,                        # 马尔可夫链数量
+  iter = 2000,                       # 总迭代次数
+  warmup = 1000,                     # 热身迭代次数
   seed = 202409
 )
 
@@ -420,13 +423,13 @@ y <- dnorm(x, mean = posterior_mean, sd = posterior_std)  # 计算后验分布�
 posterior_real <- data.frame(x = x, y = y)
 
 #绘制采样结果直方图
-hist_mu <- bayesplot::mcmc_hist(sample_mu, bins=30) +    
+hist_mu <- bayesplot::mcmc_hist(sample_mu, bins=50) +    
   ggplot2::labs(x = "mu", y = "count") +
   papaja::theme_apa()
 
 #绘制采样结果分布图和真实后验分布图
 dens_mu_mix <- bayesplot::mcmc_dens(sample_mu) +  #采样结果
-  ggplot2::geom_line(data = posterior_real, aes(x = x, y = y), color = "black",size = 0.8) +  #真实后验
+  ggplot2::geom_line(data = posterior_real, aes(x = x, y = y), color = "red",size = 0.8) +  #真实后验
   ggplot2::labs(x = "mu", y = "density") +
   papaja::theme_apa()
 
