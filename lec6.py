@@ -14,8 +14,8 @@ print("前 10 个样本值：", first_10_samples)
 
 #  绘制图像
 plt.figure(figsize=(10, 6))
-plt.plot(x_range, norm.pdf(x_range, 6.25, 0.75), linewidth=2, color='r', label='Normal Distribution PDF')
-count, bins, ignored = plt.hist(samples, bins=30, density=True, alpha=0.6, color='grey', edgecolor='black',
+plt.plot(x_range, norm.pdf(x_range, 6.25, 0.75), linewidth=1.5, color='r', label='Normal Distribution PDF')
+count, bins, ignored = plt.hist(samples, bins=45, density=True, alpha=1, color='lightgrey', edgecolor='black',
                                 label='Sampled Histogram')
 
 plt.legend()
@@ -90,7 +90,7 @@ def one_mh_iteration(current, sigma=1):
                          "next_stop": [next_stop[0]]})
 
 
-np.random.seed(8)
+np.random.seed(2024)
 one_mh_iteration(current=3)
 
 # 变换不同的随机数种子，其实也是生成不同的建议值
@@ -133,9 +133,9 @@ fig, axs = plt.subplots(1, 2, figsize=(20, 5))
 # density plot：在第一列绘制出采样结果的分布
 axs[0].hist(mh_simulation["mu"],
             edgecolor="white",
-            color="grey",
+            color="darkgrey",
             alpha=0.7,
-            bins=20,
+            bins=30,
             density=True)
 axs[0].set_xlabel("mu", fontsize=16)
 axs[0].set_ylabel("density", fontsize=16)
@@ -219,7 +219,7 @@ def mh_tour(N, sigma=1):
 # ===========================================================================
 np.random.seed(84735)
 
-mh_simulation = mh_tour(N=5000, sigma=...)
+mh_simulation = mh_tour(N=5000, sigma=1)
 az.plot_trace({"mu": mh_simulation["mu"]})
 
 # ===========================================================================
@@ -249,9 +249,10 @@ pm.model_to_graphviz(bb_model)
 
 # 采样过程仍在该容器中进行
 with bb_model:
-    trace = pm.sample(draws=5000,  # 使用mcmc方法进行采样，draws为采样次数
-                      chains=1,  # 设置MCMC的链数
-                      random_seed=84735)  # 设置随机状态，以获得与notebook相同的结果
+    trace = pm.sample(draws=1000,  # 每条链保留的样本数，对应 iter - warmup
+                      tune=1000,  # 对应 R/Stan 的 warmup
+                      chains=2,  # 设置MCMC的链数
+                      random_seed=202409)
 
 # 可视化采样结果
 az.plot_trace(trace)
@@ -311,22 +312,23 @@ import arviz as az
 #                            请修改 ... 中的值。
 # ===========================================================================
 
-observed_data = [...]
+observed_data = [320, 310, 280, 340, 300]
 
 # 1. 设立容器
 
 with pm.Model() as nn_model:
     # 2. 定义先验
-    mu_prior = pm.Normal('...', mu=..., sigma=...)
+    mu_prior = pm.Normal('mu_prior', mu=300, sigma=50)
     # 3. 定义似然
-    Y_obs = pm.Normal('...', mu=..., sigma=..., observed=...)
+    Y_obs = pm.Normal('Y', mu=mu_prior, sigma=20, observed=observed_data)
 # ===========================================================================
 #                            请修改 ... 中的值。
 # ===========================================================================
 with nn_model:
-    trace = pm.sample(draws=...,  # 例如采样次数设为500-5000次
-                      chains=1,  # 链为1条
-                      random_seed=84735)
+    trace = pm.sample(draws=1000,  # 每条链保留的样本数，对应 iter - warmup
+                      tune=1000,  # 对应 R/Stan 的 warmup
+                      chains=4,  # 设置MCMC的链数
+                      random_seed=202409)
 trace
 
 az.plot_trace(trace)
@@ -362,7 +364,7 @@ fig, (axs1, axs2) = plt.subplots(1, 2, figsize=(15, 4))
 
 sns.histplot(data=post_mu,
              x="mu",
-             bins=30,
+             bins=50,
              ax=axs1,
              edgecolor='#20699d',
              color="#6497b1",
@@ -376,9 +378,9 @@ sns.kdeplot(data=post_mu,
             ax=axs2)
 
 # 计算真实的后验分布
-x = np.linspace(200, 400, 10000)
+x = np.linspace(200, 400, 5000)
 y = st.norm.pdf(x, posterior_mean, posterior_std)
-axs2.plot(x, y, color='black')
+axs2.plot(x, y, color='red')
 
 sns.despine()
 
