@@ -21,6 +21,77 @@ count, bins, ignored = plt.hist(samples, bins=45, density=True, alpha=1, color='
 plt.legend()
 plt.show()
 
+# ===========================================================================
+#                  心情示例：状态转移（Markov Chain）
+# ===========================================================================
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 中文标签字体（缺失时自动回退到可用字体）
+plt.rcParams["font.sans-serif"] = ["Arial Unicode MS", "Heiti TC", "Songti SC",
+                                   "Microsoft YaHei", "SimHei",
+                                   "Noto Sans CJK SC", "DejaVu Sans"]
+plt.rcParams["axes.unicode_minus"] = False
+
+# 状态转移矩阵 P：行 = 前一天(n-1)，列 = 当天(n)
+emo = ["开心", "冷静", "悲伤"]
+P = np.array([[0.50, 0.25, 0.25],
+              [0.50, 0.00, 0.50],
+              [0.25, 0.25, 0.50]])
+
+n_days = 1000
+rng = np.random.default_rng(202409)
+
+
+def sim_mood(start, n):
+    """从 start 出发，按照 P 转移 n 次（每次 = 一天），返回状态序列。"""
+    states = np.empty(n + 1, dtype=int)
+    states[0] = emo.index(start)
+    for i in range(n):
+        states[i + 1] = rng.choice(3, p=P[states[i]])
+    return states
+
+
+# 分别以三种情绪为起点，各模拟一条链
+chains = {st: sim_mood(st, n_days) for st in emo}
+
+# 出现频率
+freq = {st: np.bincount(chains[st], minlength=3) / (n_days + 1) for st in emo}
+
+# 累计频率
+cum = {st: np.array([np.bincount(chains[st][:t + 1], minlength=3) / (t + 1)
+                     for t in range(n_days + 1)]) for st in emo}
+
+# 理论平稳分布
+pi = np.array([0.40, 0.20, 0.40])
+
+fig, axs = plt.subplots(2, 3, figsize=(16, 7))
+for j, st in enumerate(emo):
+    # 上排：出现频率
+    ax = axs[0, j]
+    ax.bar(emo, freq[st], color="#6497b1")
+    ax.plot(emo, pi, linestyle="--", color="grey", marker="d")
+    for k, v in enumerate(freq[st]):
+        ax.text(k, v + 0.01, f"{v:.2f}", ha="center", fontsize=9)
+    ax.set_ylim(0, 0.5)
+    ax.set_title(f"起点 = {st}")
+    ax.set_ylabel("频率")
+
+    # 下排：累计频率
+    ax = axs[1, j]
+    for k, e in enumerate(emo):
+        ax.plot(range(1, n_days + 2), cum[st][:, k], label=e)
+        ax.axhline(pi[k], linestyle="--", color=f"C{k}", alpha=0.6)
+    ax.set_ylim(0, 1)
+    ax.set_xlabel("天数")
+    ax.set_ylabel("累计频率")
+    if j == 2:
+        ax.legend(fontsize=8)
+
+plt.tight_layout()
+plt.show()
+
 import numpy as np
 import scipy.stats as st
 import pandas as pd

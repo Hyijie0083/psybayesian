@@ -26,6 +26,75 @@ ggplot2::ggplot(df, aes(x = x, y = y)) +
   ggplot2::scale_y_continuous(expand = c(0, 0) , limits = c(0, 0.55)) +
   papaja::theme_apa()
 
+#===========================================================================
+#                  心情示例：状态转移（Markov Chain）
+#===========================================================================
+
+# 中文字体：选一个系统里有中文字形的（跨平台回退；都找不到则用设备默认）
+cjk <- if (requireNamespace("systemfonts", quietly = TRUE)) {
+  intersect(c("PingFang SC", "Heiti SC", "Songti SC", "STHeiti", "Hiragino Sans GB",
+              "Microsoft YaHei", "SimHei", "Noto Sans CJK SC", "WenQuanYi Micro Hei"),
+            systemfonts::system_fonts()$family)[1]
+} else NA
+if (is.na(cjk)) cjk <- ""
+
+# 状态转移矩阵 P：行 = 前一天(n-1)，列 = 当天(n)
+P <- matrix(c(0.5, 0.25, 0.25,
+              0.5, 0,    0.5,
+              0.25, 0.25, 0.5),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(c("开心", "冷静", "悲伤"),
+                            c("开心", "冷静", "悲伤")))
+emo <- c("开心", "冷静", "悲伤")
+n_days <- 1000
+
+# 从 start 出发，按照 P 转移 n_days 次（每次 = 一天）
+set.seed(202409)
+sim_mood <- function(start, n) {
+  s <- character(n + 1)
+  s[1] <- start
+  for (i in 1:n) s[i + 1] <- sample(emo, 1, prob = P[s[i], ])
+  s
+}
+
+# 分别以三种情绪为起点，各模拟一条链
+chains <- lapply(emo, sim_mood, n = n_days)
+names(chains) <- emo
+
+# 出现频率
+freq <- do.call(rbind, lapply(emo, function(st)
+  data.frame(起点 = st, 情绪 = emo,
+             freq = as.numeric(table(factor(chains[[st]], levels = emo))) / (n_days + 1))))
+
+# 累计频率
+cum <- do.call(rbind, lapply(emo, function(st)
+  do.call(rbind, lapply(emo, function(e)
+    data.frame(起点 = st, 情绪 = e, day = 1:(n_days + 1),
+               cumfreq = cumsum(chains[[st]] == e) / (1:(n_days + 1)))))))
+
+pi_df <- data.frame(情绪 = emo, freq = c(0.4, 0.2, 0.4))
+
+# 上排：出现频率（灰虚线 = 理论平稳分布）
+bar_plot <- ggplot(freq, aes(情绪, freq)) +
+  geom_col(fill = "#6497b1") +
+  geom_text(aes(label = sprintf("%.2f", freq)), vjust = -0.4, size = 3) +
+  geom_line(data = pi_df, aes(情绪, freq, group = 1), linetype = "dashed", color = "grey30") +
+  geom_point(data = pi_df, aes(情绪, freq), shape = 18, size = 3, color = "grey30") +
+  facet_wrap(~ 起点) + ylim(0, 0.5) +
+  labs(x = NULL, y = "频率") + papaja::theme_apa(base_family = cjk)
+
+# 下排：累计频率随天数变化
+cum_plot <- ggplot(cum, aes(day, cumfreq, color = 情绪)) +
+  geom_line() +
+  geom_hline(data = pi_df, aes(yintercept = freq, color = 情绪),
+             linetype = "dashed", show.legend = FALSE) +
+  facet_wrap(~ 起点) + ylim(0, 1) +
+  labs(x = "天数", y = "累计频率") + papaja::theme_apa(base_family = cjk)
+
+# 将两个图上下排列显示
+options(repr.plot.width=16, repr.plot.height=7) 
+bar_plot / cum_plot
+
 set.seed(2024)
 
 current <- 3                             # 假设theta^n为3

@@ -253,7 +253,7 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 $$  
 
 - 尽管未归一化的分布并不是真正的后验分布，但这二者的形状、集中趋势、变异性是一样的  
-- 可以看到，真实的后验分布和未归一化后验分布，处理在 y 轴上的单位不一样，但他们的形状、集中趋势、变异性是一样的  
+- 可以看到，真实的后验分布和未归一化后验分布，主要在 y 轴上的单位不一样，但他们的形状、集中趋势、变异性是一样的  
 - 重要的是，两个分布中，$\mu$ 的结果主要集中在 2-6 之间  
 
 因此，当进行采样时，可以使用**未归一化的后验分布** 的结果来替代计算真实的后验分布 $f(\mu)$
@@ -289,7 +289,7 @@ Markov Chain（马尔可夫链）即可自然地解决了未归一化的后验�
 
 - 假如不同的情绪对应一种状态，也就是参数可能的取值。  
 - 那么，我们可以将不同的心情（如“冷静”、“悲伤”、“开心”）定义为 状态。这些状态中的每一个代表参数 $\theta_k$ 的不同取值：  
-  - 例如，冷静是 $\theta_1=0.5$; 悲伤是 $\theta_2=0.3$；开心是$\theta_3=0.7$； 以此类推.....。  
+  - 例如，冷静是 $\theta_2=0.5$; 悲伤是 $\theta_3=0.3$；开心是$\theta_1=0.7$； 以此类推.....。  
   - 这样，我们可以确定参数选择的范围 $\theta_{k} \sim [0,1]$，参数是离散变量，每一个值对应一种心情。  
   - 注意，我们用下标 k 来表示不同的心情以及对应的参数值。
 
@@ -313,7 +313,7 @@ Markov Chain（马尔可夫链）即可自然地解决了未归一化的后验�
    - 长时间跟踪这些状态，我们会得到一个 马尔可夫链:$\left\lbrace \theta^{(1)}, \theta^{(2)}, \ldots, \theta^{(N)} \right\rbrace$,这里 $n$ 表示天数，$\theta^{(n)}$ 是第 $n$ 天的具体心情。  
 
 - **“无记忆性”**：无记忆性是马尔可夫链的关键特点,今天的心情（当前状态）只依赖于昨天的心情（前一状态），例如：  
-   - 如果前一天是“开心” $\theta_3$，那么今天仍然保持“开心”的概率是 0.5，  
+   - 如果前一天是“开心” $\theta_1$，那么今天仍然保持“开心”的概率是 0.5，  
    - 变为“冷静”的概率是 0.25，变为“悲伤”的概率也是 0.25。
 
 ---
@@ -341,6 +341,82 @@ Markov Chain（马尔可夫链）即可自然地解决了未归一化的后验�
   - 它为第二天的心情变化提供了可能的选项，所以被称为建议分布 $q(x)$，并且根据这个分布来选择是否接受新的状态。  
   
 马尔可夫链的的好处：当我们运行一段时间后，会发现慢慢会稳定在某个状态，高概率的更多出现，低概率的情况更少出现。
+
+---
+
+## 心情示例：1000 天的情绪频率 {.smaller}
+
+分别以**开心**、**冷静**、**悲伤**为起点，按照上面的转移矩阵各走 1000 步（每步 = 一天），统计三种情绪的出现情况：  
+
+- **上排**：三种情绪的**出现频率**（灰色虚线 = 理论平稳分布 $\pi = (0.4, 0.2, 0.4)$）。  
+- **下排**：**累计频率**随天数的变化，三条线都逐渐趋向 $\pi$ 中对应的值——无论从哪种心情开始。  
+
+```{r}
+#| label: mood-markov-sim
+
+# 中文字体：选一个系统里有中文字形的（跨平台回退；都找不到则用设备默认）
+cjk <- if (requireNamespace("systemfonts", quietly = TRUE)) {
+  intersect(c("PingFang SC", "Heiti SC", "Songti SC", "STHeiti", "Hiragino Sans GB",
+              "Microsoft YaHei", "SimHei", "Noto Sans CJK SC", "WenQuanYi Micro Hei"),
+            systemfonts::system_fonts()$family)[1]
+} else NA
+if (is.na(cjk)) cjk <- ""
+
+# 状态转移矩阵 P：行 = 前一天(n-1)，列 = 当天(n)
+P <- matrix(c(0.5, 0.25, 0.25,
+              0.5, 0,    0.5,
+              0.25, 0.25, 0.5),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(c("开心", "冷静", "悲伤"),
+                            c("开心", "冷静", "悲伤")))
+emo <- c("开心", "冷静", "悲伤")
+n_days <- 1000
+
+# 从 start 出发，按照 P 转移 n_days 次（每次 = 一天）
+set.seed(202409)
+sim_mood <- function(start, n) {
+  s <- character(n + 1)
+  s[1] <- start
+  for (i in 1:n) s[i + 1] <- sample(emo, 1, prob = P[s[i], ])
+  s
+}
+
+# 分别以三种情绪为起点，各模拟一条链
+chains <- lapply(emo, sim_mood, n = n_days)
+names(chains) <- emo
+
+# 出现频率
+freq <- do.call(rbind, lapply(emo, function(st)
+  data.frame(起点 = st, 情绪 = emo,
+             freq = as.numeric(table(factor(chains[[st]], levels = emo))) / (n_days + 1))))
+
+# 累计频率
+cum <- do.call(rbind, lapply(emo, function(st)
+  do.call(rbind, lapply(emo, function(e)
+    data.frame(起点 = st, 情绪 = e, day = 1:(n_days + 1),
+               cumfreq = cumsum(chains[[st]] == e) / (1:(n_days + 1)))))))
+
+pi_df <- data.frame(情绪 = emo, freq = c(0.4, 0.2, 0.4))
+
+# 上排：出现频率（灰虚线 = 理论平稳分布）
+bar_plot <- ggplot(freq, aes(情绪, freq)) +
+  geom_col(fill = "#6497b1") +
+  geom_text(aes(label = sprintf("%.2f", freq)), vjust = -0.4, size = 3) +
+  geom_line(data = pi_df, aes(情绪, freq, group = 1), linetype = "dashed", color = "grey30") +
+  geom_point(data = pi_df, aes(情绪, freq), shape = 18, size = 3, color = "grey30") +
+  facet_wrap(~ 起点) + ylim(0, 0.5) +
+  labs(x = NULL, y = "频率") + papaja::theme_apa(base_family = cjk)
+
+# 下排：累计频率随天数变化
+cum_plot <- ggplot(cum, aes(day, cumfreq, color = 情绪)) +
+  geom_line() +
+  geom_hline(data = pi_df, aes(yintercept = freq, color = 情绪),
+             linetype = "dashed", show.legend = FALSE) +
+  facet_wrap(~ 起点) + ylim(0, 1) +
+  labs(x = "天数", y = "累计频率") + papaja::theme_apa(base_family = cjk)
+
+bar_plot / cum_plot
+```
 
 ---
 
