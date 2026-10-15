@@ -6,8 +6,8 @@
 <script src="assets/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="assets/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="assets/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="assets/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.18">
+<link href="assets/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content="胡传鹏 (Dr.&nbsp;Hu Chuan-Peng)">
   <title>高级心理统计 · 第6讲</title>
@@ -17,16 +17,10 @@
   <link rel="stylesheet" href="assets/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="assets/libs/revealjs/dist/reveal.css">
   <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
+    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: 1.5em;}
-    div.column{flex: auto;}
-    @media screen {
-    div.columns{gap: min(4vw, 1.5em);}
-    div.column{overflow-x: auto;}
-    }
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -101,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="assets/libs/revealjs/dist/theme/quarto-03ee58d93aa56ae2ee8298346d0b2a97.css">
+  <link rel="stylesheet" href="assets/libs/revealjs/dist/theme/quarto-2c68d4e54d35810038446c33f7c9eae0.css">
   <link rel="stylesheet" href="lec.css">
   <link href="assets/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="assets/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -206,7 +200,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-胡传鹏 (Dr.&nbsp;Hu Chuan-Peng)
+胡传鹏 (Dr.&nbsp;Hu Chuan-Peng) 
 </div>
         <p class="quarto-title-affiliation">
             南京师范大学心理学院 · School of Psychology, Nanjing Normal University
@@ -348,15 +342,15 @@ Y|\mu  \sim \ N(\mu, 0.75^2)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="" aria-label="2"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-3"><a href="" aria-label="3"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="" aria-label="4"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb1-5"><a href="" aria-label="5"></a><span class="fu">library</span>(papaja)</span>
-<span id="cb1-6"><a href="" aria-label="6"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb1-7"><a href="" aria-label="7"></a><span class="fu">library</span>(bayesplot)</span>
-<span id="cb1-8"><a href="" aria-label="8"></a><span class="fu">library</span>(rstan)</span>
-<span id="cb1-9"><a href="" aria-label="9"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href=""></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href=""></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-5"><a href=""></a><span class="fu">library</span>(papaja)</span>
+<span id="cb1-6"><a href=""></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-7"><a href=""></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb1-8"><a href=""></a><span class="fu">library</span>(rstan)</span>
+<span id="cb1-9"><a href=""></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -365,20 +359,20 @@ Y|\mu  \sim \ N(\mu, 0.75^2)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-label="1"></a><span class="co"># 设置 x 的范围为 [2, 10]</span></span>
-<span id="cb2-2"><a href="" aria-label="2"></a>x_range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">10</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb2-3"><a href="" aria-label="3"></a></span>
-<span id="cb2-4"><a href="" aria-label="4"></a><span class="co"># 计算正态分布的概率密度函数</span></span>
-<span id="cb2-5"><a href="" aria-label="5"></a>y_norm <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x_range, <span class="at">mean =</span> <span class="fl">6.25</span>, <span class="at">sd =</span> <span class="fl">0.75</span>)</span>
-<span id="cb2-6"><a href="" aria-label="6"></a></span>
-<span id="cb2-7"><a href="" aria-label="7"></a><span class="co"># 对正态分布进行采样，得到1000个样本值</span></span>
-<span id="cb2-8"><a href="" aria-label="8"></a>samples <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">6.25</span>, <span class="at">sd =</span> <span class="fl">0.75</span>)</span>
-<span id="cb2-9"><a href="" aria-label="9"></a></span>
-<span id="cb2-10"><a href="" aria-label="10"></a><span class="co"># 显示前 10 个样本值</span></span>
-<span id="cb2-11"><a href="" aria-label="11"></a><span class="fu">cat</span>(<span class="st">"前 10 个样本值："</span>, <span class="fu">head</span>(samples, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># 设置 x 的范围为 [2, 10]</span></span>
+<span id="cb2-2"><a href=""></a>x_range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">10</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb2-3"><a href=""></a></span>
+<span id="cb2-4"><a href=""></a><span class="co"># 计算正态分布的概率密度函数</span></span>
+<span id="cb2-5"><a href=""></a>y_norm <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x_range, <span class="at">mean =</span> <span class="fl">6.25</span>, <span class="at">sd =</span> <span class="fl">0.75</span>)</span>
+<span id="cb2-6"><a href=""></a></span>
+<span id="cb2-7"><a href=""></a><span class="co"># 对正态分布进行采样，得到1000个样本值</span></span>
+<span id="cb2-8"><a href=""></a>samples <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">6.25</span>, <span class="at">sd =</span> <span class="fl">0.75</span>)</span>
+<span id="cb2-9"><a href=""></a></span>
+<span id="cb2-10"><a href=""></a><span class="co"># 显示前 10 个样本值</span></span>
+<span id="cb2-11"><a href=""></a><span class="fu">cat</span>(<span class="st">"前 10 个样本值："</span>, <span class="fu">head</span>(samples, <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>前 10 个样本值： 5.405791 5.690869 6.595044 5.793418 6.037714 4.904537 5.102205 6.381077 5.355799 6.386285</code></pre>
+<pre><code>前 10 个样本值： 6.072001 7.207292 6.821173 5.739613 6.977449 7.876476 5.760425 5.661762 5.763875 5.545931</code></pre>
 </div>
 </div>
 </section>
@@ -387,17 +381,17 @@ Y|\mu  \sim \ N(\mu, 0.75^2)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-label="1"></a><span class="co"># 绘制图像</span></span>
-<span id="cb4-2"><a href="" aria-label="2"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">10</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>) </span>
-<span id="cb4-3"><a href="" aria-label="3"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_range, <span class="at">y =</span> y_norm)</span>
-<span id="cb4-4"><a href="" aria-label="4"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="" aria-label="5"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> samples, <span class="at">y =</span> ..density..),  </span>
-<span id="cb4-6"><a href="" aria-label="6"></a>                          <span class="at">bins =</span> <span class="dv">45</span>, </span>
-<span id="cb4-7"><a href="" aria-label="7"></a>                          <span class="at">fill =</span> <span class="st">"lightgrey"</span>, </span>
-<span id="cb4-8"><a href="" aria-label="8"></a>                          <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="" aria-label="9"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">'red'</span>, <span class="at">size =</span> <span class="fl">1.5</span>)<span class="sc">+</span> </span>
-<span id="cb4-10"><a href="" aria-label="10"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>) , <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.55</span>)) <span class="sc">+</span></span>
-<span id="cb4-11"><a href="" aria-label="11"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># 绘制图像</span></span>
+<span id="cb4-2"><a href=""></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">10</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>) </span>
+<span id="cb4-3"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_range, <span class="at">y =</span> y_norm)</span>
+<span id="cb4-4"><a href=""></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb4-5"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> samples, <span class="at">y =</span> ..density..),  </span>
+<span id="cb4-6"><a href=""></a>                          <span class="at">bins =</span> <span class="dv">45</span>, </span>
+<span id="cb4-7"><a href=""></a>                          <span class="at">fill =</span> <span class="st">"lightgrey"</span>, </span>
+<span id="cb4-8"><a href=""></a>                          <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">'red'</span>, <span class="at">size =</span> <span class="fl">1.5</span>)<span class="sc">+</span> </span>
+<span id="cb4-10"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>) , <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.55</span>)) <span class="sc">+</span></span>
+<span id="cb4-11"><a href=""></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -457,7 +451,7 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <h2>未归一化后验：图示</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="https://cdn.kesci.com/upload/s2ty9jty8t.png?imageView2/0/w/960/h/960.png" height="540"></p>
+<p><img data-src="https://cdn.kesci.com/upload/s2ty9jty8t.png" height="540"></p>
 <figcaption>Image Name</figcaption>
 </figure>
 </div>
@@ -787,13 +781,13 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
-<span id="cb5-2"><a href="" aria-label="2"></a></span>
-<span id="cb5-3"><a href="" aria-label="3"></a>current <span class="ot">&lt;-</span> <span class="dv">3</span>                                  <span class="co"># 假设theta^n为3</span></span>
-<span id="cb5-4"><a href="" aria-label="4"></a></span>
-<span id="cb5-5"><a href="" aria-label="5"></a>proposal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> current, <span class="at">sd =</span> <span class="dv">1</span>)  <span class="co"># 从当前正态分布中抽出一个样本作为建议分布的mu</span></span>
-<span id="cb5-6"><a href="" aria-label="6"></a></span>
-<span id="cb5-7"><a href="" aria-label="7"></a><span class="fu">cat</span>(<span class="st">"从建议分布中新采样 θ(n+1)为："</span>, proposal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a>current <span class="ot">&lt;-</span> <span class="dv">3</span>                                  <span class="co"># 假设theta^n为3</span></span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a>proposal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> current, <span class="at">sd =</span> <span class="dv">1</span>)  <span class="co"># 从当前正态分布中抽出一个样本作为建议分布的mu</span></span>
+<span id="cb5-6"><a href=""></a></span>
+<span id="cb5-7"><a href=""></a><span class="fu">cat</span>(<span class="st">"从建议分布中新采样 θ(n+1)为："</span>, proposal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>从建议分布中新采样 θ(n+1)为： 3.981969</code></pre>
@@ -814,27 +808,27 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a><span class="co"># 设置先验</span></span>
-<span id="cb7-2"><a href="" aria-label="2"></a>proposal_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(proposal, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)  <span class="co"># 先验概率密度</span></span>
-<span id="cb7-3"><a href="" aria-label="3"></a>current_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(current, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)    <span class="co"># 先验概率密度</span></span>
-<span id="cb7-4"><a href="" aria-label="4"></a></span>
-<span id="cb7-5"><a href="" aria-label="5"></a><span class="co"># 定义似然函数</span></span>
-<span id="cb7-6"><a href="" aria-label="6"></a>likelihood <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
-<span id="cb7-7"><a href="" aria-label="7"></a>  Y <span class="ot">&lt;-</span> <span class="dv">6</span>  <span class="co"># 假设数据 Y 为 6</span></span>
-<span id="cb7-8"><a href="" aria-label="8"></a>  <span class="fu">return</span>(<span class="fu">dnorm</span>(Y, <span class="at">mean =</span> theta, <span class="at">sd =</span> <span class="fl">0.75</span>))  <span class="co"># 固定 sd=0.75</span></span>
-<span id="cb7-9"><a href="" aria-label="9"></a>}</span>
-<span id="cb7-10"><a href="" aria-label="10"></a></span>
-<span id="cb7-11"><a href="" aria-label="11"></a><span class="co"># 计算建议位置的未归一化的后验概率值（先验 * 似然）</span></span>
-<span id="cb7-12"><a href="" aria-label="12"></a>proposal_posterior <span class="ot">&lt;-</span> proposal_prior <span class="sc">*</span> <span class="fu">likelihood</span>(proposal)</span>
-<span id="cb7-13"><a href="" aria-label="13"></a></span>
-<span id="cb7-14"><a href="" aria-label="14"></a><span class="co"># 计算当前位置的未归一化的后验概率值（先验 * 似然）</span></span>
-<span id="cb7-15"><a href="" aria-label="15"></a>current_posterior <span class="ot">&lt;-</span> current_prior <span class="sc">*</span> <span class="fu">likelihood</span>(current)</span>
-<span id="cb7-16"><a href="" aria-label="16"></a></span>
-<span id="cb7-17"><a href="" aria-label="17"></a><span class="co"># 计算接受概率α，为两者概率值之比</span></span>
-<span id="cb7-18"><a href="" aria-label="18"></a>alpha <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, proposal_posterior <span class="sc">/</span> current_posterior)</span>
-<span id="cb7-19"><a href="" aria-label="19"></a></span>
-<span id="cb7-20"><a href="" aria-label="20"></a><span class="co"># 打印出接受概率α</span></span>
-<span id="cb7-21"><a href="" aria-label="21"></a><span class="fu">cat</span>(<span class="st">"后验比为："</span>, proposal_posterior <span class="sc">/</span> current_posterior, <span class="st">", alpha为:"</span>, alpha, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># 设置先验</span></span>
+<span id="cb7-2"><a href=""></a>proposal_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(proposal, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)  <span class="co"># 先验概率密度</span></span>
+<span id="cb7-3"><a href=""></a>current_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(current, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)    <span class="co"># 先验概率密度</span></span>
+<span id="cb7-4"><a href=""></a></span>
+<span id="cb7-5"><a href=""></a><span class="co"># 定义似然函数</span></span>
+<span id="cb7-6"><a href=""></a>likelihood <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb7-7"><a href=""></a>  Y <span class="ot">&lt;-</span> <span class="dv">6</span>  <span class="co"># 假设数据 Y 为 6</span></span>
+<span id="cb7-8"><a href=""></a>  <span class="fu">return</span>(<span class="fu">dnorm</span>(Y, <span class="at">mean =</span> theta, <span class="at">sd =</span> <span class="fl">0.75</span>))  <span class="co"># 固定 sd=0.75</span></span>
+<span id="cb7-9"><a href=""></a>}</span>
+<span id="cb7-10"><a href=""></a></span>
+<span id="cb7-11"><a href=""></a><span class="co"># 计算建议位置的未归一化的后验概率值（先验 * 似然）</span></span>
+<span id="cb7-12"><a href=""></a>proposal_posterior <span class="ot">&lt;-</span> proposal_prior <span class="sc">*</span> <span class="fu">likelihood</span>(proposal)</span>
+<span id="cb7-13"><a href=""></a></span>
+<span id="cb7-14"><a href=""></a><span class="co"># 计算当前位置的未归一化的后验概率值（先验 * 似然）</span></span>
+<span id="cb7-15"><a href=""></a>current_posterior <span class="ot">&lt;-</span> current_prior <span class="sc">*</span> <span class="fu">likelihood</span>(current)</span>
+<span id="cb7-16"><a href=""></a></span>
+<span id="cb7-17"><a href=""></a><span class="co"># 计算接受概率α，为两者概率值之比</span></span>
+<span id="cb7-18"><a href=""></a>alpha <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, proposal_posterior <span class="sc">/</span> current_posterior)</span>
+<span id="cb7-19"><a href=""></a></span>
+<span id="cb7-20"><a href=""></a><span class="co"># 打印出接受概率α</span></span>
+<span id="cb7-21"><a href=""></a><span class="fu">cat</span>(<span class="st">"后验比为："</span>, proposal_posterior <span class="sc">/</span> current_posterior, <span class="st">", alpha为:"</span>, alpha, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>后验比为： 49.29954 , alpha为: 1 </code></pre>
@@ -850,18 +844,18 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-label="1"></a><span class="co"># 根据接受概率α进行抽样，抽样内容为建议位置和当前位置</span></span>
-<span id="cb9-2"><a href="" aria-label="2"></a>next_stop <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(proposal, current), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(alpha, <span class="dv">1</span> <span class="sc">-</span> alpha))</span>
-<span id="cb9-3"><a href="" aria-label="3"></a></span>
-<span id="cb9-4"><a href="" aria-label="4"></a><span class="co"># 打印出下一个位置的值</span></span>
-<span id="cb9-5"><a href="" aria-label="5"></a><span class="fu">cat</span>(<span class="st">"下一个位置的值为:"</span>, next_stop, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="co"># 根据接受概率α进行抽样，抽样内容为建议位置和当前位置</span></span>
+<span id="cb9-2"><a href=""></a>next_stop <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(proposal, current), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(alpha, <span class="dv">1</span> <span class="sc">-</span> alpha))</span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a><span class="co"># 打印出下一个位置的值</span></span>
+<span id="cb9-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"下一个位置的值为:"</span>, next_stop, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>下一个位置的值为: 3.981969 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a><span class="co"># 从第一段代码我们可以看到此时的接受概率α=1，因此接受了建议值作为我们的下一个值</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="co"># 从第一段代码我们可以看到此时的接受概率α=1，因此接受了建议值作为我们的下一个值</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -875,48 +869,48 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-label="1"></a>one_mh_iteration <span class="ot">&lt;-</span> <span class="cf">function</span>(current, <span class="at">sigma =</span> <span class="dv">1</span>) {</span>
-<span id="cb12-2"><a href="" aria-label="2"></a>  </span>
-<span id="cb12-3"><a href="" aria-label="3"></a>  <span class="co"># 提议值:从均值为current，方差为sigma（默认值为1）的正态分布中抽样</span></span>
-<span id="cb12-4"><a href="" aria-label="4"></a>  proposal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> current, <span class="at">sd =</span> sigma)</span>
-<span id="cb12-5"><a href="" aria-label="5"></a>  </span>
-<span id="cb12-6"><a href="" aria-label="6"></a>  <span class="co"># 设置先验并计算概率密度</span></span>
-<span id="cb12-7"><a href="" aria-label="7"></a>  proposal_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(proposal, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)  <span class="co"># 先验概率密度</span></span>
-<span id="cb12-8"><a href="" aria-label="8"></a>  current_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(current, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)  <span class="co"># 先验概率密度</span></span>
-<span id="cb12-9"><a href="" aria-label="9"></a> </span>
-<span id="cb12-10"><a href="" aria-label="10"></a>  </span>
-<span id="cb12-11"><a href="" aria-label="11"></a>  <span class="co"># 定义似然函数</span></span>
-<span id="cb12-12"><a href="" aria-label="12"></a>  likelihood <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
-<span id="cb12-13"><a href="" aria-label="13"></a>    Y <span class="ot">&lt;-</span> <span class="dv">6</span>  <span class="co"># 假设数据 Y 为 6</span></span>
-<span id="cb12-14"><a href="" aria-label="14"></a>    <span class="fu">return</span>(<span class="fu">dnorm</span>(Y, <span class="at">mean =</span> theta, <span class="at">sd =</span> <span class="fl">0.75</span>))  <span class="co"># 计算似然</span></span>
-<span id="cb12-15"><a href="" aria-label="15"></a>  }</span>
-<span id="cb12-16"><a href="" aria-label="16"></a>  </span>
-<span id="cb12-17"><a href="" aria-label="17"></a>  <span class="co"># 计算未归一化的后验概率</span></span>
-<span id="cb12-18"><a href="" aria-label="18"></a>  proposal_posterior <span class="ot">&lt;-</span> proposal_prior <span class="sc">*</span> <span class="fu">likelihood</span>(proposal)</span>
-<span id="cb12-19"><a href="" aria-label="19"></a>  current_posterior <span class="ot">&lt;-</span> current_prior <span class="sc">*</span> <span class="fu">likelihood</span>(current)</span>
-<span id="cb12-20"><a href="" aria-label="20"></a>  </span>
-<span id="cb12-21"><a href="" aria-label="21"></a>  <span class="co"># 计算接受概率 alpha</span></span>
-<span id="cb12-22"><a href="" aria-label="22"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(proposal_posterior) <span class="sc">||</span> <span class="fu">is.na</span>(current_posterior) <span class="sc">||</span> current_posterior <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
-<span id="cb12-23"><a href="" aria-label="23"></a>    alpha <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb12-24"><a href="" aria-label="24"></a>  } <span class="cf">else</span> {</span>
-<span id="cb12-25"><a href="" aria-label="25"></a>    alpha <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, proposal_posterior <span class="sc">/</span> current_posterior)</span>
-<span id="cb12-26"><a href="" aria-label="26"></a>  }</span>
-<span id="cb12-27"><a href="" aria-label="27"></a>    </span>
-<span id="cb12-28"><a href="" aria-label="28"></a>  <span class="co"># 根据接受概率 alpha 进行抽样</span></span>
-<span id="cb12-29"><a href="" aria-label="29"></a>  next_stop <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(proposal, current), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(alpha, <span class="dv">1</span> <span class="sc">-</span> alpha), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-30"><a href="" aria-label="30"></a>                      </span>
-<span id="cb12-31"><a href="" aria-label="31"></a>  <span class="co"># 返回建议值、接受概率和下一个位置组成的数据框</span></span>
-<span id="cb12-32"><a href="" aria-label="32"></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">proposal =</span> proposal, <span class="at">alpha =</span> alpha, <span class="at">next_stop =</span> next_stop)</span>
-<span id="cb12-33"><a href="" aria-label="33"></a>                      </span>
-<span id="cb12-34"><a href="" aria-label="34"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb12-35"><a href="" aria-label="35"></a>}</span>
-<span id="cb12-36"><a href="" aria-label="36"></a></span>
-<span id="cb12-37"><a href="" aria-label="37"></a><span class="co"># 设置随机种子</span></span>
-<span id="cb12-38"><a href="" aria-label="38"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
-<span id="cb12-39"><a href="" aria-label="39"></a></span>
-<span id="cb12-40"><a href="" aria-label="40"></a><span class="co"># 调用函数并显示结果</span></span>
-<span id="cb12-41"><a href="" aria-label="41"></a>results <span class="ot">&lt;-</span> <span class="fu">one_mh_iteration</span>(<span class="at">current =</span> <span class="dv">3</span>)</span>
-<span id="cb12-42"><a href="" aria-label="42"></a><span class="fu">print</span>(results, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>one_mh_iteration <span class="ot">&lt;-</span> <span class="cf">function</span>(current, <span class="at">sigma =</span> <span class="dv">1</span>) {</span>
+<span id="cb12-2"><a href=""></a>  </span>
+<span id="cb12-3"><a href=""></a>  <span class="co"># 提议值:从均值为current，方差为sigma（默认值为1）的正态分布中抽样</span></span>
+<span id="cb12-4"><a href=""></a>  proposal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> current, <span class="at">sd =</span> sigma)</span>
+<span id="cb12-5"><a href=""></a>  </span>
+<span id="cb12-6"><a href=""></a>  <span class="co"># 设置先验并计算概率密度</span></span>
+<span id="cb12-7"><a href=""></a>  proposal_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(proposal, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)  <span class="co"># 先验概率密度</span></span>
+<span id="cb12-8"><a href=""></a>  current_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(current, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)  <span class="co"># 先验概率密度</span></span>
+<span id="cb12-9"><a href=""></a> </span>
+<span id="cb12-10"><a href=""></a>  </span>
+<span id="cb12-11"><a href=""></a>  <span class="co"># 定义似然函数</span></span>
+<span id="cb12-12"><a href=""></a>  likelihood <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb12-13"><a href=""></a>    Y <span class="ot">&lt;-</span> <span class="dv">6</span>  <span class="co"># 假设数据 Y 为 6</span></span>
+<span id="cb12-14"><a href=""></a>    <span class="fu">return</span>(<span class="fu">dnorm</span>(Y, <span class="at">mean =</span> theta, <span class="at">sd =</span> <span class="fl">0.75</span>))  <span class="co"># 计算似然</span></span>
+<span id="cb12-15"><a href=""></a>  }</span>
+<span id="cb12-16"><a href=""></a>  </span>
+<span id="cb12-17"><a href=""></a>  <span class="co"># 计算未归一化的后验概率</span></span>
+<span id="cb12-18"><a href=""></a>  proposal_posterior <span class="ot">&lt;-</span> proposal_prior <span class="sc">*</span> <span class="fu">likelihood</span>(proposal)</span>
+<span id="cb12-19"><a href=""></a>  current_posterior <span class="ot">&lt;-</span> current_prior <span class="sc">*</span> <span class="fu">likelihood</span>(current)</span>
+<span id="cb12-20"><a href=""></a>  </span>
+<span id="cb12-21"><a href=""></a>  <span class="co"># 计算接受概率 alpha</span></span>
+<span id="cb12-22"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(proposal_posterior) <span class="sc">||</span> <span class="fu">is.na</span>(current_posterior) <span class="sc">||</span> current_posterior <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
+<span id="cb12-23"><a href=""></a>    alpha <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb12-24"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb12-25"><a href=""></a>    alpha <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, proposal_posterior <span class="sc">/</span> current_posterior)</span>
+<span id="cb12-26"><a href=""></a>  }</span>
+<span id="cb12-27"><a href=""></a>    </span>
+<span id="cb12-28"><a href=""></a>  <span class="co"># 根据接受概率 alpha 进行抽样</span></span>
+<span id="cb12-29"><a href=""></a>  next_stop <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(proposal, current), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(alpha, <span class="dv">1</span> <span class="sc">-</span> alpha), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-30"><a href=""></a>                      </span>
+<span id="cb12-31"><a href=""></a>  <span class="co"># 返回建议值、接受概率和下一个位置组成的数据框</span></span>
+<span id="cb12-32"><a href=""></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">proposal =</span> proposal, <span class="at">alpha =</span> alpha, <span class="at">next_stop =</span> next_stop)</span>
+<span id="cb12-33"><a href=""></a>                      </span>
+<span id="cb12-34"><a href=""></a>  <span class="fu">return</span>(result)</span>
+<span id="cb12-35"><a href=""></a>}</span>
+<span id="cb12-36"><a href=""></a></span>
+<span id="cb12-37"><a href=""></a><span class="co"># 设置随机种子</span></span>
+<span id="cb12-38"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb12-39"><a href=""></a></span>
+<span id="cb12-40"><a href=""></a><span class="co"># 调用函数并显示结果</span></span>
+<span id="cb12-41"><a href=""></a>results <span class="ot">&lt;-</span> <span class="fu">one_mh_iteration</span>(<span class="at">current =</span> <span class="dv">3</span>)</span>
+<span id="cb12-42"><a href=""></a><span class="fu">print</span>(results, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> proposal alpha next_stop
@@ -929,12 +923,12 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a><span class="co"># 变换不同的随机数种子，其实也是生成不同的建议值</span></span>
-<span id="cb14-2"><a href="" aria-label="2"></a><span class="fu">set.seed</span>(<span class="dv">83</span>)</span>
-<span id="cb14-3"><a href="" aria-label="3"></a></span>
-<span id="cb14-4"><a href="" aria-label="4"></a><span class="co"># 调用函数并显示结果</span></span>
-<span id="cb14-5"><a href="" aria-label="5"></a>results <span class="ot">&lt;-</span> <span class="fu">one_mh_iteration</span>(<span class="at">current =</span> <span class="dv">3</span>)</span>
-<span id="cb14-6"><a href="" aria-label="6"></a><span class="fu">print</span>(<span class="fu">round</span>(results, <span class="at">digits =</span> <span class="dv">4</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>) <span class="co">#用round对数据框内数字四舍五入，保留4位小数</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="co"># 变换不同的随机数种子，其实也是生成不同的建议值</span></span>
+<span id="cb14-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">83</span>)</span>
+<span id="cb14-3"><a href=""></a></span>
+<span id="cb14-4"><a href=""></a><span class="co"># 调用函数并显示结果</span></span>
+<span id="cb14-5"><a href=""></a>results <span class="ot">&lt;-</span> <span class="fu">one_mh_iteration</span>(<span class="at">current =</span> <span class="dv">3</span>)</span>
+<span id="cb14-6"><a href=""></a><span class="fu">print</span>(<span class="fu">round</span>(results, <span class="at">digits =</span> <span class="dv">4</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>) <span class="co">#用round对数据框内数字四舍五入，保留4位小数</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> proposal alpha next_stop
@@ -953,22 +947,22 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a>mh_tour <span class="ot">&lt;-</span> <span class="cf">function</span>(N, <span class="at">sigma =</span> <span class="dv">1</span>) {</span>
-<span id="cb16-2"><a href="" aria-label="2"></a>  current <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb16-3"><a href="" aria-label="3"></a>  mu <span class="ot">&lt;-</span> <span class="fu">numeric</span>(N)  <span class="co"># 创建一个长度为 N 的零向量</span></span>
-<span id="cb16-4"><a href="" aria-label="4"></a></span>
-<span id="cb16-5"><a href="" aria-label="5"></a>  <span class="co"># 循环进行 N 次迭代</span></span>
-<span id="cb16-6"><a href="" aria-label="6"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
-<span id="cb16-7"><a href="" aria-label="7"></a>    sim <span class="ot">&lt;-</span> <span class="fu">one_mh_iteration</span>(current, sigma)  <span class="co"># 调用采样函数</span></span>
-<span id="cb16-8"><a href="" aria-label="8"></a>    mu[i] <span class="ot">&lt;-</span> sim<span class="sc">$</span>next_stop  <span class="co"># 保存当前的下一个位置</span></span>
-<span id="cb16-9"><a href="" aria-label="9"></a>    current <span class="ot">&lt;-</span> sim<span class="sc">$</span>next_stop  <span class="co"># 更新当前值</span></span>
-<span id="cb16-10"><a href="" aria-label="10"></a>  }</span>
-<span id="cb16-11"><a href="" aria-label="11"></a></span>
-<span id="cb16-12"><a href="" aria-label="12"></a>  <span class="co"># 返回包含迭代次数和每次采样结果的数据框</span></span>
-<span id="cb16-13"><a href="" aria-label="13"></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">iteration =</span> <span class="dv">1</span><span class="sc">:</span>N,<span class="at">mu =</span> mu)</span>
-<span id="cb16-14"><a href="" aria-label="14"></a>  </span>
-<span id="cb16-15"><a href="" aria-label="15"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb16-16"><a href="" aria-label="16"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>mh_tour <span class="ot">&lt;-</span> <span class="cf">function</span>(N, <span class="at">sigma =</span> <span class="dv">1</span>) {</span>
+<span id="cb16-2"><a href=""></a>  current <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb16-3"><a href=""></a>  mu <span class="ot">&lt;-</span> <span class="fu">numeric</span>(N)  <span class="co"># 创建一个长度为 N 的零向量</span></span>
+<span id="cb16-4"><a href=""></a></span>
+<span id="cb16-5"><a href=""></a>  <span class="co"># 循环进行 N 次迭代</span></span>
+<span id="cb16-6"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb16-7"><a href=""></a>    sim <span class="ot">&lt;-</span> <span class="fu">one_mh_iteration</span>(current, sigma)  <span class="co"># 调用采样函数</span></span>
+<span id="cb16-8"><a href=""></a>    mu[i] <span class="ot">&lt;-</span> sim<span class="sc">$</span>next_stop  <span class="co"># 保存当前的下一个位置</span></span>
+<span id="cb16-9"><a href=""></a>    current <span class="ot">&lt;-</span> sim<span class="sc">$</span>next_stop  <span class="co"># 更新当前值</span></span>
+<span id="cb16-10"><a href=""></a>  }</span>
+<span id="cb16-11"><a href=""></a></span>
+<span id="cb16-12"><a href=""></a>  <span class="co"># 返回包含迭代次数和每次采样结果的数据框</span></span>
+<span id="cb16-13"><a href=""></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">iteration =</span> <span class="dv">1</span><span class="sc">:</span>N,<span class="at">mu =</span> mu)</span>
+<span id="cb16-14"><a href=""></a>  </span>
+<span id="cb16-15"><a href=""></a>  <span class="fu">return</span>(result)</span>
+<span id="cb16-16"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -977,10 +971,10 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-label="1"></a><span class="co"># 调用定义好的函数，将采样次数设为5000</span></span>
-<span id="cb17-2"><a href="" aria-label="2"></a><span class="fu">set.seed</span>(<span class="dv">84735</span>)</span>
-<span id="cb17-3"><a href="" aria-label="3"></a>mh_simulation <span class="ot">&lt;-</span> <span class="fu">mh_tour</span>(<span class="at">N=</span><span class="dv">5000</span>)</span>
-<span id="cb17-4"><a href="" aria-label="4"></a><span class="fu">tail</span>(mh_simulation, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="co"># 调用定义好的函数，将采样次数设为5000</span></span>
+<span id="cb17-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">84735</span>)</span>
+<span id="cb17-3"><a href=""></a>mh_simulation <span class="ot">&lt;-</span> <span class="fu">mh_tour</span>(<span class="at">N=</span><span class="dv">5000</span>)</span>
+<span id="cb17-4"><a href=""></a><span class="fu">tail</span>(mh_simulation, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>     iteration       mu
@@ -1001,30 +995,30 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a><span class="co"># 绘制密度图</span></span>
-<span id="cb19-2"><a href="" aria-label="2"></a>density_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(mh_simulation, <span class="fu">aes</span>(<span class="at">x =</span> mu)) <span class="sc">+</span></span>
-<span id="cb19-3"><a href="" aria-label="3"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), </span>
-<span id="cb19-4"><a href="" aria-label="4"></a>                 <span class="at">bins =</span> <span class="dv">30</span>, </span>
-<span id="cb19-5"><a href="" aria-label="5"></a>                 <span class="at">color =</span> <span class="st">"white"</span>, </span>
-<span id="cb19-6"><a href="" aria-label="6"></a>                 <span class="at">fill =</span> <span class="st">"darkgrey"</span>, </span>
-<span id="cb19-7"><a href="" aria-label="7"></a>                 <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb19-8"><a href="" aria-label="8"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), </span>
-<span id="cb19-9"><a href="" aria-label="9"></a>               <span class="at">color =</span> <span class="st">"#6497b1"</span>, </span>
-<span id="cb19-10"><a href="" aria-label="10"></a>               <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb19-11"><a href="" aria-label="11"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb19-12"><a href="" aria-label="12"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()  <span class="sc">+</span> </span>
-<span id="cb19-13"><a href="" aria-label="13"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>) , <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.7</span>)) </span>
-<span id="cb19-14"><a href="" aria-label="14"></a></span>
-<span id="cb19-15"><a href="" aria-label="15"></a><span class="co"># 绘制轨迹图</span></span>
-<span id="cb19-16"><a href="" aria-label="16"></a>trace_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(mh_simulation, <span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> mu)) <span class="sc">+</span></span>
-<span id="cb19-17"><a href="" aria-label="17"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#6497b1"</span>) <span class="sc">+</span></span>
-<span id="cb19-18"><a href="" aria-label="18"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="st">"mu"</span>) <span class="sc">+</span></span>
-<span id="cb19-19"><a href="" aria-label="19"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()  <span class="sc">+</span> </span>
-<span id="cb19-20"><a href="" aria-label="20"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>)) </span>
-<span id="cb19-21"><a href="" aria-label="21"></a></span>
-<span id="cb19-22"><a href="" aria-label="22"></a><span class="co"># 将两个图并排显示</span></span>
-<span id="cb19-23"><a href="" aria-label="23"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">16</span>, <span class="at">repr.plot.height=</span><span class="dv">7</span>) </span>
-<span id="cb19-24"><a href="" aria-label="24"></a>density_plot <span class="sc">+</span> trace_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="co"># 绘制密度图</span></span>
+<span id="cb19-2"><a href=""></a>density_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(mh_simulation, <span class="fu">aes</span>(<span class="at">x =</span> mu)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), </span>
+<span id="cb19-4"><a href=""></a>                 <span class="at">bins =</span> <span class="dv">30</span>, </span>
+<span id="cb19-5"><a href=""></a>                 <span class="at">color =</span> <span class="st">"white"</span>, </span>
+<span id="cb19-6"><a href=""></a>                 <span class="at">fill =</span> <span class="st">"darkgrey"</span>, </span>
+<span id="cb19-7"><a href=""></a>                 <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), </span>
+<span id="cb19-9"><a href=""></a>               <span class="at">color =</span> <span class="st">"#6497b1"</span>, </span>
+<span id="cb19-10"><a href=""></a>               <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-11"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb19-12"><a href=""></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()  <span class="sc">+</span> </span>
+<span id="cb19-13"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>) , <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.7</span>)) </span>
+<span id="cb19-14"><a href=""></a></span>
+<span id="cb19-15"><a href=""></a><span class="co"># 绘制轨迹图</span></span>
+<span id="cb19-16"><a href=""></a>trace_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(mh_simulation, <span class="fu">aes</span>(<span class="at">x =</span> iteration, <span class="at">y =</span> mu)) <span class="sc">+</span></span>
+<span id="cb19-17"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#6497b1"</span>) <span class="sc">+</span></span>
+<span id="cb19-18"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="st">"mu"</span>) <span class="sc">+</span></span>
+<span id="cb19-19"><a href=""></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()  <span class="sc">+</span> </span>
+<span id="cb19-20"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>)) </span>
+<span id="cb19-21"><a href=""></a></span>
+<span id="cb19-22"><a href=""></a><span class="co"># 将两个图并排显示</span></span>
+<span id="cb19-23"><a href=""></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">16</span>, <span class="at">repr.plot.height=</span><span class="dv">7</span>) </span>
+<span id="cb19-24"><a href=""></a>density_plot <span class="sc">+</span> trace_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1044,20 +1038,20 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a><span class="co">#创建绘图数据框</span></span>
-<span id="cb20-2"><a href="" aria-label="2"></a>sample <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mh_simulation<span class="sc">$</span>mu)</span>
-<span id="cb20-3"><a href="" aria-label="3"></a></span>
-<span id="cb20-4"><a href="" aria-label="4"></a><span class="co">#采样密度图</span></span>
-<span id="cb20-5"><a href="" aria-label="5"></a>dens <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample) <span class="sc">+</span>    </span>
-<span id="cb20-6"><a href="" aria-label="6"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb20-7"><a href="" aria-label="7"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb20-8"><a href="" aria-label="8"></a></span>
-<span id="cb20-9"><a href="" aria-label="9"></a><span class="co">#采样轨迹图</span></span>
-<span id="cb20-10"><a href="" aria-label="10"></a>trace <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample) <span class="sc">+</span>  </span>
-<span id="cb20-11"><a href="" aria-label="11"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb20-12"><a href="" aria-label="12"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb20-13"><a href="" aria-label="13"></a></span>
-<span id="cb20-14"><a href="" aria-label="14"></a>dens <span class="sc">+</span> trace</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="co">#创建绘图数据框</span></span>
+<span id="cb20-2"><a href=""></a>sample <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mh_simulation<span class="sc">$</span>mu)</span>
+<span id="cb20-3"><a href=""></a></span>
+<span id="cb20-4"><a href=""></a><span class="co">#采样密度图</span></span>
+<span id="cb20-5"><a href=""></a>dens <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample) <span class="sc">+</span>    </span>
+<span id="cb20-6"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb20-7"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb20-8"><a href=""></a></span>
+<span id="cb20-9"><a href=""></a><span class="co">#采样轨迹图</span></span>
+<span id="cb20-10"><a href=""></a>trace <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample) <span class="sc">+</span>  </span>
+<span id="cb20-11"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb20-12"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb20-13"><a href=""></a></span>
+<span id="cb20-14"><a href=""></a>dens <span class="sc">+</span> trace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1096,57 +1090,57 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a>one_mh_iteration <span class="ot">&lt;-</span> <span class="cf">function</span>(current, <span class="at">sigma =</span> <span class="dv">1</span>) {</span>
-<span id="cb21-2"><a href="" aria-label="2"></a>  </span>
-<span id="cb21-3"><a href="" aria-label="3"></a>  <span class="co"># 提议值:从均值为current，方差为sigma（默认值为1）的正态分布中抽样</span></span>
-<span id="cb21-4"><a href="" aria-label="4"></a>  proposal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> current, <span class="at">sd =</span> sigma)</span>
-<span id="cb21-5"><a href="" aria-label="5"></a>  </span>
-<span id="cb21-6"><a href="" aria-label="6"></a>  <span class="co"># 设置先验并计算概率密度</span></span>
-<span id="cb21-7"><a href="" aria-label="7"></a>  proposal_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(proposal, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb21-8"><a href="" aria-label="8"></a>  current_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(current, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)  </span>
-<span id="cb21-9"><a href="" aria-label="9"></a>  </span>
-<span id="cb21-10"><a href="" aria-label="10"></a>  <span class="co"># 定义似然函数</span></span>
-<span id="cb21-11"><a href="" aria-label="11"></a>  likelihood <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
-<span id="cb21-12"><a href="" aria-label="12"></a>    Y <span class="ot">&lt;-</span> <span class="dv">6</span>  <span class="co"># 假设数据 Y 为 6</span></span>
-<span id="cb21-13"><a href="" aria-label="13"></a>    <span class="fu">return</span>(<span class="fu">dnorm</span>(Y, <span class="at">mean =</span> theta, <span class="at">sd =</span> <span class="fl">0.75</span>))  <span class="co"># 计算似然</span></span>
-<span id="cb21-14"><a href="" aria-label="14"></a>  }</span>
-<span id="cb21-15"><a href="" aria-label="15"></a>  </span>
-<span id="cb21-16"><a href="" aria-label="16"></a>  <span class="co"># 计算未归一化的后验概率</span></span>
-<span id="cb21-17"><a href="" aria-label="17"></a>  proposal_posterior <span class="ot">&lt;-</span> proposal_prior <span class="sc">*</span> <span class="fu">likelihood</span>(proposal)</span>
-<span id="cb21-18"><a href="" aria-label="18"></a>  current_posterior <span class="ot">&lt;-</span> current_prior <span class="sc">*</span> <span class="fu">likelihood</span>(current)</span>
-<span id="cb21-19"><a href="" aria-label="19"></a>  </span>
-<span id="cb21-20"><a href="" aria-label="20"></a>  <span class="co"># 计算接受概率 alpha</span></span>
-<span id="cb21-21"><a href="" aria-label="21"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(proposal_posterior) <span class="sc">||</span> <span class="fu">is.na</span>(current_posterior) <span class="sc">||</span> current_posterior <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
-<span id="cb21-22"><a href="" aria-label="22"></a>    alpha <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb21-23"><a href="" aria-label="23"></a>  } <span class="cf">else</span> {</span>
-<span id="cb21-24"><a href="" aria-label="24"></a>    alpha <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, proposal_posterior <span class="sc">/</span> current_posterior)</span>
-<span id="cb21-25"><a href="" aria-label="25"></a>  }</span>
-<span id="cb21-26"><a href="" aria-label="26"></a>    </span>
-<span id="cb21-27"><a href="" aria-label="27"></a>  <span class="co"># 根据接受概率 alpha 进行抽样</span></span>
-<span id="cb21-28"><a href="" aria-label="28"></a>  next_stop <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(proposal, current), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(alpha, <span class="dv">1</span> <span class="sc">-</span> alpha), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb21-29"><a href="" aria-label="29"></a>                      </span>
-<span id="cb21-30"><a href="" aria-label="30"></a>  <span class="co"># 返回建议值、接受概率和下一个位置组成的数据框</span></span>
-<span id="cb21-31"><a href="" aria-label="31"></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">proposal =</span> proposal, <span class="at">alpha =</span> alpha, <span class="at">next_stop =</span> next_stop)</span>
-<span id="cb21-32"><a href="" aria-label="32"></a>                      </span>
-<span id="cb21-33"><a href="" aria-label="33"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb21-34"><a href="" aria-label="34"></a>}</span>
-<span id="cb21-35"><a href="" aria-label="35"></a></span>
-<span id="cb21-36"><a href="" aria-label="36"></a>mh_tour <span class="ot">&lt;-</span> <span class="cf">function</span>(N, <span class="at">sigma =</span> <span class="dv">1</span>) {</span>
-<span id="cb21-37"><a href="" aria-label="37"></a>  current <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb21-38"><a href="" aria-label="38"></a>  mu <span class="ot">&lt;-</span> <span class="fu">numeric</span>(N)  <span class="co"># 创建一个长度为 N 的零向量</span></span>
-<span id="cb21-39"><a href="" aria-label="39"></a></span>
-<span id="cb21-40"><a href="" aria-label="40"></a>  <span class="co"># 循环进行 N 次迭代</span></span>
-<span id="cb21-41"><a href="" aria-label="41"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
-<span id="cb21-42"><a href="" aria-label="42"></a>    sim <span class="ot">&lt;-</span> <span class="fu">one_mh_iteration</span>(current, sigma)  <span class="co"># 调用采样函数</span></span>
-<span id="cb21-43"><a href="" aria-label="43"></a>    mu[i] <span class="ot">&lt;-</span> sim<span class="sc">$</span>next_stop  <span class="co"># 保存当前的下一个位置</span></span>
-<span id="cb21-44"><a href="" aria-label="44"></a>    current <span class="ot">&lt;-</span> sim<span class="sc">$</span>next_stop  <span class="co"># 更新当前值</span></span>
-<span id="cb21-45"><a href="" aria-label="45"></a>  }</span>
-<span id="cb21-46"><a href="" aria-label="46"></a></span>
-<span id="cb21-47"><a href="" aria-label="47"></a>  <span class="co"># 返回包含迭代次数和每次采样结果的数据框</span></span>
-<span id="cb21-48"><a href="" aria-label="48"></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">iteration =</span> <span class="dv">1</span><span class="sc">:</span>N,<span class="at">mu =</span> mu)</span>
-<span id="cb21-49"><a href="" aria-label="49"></a>  </span>
-<span id="cb21-50"><a href="" aria-label="50"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb21-51"><a href="" aria-label="51"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>one_mh_iteration <span class="ot">&lt;-</span> <span class="cf">function</span>(current, <span class="at">sigma =</span> <span class="dv">1</span>) {</span>
+<span id="cb21-2"><a href=""></a>  </span>
+<span id="cb21-3"><a href=""></a>  <span class="co"># 提议值:从均值为current，方差为sigma（默认值为1）的正态分布中抽样</span></span>
+<span id="cb21-4"><a href=""></a>  proposal <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> current, <span class="at">sd =</span> sigma)</span>
+<span id="cb21-5"><a href=""></a>  </span>
+<span id="cb21-6"><a href=""></a>  <span class="co"># 设置先验并计算概率密度</span></span>
+<span id="cb21-7"><a href=""></a>  proposal_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(proposal, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb21-8"><a href=""></a>  current_prior <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(current, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="dv">1</span>)  </span>
+<span id="cb21-9"><a href=""></a>  </span>
+<span id="cb21-10"><a href=""></a>  <span class="co"># 定义似然函数</span></span>
+<span id="cb21-11"><a href=""></a>  likelihood <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb21-12"><a href=""></a>    Y <span class="ot">&lt;-</span> <span class="dv">6</span>  <span class="co"># 假设数据 Y 为 6</span></span>
+<span id="cb21-13"><a href=""></a>    <span class="fu">return</span>(<span class="fu">dnorm</span>(Y, <span class="at">mean =</span> theta, <span class="at">sd =</span> <span class="fl">0.75</span>))  <span class="co"># 计算似然</span></span>
+<span id="cb21-14"><a href=""></a>  }</span>
+<span id="cb21-15"><a href=""></a>  </span>
+<span id="cb21-16"><a href=""></a>  <span class="co"># 计算未归一化的后验概率</span></span>
+<span id="cb21-17"><a href=""></a>  proposal_posterior <span class="ot">&lt;-</span> proposal_prior <span class="sc">*</span> <span class="fu">likelihood</span>(proposal)</span>
+<span id="cb21-18"><a href=""></a>  current_posterior <span class="ot">&lt;-</span> current_prior <span class="sc">*</span> <span class="fu">likelihood</span>(current)</span>
+<span id="cb21-19"><a href=""></a>  </span>
+<span id="cb21-20"><a href=""></a>  <span class="co"># 计算接受概率 alpha</span></span>
+<span id="cb21-21"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(proposal_posterior) <span class="sc">||</span> <span class="fu">is.na</span>(current_posterior) <span class="sc">||</span> current_posterior <span class="sc">&lt;=</span> <span class="dv">0</span>) {</span>
+<span id="cb21-22"><a href=""></a>    alpha <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb21-23"><a href=""></a>  } <span class="cf">else</span> {</span>
+<span id="cb21-24"><a href=""></a>    alpha <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1</span>, proposal_posterior <span class="sc">/</span> current_posterior)</span>
+<span id="cb21-25"><a href=""></a>  }</span>
+<span id="cb21-26"><a href=""></a>    </span>
+<span id="cb21-27"><a href=""></a>  <span class="co"># 根据接受概率 alpha 进行抽样</span></span>
+<span id="cb21-28"><a href=""></a>  next_stop <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(proposal, current), <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(alpha, <span class="dv">1</span> <span class="sc">-</span> alpha), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-29"><a href=""></a>                      </span>
+<span id="cb21-30"><a href=""></a>  <span class="co"># 返回建议值、接受概率和下一个位置组成的数据框</span></span>
+<span id="cb21-31"><a href=""></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">proposal =</span> proposal, <span class="at">alpha =</span> alpha, <span class="at">next_stop =</span> next_stop)</span>
+<span id="cb21-32"><a href=""></a>                      </span>
+<span id="cb21-33"><a href=""></a>  <span class="fu">return</span>(result)</span>
+<span id="cb21-34"><a href=""></a>}</span>
+<span id="cb21-35"><a href=""></a></span>
+<span id="cb21-36"><a href=""></a>mh_tour <span class="ot">&lt;-</span> <span class="cf">function</span>(N, <span class="at">sigma =</span> <span class="dv">1</span>) {</span>
+<span id="cb21-37"><a href=""></a>  current <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb21-38"><a href=""></a>  mu <span class="ot">&lt;-</span> <span class="fu">numeric</span>(N)  <span class="co"># 创建一个长度为 N 的零向量</span></span>
+<span id="cb21-39"><a href=""></a></span>
+<span id="cb21-40"><a href=""></a>  <span class="co"># 循环进行 N 次迭代</span></span>
+<span id="cb21-41"><a href=""></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb21-42"><a href=""></a>    sim <span class="ot">&lt;-</span> <span class="fu">one_mh_iteration</span>(current, sigma)  <span class="co"># 调用采样函数</span></span>
+<span id="cb21-43"><a href=""></a>    mu[i] <span class="ot">&lt;-</span> sim<span class="sc">$</span>next_stop  <span class="co"># 保存当前的下一个位置</span></span>
+<span id="cb21-44"><a href=""></a>    current <span class="ot">&lt;-</span> sim<span class="sc">$</span>next_stop  <span class="co"># 更新当前值</span></span>
+<span id="cb21-45"><a href=""></a>  }</span>
+<span id="cb21-46"><a href=""></a></span>
+<span id="cb21-47"><a href=""></a>  <span class="co"># 返回包含迭代次数和每次采样结果的数据框</span></span>
+<span id="cb21-48"><a href=""></a>  result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">iteration =</span> <span class="dv">1</span><span class="sc">:</span>N,<span class="at">mu =</span> mu)</span>
+<span id="cb21-49"><a href=""></a>  </span>
+<span id="cb21-50"><a href=""></a>  <span class="fu">return</span>(result)</span>
+<span id="cb21-51"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1155,26 +1149,26 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-label="1"></a><span class="co">#===========================================================================</span></span>
-<span id="cb22-2"><a href="" aria-label="2"></a><span class="co">#                            请修改 sigma 的值。</span></span>
-<span id="cb22-3"><a href="" aria-label="3"></a><span class="co">#===========================================================================</span></span>
-<span id="cb22-4"><a href="" aria-label="4"></a><span class="fu">set.seed</span>(<span class="dv">84735</span>)</span>
-<span id="cb22-5"><a href="" aria-label="5"></a>mh_simulation <span class="ot">=</span> <span class="fu">mh_tour</span>(<span class="at">N=</span><span class="dv">5000</span>, <span class="at">sigma=</span><span class="dv">1</span>)</span>
-<span id="cb22-6"><a href="" aria-label="6"></a><span class="co">#创建绘图数据框</span></span>
-<span id="cb22-7"><a href="" aria-label="7"></a>sample_x <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mh_simulation<span class="sc">$</span>mu)</span>
-<span id="cb22-8"><a href="" aria-label="8"></a></span>
-<span id="cb22-9"><a href="" aria-label="9"></a><span class="co">#采样密度图</span></span>
-<span id="cb22-10"><a href="" aria-label="10"></a>dens_x <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_x) <span class="sc">+</span>    </span>
-<span id="cb22-11"><a href="" aria-label="11"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb22-12"><a href="" aria-label="12"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb22-13"><a href="" aria-label="13"></a></span>
-<span id="cb22-14"><a href="" aria-label="14"></a><span class="co">#采样轨迹图</span></span>
-<span id="cb22-15"><a href="" aria-label="15"></a>trace_x <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample_x) <span class="sc">+</span>  </span>
-<span id="cb22-16"><a href="" aria-label="16"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb22-17"><a href="" aria-label="17"></a>        ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="dv">9</span>)) <span class="sc">+</span></span>
-<span id="cb22-18"><a href="" aria-label="18"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb22-19"><a href="" aria-label="19"></a></span>
-<span id="cb22-20"><a href="" aria-label="20"></a>dens_x <span class="sc">+</span> trace_x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb22-2"><a href=""></a><span class="co">#                            请修改 sigma 的值。</span></span>
+<span id="cb22-3"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb22-4"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">84735</span>)</span>
+<span id="cb22-5"><a href=""></a>mh_simulation <span class="ot">=</span> <span class="fu">mh_tour</span>(<span class="at">N=</span><span class="dv">5000</span>, <span class="at">sigma=</span><span class="dv">1</span>)</span>
+<span id="cb22-6"><a href=""></a><span class="co">#创建绘图数据框</span></span>
+<span id="cb22-7"><a href=""></a>sample_x <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mh_simulation<span class="sc">$</span>mu)</span>
+<span id="cb22-8"><a href=""></a></span>
+<span id="cb22-9"><a href=""></a><span class="co">#采样密度图</span></span>
+<span id="cb22-10"><a href=""></a>dens_x <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_x) <span class="sc">+</span>    </span>
+<span id="cb22-11"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb22-12"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb22-13"><a href=""></a></span>
+<span id="cb22-14"><a href=""></a><span class="co">#采样轨迹图</span></span>
+<span id="cb22-15"><a href=""></a>trace_x <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample_x) <span class="sc">+</span>  </span>
+<span id="cb22-16"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb22-17"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="dv">9</span>)) <span class="sc">+</span></span>
+<span id="cb22-18"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb22-19"><a href=""></a></span>
+<span id="cb22-20"><a href=""></a>dens_x <span class="sc">+</span> trace_x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1190,25 +1184,25 @@ f(\mu | y=6.25) \propto f(\mu)L(\mu|y=6.25)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-label="1"></a><span class="co">#===========================================================================</span></span>
-<span id="cb23-2"><a href="" aria-label="2"></a><span class="co">#                            可以自行复制代码多试几次</span></span>
-<span id="cb23-3"><a href="" aria-label="3"></a><span class="co">#===========================================================================</span></span>
-<span id="cb23-4"><a href="" aria-label="4"></a>mh_simulation <span class="ot">=</span> <span class="fu">mh_tour</span>(<span class="at">N=</span><span class="dv">5000</span>, <span class="at">sigma=</span>...)</span>
-<span id="cb23-5"><a href="" aria-label="5"></a><span class="co">#创建绘图数据框</span></span>
-<span id="cb23-6"><a href="" aria-label="6"></a>sample_x <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mh_simulation<span class="sc">$</span>mu)</span>
-<span id="cb23-7"><a href="" aria-label="7"></a></span>
-<span id="cb23-8"><a href="" aria-label="8"></a><span class="co">#采样密度图</span></span>
-<span id="cb23-9"><a href="" aria-label="9"></a>dens_x <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_x) <span class="sc">+</span>    </span>
-<span id="cb23-10"><a href="" aria-label="10"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb23-11"><a href="" aria-label="11"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb23-12"><a href="" aria-label="12"></a></span>
-<span id="cb23-13"><a href="" aria-label="13"></a><span class="co">#采样轨迹图</span></span>
-<span id="cb23-14"><a href="" aria-label="14"></a>trace_x <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample_x) <span class="sc">+</span>  </span>
-<span id="cb23-15"><a href="" aria-label="15"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb23-16"><a href="" aria-label="16"></a>        ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="dv">9</span>)) <span class="sc">+</span></span>
-<span id="cb23-17"><a href="" aria-label="17"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb23-18"><a href="" aria-label="18"></a></span>
-<span id="cb23-19"><a href="" aria-label="19"></a>dens_x <span class="sc">+</span> trace_x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb23-2"><a href=""></a><span class="co">#                            可以自行复制代码多试几次</span></span>
+<span id="cb23-3"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb23-4"><a href=""></a>mh_simulation <span class="ot">=</span> <span class="fu">mh_tour</span>(<span class="at">N=</span><span class="dv">5000</span>, <span class="at">sigma=</span>...)</span>
+<span id="cb23-5"><a href=""></a><span class="co">#创建绘图数据框</span></span>
+<span id="cb23-6"><a href=""></a>sample_x <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mh_simulation<span class="sc">$</span>mu)</span>
+<span id="cb23-7"><a href=""></a></span>
+<span id="cb23-8"><a href=""></a><span class="co">#采样密度图</span></span>
+<span id="cb23-9"><a href=""></a>dens_x <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_x) <span class="sc">+</span>    </span>
+<span id="cb23-10"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb23-11"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb23-12"><a href=""></a></span>
+<span id="cb23-13"><a href=""></a><span class="co">#采样轨迹图</span></span>
+<span id="cb23-14"><a href=""></a>trace_x <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample_x) <span class="sc">+</span>  </span>
+<span id="cb23-15"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb23-16"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="dv">9</span>)) <span class="sc">+</span></span>
+<span id="cb23-17"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb23-18"><a href=""></a></span>
+<span id="cb23-19"><a href=""></a>dens_x <span class="sc">+</span> trace_x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1328,25 +1322,25 @@ Y \sim \text{Binomial}(n, \pi)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-label="1"></a><span class="co"># 使用Stan语法建构模型</span></span>
-<span id="cb24-2"><a href="" aria-label="2"></a>stan_model_code <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb24-3"><a href="" aria-label="3"></a><span class="st">data {  //数据块</span></span>
-<span id="cb24-4"><a href="" aria-label="4"></a><span class="st">  int&lt;lower=0&gt; n;           // 试验次数</span></span>
-<span id="cb24-5"><a href="" aria-label="5"></a><span class="st">  int&lt;lower=0, upper=n&gt; Y;  // 成功次数</span></span>
-<span id="cb24-6"><a href="" aria-label="6"></a><span class="st">}</span></span>
-<span id="cb24-7"><a href="" aria-label="7"></a></span>
-<span id="cb24-8"><a href="" aria-label="8"></a><span class="st">parameters {  //参数块</span></span>
-<span id="cb24-9"><a href="" aria-label="9"></a><span class="st">  real&lt;lower=0, upper=1&gt; pi;    // 成功概率参数</span></span>
-<span id="cb24-10"><a href="" aria-label="10"></a><span class="st">}</span></span>
-<span id="cb24-11"><a href="" aria-label="11"></a></span>
-<span id="cb24-12"><a href="" aria-label="12"></a><span class="st">model {  //模型块</span></span>
-<span id="cb24-13"><a href="" aria-label="13"></a><span class="st">  // 设置先验</span></span>
-<span id="cb24-14"><a href="" aria-label="14"></a><span class="st">  pi ~ beta(2, 2);</span></span>
-<span id="cb24-15"><a href="" aria-label="15"></a><span class="st">  </span></span>
-<span id="cb24-16"><a href="" aria-label="16"></a><span class="st">  // 设置似然</span></span>
-<span id="cb24-17"><a href="" aria-label="17"></a><span class="st">  Y ~ binomial(n, pi);</span></span>
-<span id="cb24-18"><a href="" aria-label="18"></a><span class="st">}</span></span>
-<span id="cb24-19"><a href="" aria-label="19"></a><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="co"># 使用Stan语法建构模型</span></span>
+<span id="cb24-2"><a href=""></a>stan_model_code <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb24-3"><a href=""></a><span class="st">data {  //数据块</span></span>
+<span id="cb24-4"><a href=""></a><span class="st">  int&lt;lower=0&gt; n;           // 试验次数</span></span>
+<span id="cb24-5"><a href=""></a><span class="st">  int&lt;lower=0, upper=n&gt; Y;  // 成功次数</span></span>
+<span id="cb24-6"><a href=""></a><span class="st">}</span></span>
+<span id="cb24-7"><a href=""></a></span>
+<span id="cb24-8"><a href=""></a><span class="st">parameters {  //参数块</span></span>
+<span id="cb24-9"><a href=""></a><span class="st">  real&lt;lower=0, upper=1&gt; pi;    // 成功概率参数</span></span>
+<span id="cb24-10"><a href=""></a><span class="st">}</span></span>
+<span id="cb24-11"><a href=""></a></span>
+<span id="cb24-12"><a href=""></a><span class="st">model {  //模型块</span></span>
+<span id="cb24-13"><a href=""></a><span class="st">  // 设置先验</span></span>
+<span id="cb24-14"><a href=""></a><span class="st">  pi ~ beta(2, 2);</span></span>
+<span id="cb24-15"><a href=""></a><span class="st">  </span></span>
+<span id="cb24-16"><a href=""></a><span class="st">  // 设置似然</span></span>
+<span id="cb24-17"><a href=""></a><span class="st">  Y ~ binomial(n, pi);</span></span>
+<span id="cb24-18"><a href=""></a><span class="st">}</span></span>
+<span id="cb24-19"><a href=""></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1411,25 +1405,25 @@ Y \sim \text{Binomial}(n, \pi)
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a><span class="co"># 准备数据</span></span>
-<span id="cb25-2"><a href="" aria-label="2"></a>stan_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">10</span>,<span class="at">Y =</span> <span class="dv">9</span>)</span>
-<span id="cb25-3"><a href="" aria-label="3"></a></span>
-<span id="cb25-4"><a href="" aria-label="4"></a><span class="co"># 拟合模型</span></span>
-<span id="cb25-5"><a href="" aria-label="5"></a>trace <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan</span>(</span>
-<span id="cb25-6"><a href="" aria-label="6"></a>  <span class="at">model_code =</span> stan_model_code,      <span class="co"># 定义的模型或模型文件路径</span></span>
-<span id="cb25-7"><a href="" aria-label="7"></a>  <span class="at">data =</span> stan_data,                  <span class="co"># 输入数据</span></span>
-<span id="cb25-8"><a href="" aria-label="8"></a>  <span class="at">chains =</span> <span class="dv">2</span>,                        <span class="co"># 马尔可夫链数量</span></span>
-<span id="cb25-9"><a href="" aria-label="9"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,                       <span class="co"># 总迭代次数（每个链）</span></span>
-<span id="cb25-10"><a href="" aria-label="10"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,                     <span class="co"># 热身迭代次数（不保存）</span></span>
-<span id="cb25-11"><a href="" aria-label="11"></a>  <span class="at">seed =</span> <span class="dv">202409</span></span>
-<span id="cb25-12"><a href="" aria-label="12"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="co"># 准备数据</span></span>
+<span id="cb25-2"><a href=""></a>stan_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">10</span>,<span class="at">Y =</span> <span class="dv">9</span>)</span>
+<span id="cb25-3"><a href=""></a></span>
+<span id="cb25-4"><a href=""></a><span class="co"># 拟合模型</span></span>
+<span id="cb25-5"><a href=""></a>trace <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan</span>(</span>
+<span id="cb25-6"><a href=""></a>  <span class="at">model_code =</span> stan_model_code,      <span class="co"># 定义的模型或模型文件路径</span></span>
+<span id="cb25-7"><a href=""></a>  <span class="at">data =</span> stan_data,                  <span class="co"># 输入数据</span></span>
+<span id="cb25-8"><a href=""></a>  <span class="at">chains =</span> <span class="dv">2</span>,                        <span class="co"># 马尔可夫链数量</span></span>
+<span id="cb25-9"><a href=""></a>  <span class="at">iter =</span> <span class="dv">2000</span>,                       <span class="co"># 总迭代次数（每个链）</span></span>
+<span id="cb25-10"><a href=""></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,                     <span class="co"># 热身迭代次数（不保存）</span></span>
+<span id="cb25-11"><a href=""></a>  <span class="at">seed =</span> <span class="dv">202409</span></span>
+<span id="cb25-12"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 3e-06 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.
+Chain 1: Gradient evaluation took 1.1e-05 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.11 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -1471,9 +1465,9 @@ Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
 Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 Chain 2: 
-Chain 2:  Elapsed Time: 0.003 seconds (Warm-up)
-Chain 2:                0.003 seconds (Sampling)
-Chain 2:                0.006 seconds (Total)
+Chain 2:  Elapsed Time: 0.001 seconds (Warm-up)
+Chain 2:                0.002 seconds (Sampling)
+Chain 2:                0.003 seconds (Total)
 Chain 2: </code></pre>
 </div>
 </div>
@@ -1492,19 +1486,19 @@ Chain 2: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-label="1"></a><span class="co"># 创建绘图数据框</span></span>
-<span id="cb27-2"><a href="" aria-label="2"></a>idata <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">extract</span>(trace)       <span class="co"># 提取后验数据</span></span>
-<span id="cb27-3"><a href="" aria-label="3"></a>sample_pi <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(idata<span class="sc">$</span>pi)</span>
-<span id="cb27-4"><a href="" aria-label="4"></a></span>
-<span id="cb27-5"><a href="" aria-label="5"></a><span class="co">#采样密度图</span></span>
-<span id="cb27-6"><a href="" aria-label="6"></a>dens_pi <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_pi) <span class="sc">+</span>    </span>
-<span id="cb27-7"><a href="" aria-label="7"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb27-8"><a href="" aria-label="8"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb27-9"><a href="" aria-label="9"></a>  </span>
-<span id="cb27-10"><a href="" aria-label="10"></a><span class="co"># 绘制轨迹图</span></span>
-<span id="cb27-11"><a href="" aria-label="11"></a>trace_pi <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">traceplot</span>(trace,<span class="at">color =</span> <span class="st">'#6497b1'</span>)</span>
-<span id="cb27-12"><a href="" aria-label="12"></a></span>
-<span id="cb27-13"><a href="" aria-label="13"></a>dens_pi <span class="sc">+</span> trace_pi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># 创建绘图数据框</span></span>
+<span id="cb27-2"><a href=""></a>idata <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">extract</span>(trace)       <span class="co"># 提取后验数据</span></span>
+<span id="cb27-3"><a href=""></a>sample_pi <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(idata<span class="sc">$</span>pi)</span>
+<span id="cb27-4"><a href=""></a></span>
+<span id="cb27-5"><a href=""></a><span class="co">#采样密度图</span></span>
+<span id="cb27-6"><a href=""></a>dens_pi <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_pi) <span class="sc">+</span>    </span>
+<span id="cb27-7"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb27-8"><a href=""></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb27-9"><a href=""></a>  </span>
+<span id="cb27-10"><a href=""></a><span class="co"># 绘制轨迹图</span></span>
+<span id="cb27-11"><a href=""></a>trace_pi <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">traceplot</span>(trace,<span class="at">color =</span> <span class="st">'#6497b1'</span>)</span>
+<span id="cb27-12"><a href=""></a></span>
+<span id="cb27-13"><a href=""></a>dens_pi <span class="sc">+</span> trace_pi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1524,20 +1518,20 @@ Chain 2: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-label="1"></a><span class="co"># 选取第一条Makov链的前20个采样结果和前200个结果</span></span>
-<span id="cb28-2"><a href="" aria-label="2"></a>sample_pi_20 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sample_pi[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, ])</span>
-<span id="cb28-3"><a href="" aria-label="3"></a>sample_pi_200 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sample_pi[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, ])</span>
-<span id="cb28-4"><a href="" aria-label="4"></a></span>
-<span id="cb28-5"><a href="" aria-label="5"></a><span class="co"># 绘图</span></span>
-<span id="cb28-6"><a href="" aria-label="6"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">16</span>, <span class="at">repr.plot.height=</span><span class="dv">5</span>) </span>
-<span id="cb28-7"><a href="" aria-label="7"></a><span class="co">#前20</span></span>
-<span id="cb28-8"><a href="" aria-label="8"></a>dens_20 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_pi_20) <span class="sc">+</span>    </span>
-<span id="cb28-9"><a href="" aria-label="9"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb28-10"><a href="" aria-label="10"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb28-11"><a href="" aria-label="11"></a>trace_20 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample_pi_20) <span class="sc">+</span>  </span>
-<span id="cb28-12"><a href="" aria-label="12"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb28-13"><a href="" aria-label="13"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>() </span>
-<span id="cb28-14"><a href="" aria-label="14"></a>dens_20 <span class="sc">+</span> trace_20</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="co"># 选取第一条Makov链的前20个采样结果和前200个结果</span></span>
+<span id="cb28-2"><a href=""></a>sample_pi_20 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sample_pi[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, ])</span>
+<span id="cb28-3"><a href=""></a>sample_pi_200 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sample_pi[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, ])</span>
+<span id="cb28-4"><a href=""></a></span>
+<span id="cb28-5"><a href=""></a><span class="co"># 绘图</span></span>
+<span id="cb28-6"><a href=""></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">16</span>, <span class="at">repr.plot.height=</span><span class="dv">5</span>) </span>
+<span id="cb28-7"><a href=""></a><span class="co">#前20</span></span>
+<span id="cb28-8"><a href=""></a>dens_20 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_pi_20) <span class="sc">+</span>    </span>
+<span id="cb28-9"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb28-10"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb28-11"><a href=""></a>trace_20 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample_pi_20) <span class="sc">+</span>  </span>
+<span id="cb28-12"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb28-13"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>() </span>
+<span id="cb28-14"><a href=""></a>dens_20 <span class="sc">+</span> trace_20</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1553,14 +1547,14 @@ Chain 2: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-label="1"></a><span class="co">#前200</span></span>
-<span id="cb29-2"><a href="" aria-label="2"></a>dens_200 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_pi_200) <span class="sc">+</span>    </span>
-<span id="cb29-3"><a href="" aria-label="3"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb29-4"><a href="" aria-label="4"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb29-5"><a href="" aria-label="5"></a>trace_200 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample_pi_200) <span class="sc">+</span>  </span>
-<span id="cb29-6"><a href="" aria-label="6"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb29-7"><a href="" aria-label="7"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>() </span>
-<span id="cb29-8"><a href="" aria-label="8"></a>dens_200 <span class="sc">+</span> trace_200</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="co">#前200</span></span>
+<span id="cb29-2"><a href=""></a>dens_200 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_pi_200) <span class="sc">+</span>    </span>
+<span id="cb29-3"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb29-4"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb29-5"><a href=""></a>trace_200 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(sample_pi_200) <span class="sc">+</span>  </span>
+<span id="cb29-6"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>() </span>
+<span id="cb29-8"><a href=""></a>dens_200 <span class="sc">+</span> trace_200</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1576,7 +1570,7 @@ Chain 2: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-label="1"></a><span class="fu">rbind</span>(<span class="fu">head</span>(sample_pi, <span class="dv">5</span>), <span class="fu">tail</span>(sample_pi, <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">rbind</span>(<span class="fu">head</span>(sample_pi, <span class="dv">5</span>), <span class="fu">tail</span>(sample_pi, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>      idata$pi
@@ -1605,24 +1599,24 @@ Chain 2: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.2</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">10000</span>)</span>
-<span id="cb32-2"><a href="" aria-label="2"></a></span>
-<span id="cb32-3"><a href="" aria-label="3"></a><span class="co"># 真实的后验分布 beta（alpha + y, beta + n - y）</span></span>
-<span id="cb32-4"><a href="" aria-label="4"></a>y <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x, <span class="dv">11</span>, <span class="dv">3</span>)</span>
-<span id="cb32-5"><a href="" aria-label="5"></a>posterior_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
-<span id="cb32-6"><a href="" aria-label="6"></a></span>
-<span id="cb32-7"><a href="" aria-label="7"></a><span class="co">#绘制采样结果直方图</span></span>
-<span id="cb32-8"><a href="" aria-label="8"></a>hist_pi <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_hist</span>(sample_pi, <span class="at">bins=</span><span class="dv">30</span>) <span class="sc">+</span>    </span>
-<span id="cb32-9"><a href="" aria-label="9"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
-<span id="cb32-10"><a href="" aria-label="10"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb32-11"><a href="" aria-label="11"></a></span>
-<span id="cb32-12"><a href="" aria-label="12"></a><span class="co">#绘制采样结果分布图和真实后验分布图</span></span>
-<span id="cb32-13"><a href="" aria-label="13"></a>dens_pi_mix <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_pi) <span class="sc">+</span>  <span class="co">#采样结果</span></span>
-<span id="cb32-14"><a href="" aria-label="14"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">data =</span> posterior_data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">color =</span> <span class="st">"black"</span>,<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span>  <span class="co">#真实后验</span></span>
-<span id="cb32-15"><a href="" aria-label="15"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb32-16"><a href="" aria-label="16"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb32-17"><a href="" aria-label="17"></a></span>
-<span id="cb32-18"><a href="" aria-label="18"></a>hist_pi <span class="sc">+</span> dens_pi_mix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.2</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">10000</span>)</span>
+<span id="cb32-2"><a href=""></a></span>
+<span id="cb32-3"><a href=""></a><span class="co"># 真实的后验分布 beta（alpha + y, beta + n - y）</span></span>
+<span id="cb32-4"><a href=""></a>y <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x, <span class="dv">11</span>, <span class="dv">3</span>)</span>
+<span id="cb32-5"><a href=""></a>posterior_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb32-6"><a href=""></a></span>
+<span id="cb32-7"><a href=""></a><span class="co">#绘制采样结果直方图</span></span>
+<span id="cb32-8"><a href=""></a>hist_pi <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_hist</span>(sample_pi, <span class="at">bins=</span><span class="dv">30</span>) <span class="sc">+</span>    </span>
+<span id="cb32-9"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
+<span id="cb32-10"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb32-11"><a href=""></a></span>
+<span id="cb32-12"><a href=""></a><span class="co">#绘制采样结果分布图和真实后验分布图</span></span>
+<span id="cb32-13"><a href=""></a>dens_pi_mix <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_pi) <span class="sc">+</span>  <span class="co">#采样结果</span></span>
+<span id="cb32-14"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">data =</span> posterior_data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">color =</span> <span class="st">"black"</span>,<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span>  <span class="co">#真实后验</span></span>
+<span id="cb32-15"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pi"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb32-16"><a href=""></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb32-17"><a href=""></a></span>
+<span id="cb32-18"><a href=""></a>hist_pi <span class="sc">+</span> dens_pi_mix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1705,30 +1699,30 @@ Y_i|\mu &amp; \stackrel{ind}{\sim} \text{Normal}(\mu, \sigma^2) \\
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-label="1"></a><span class="co">#===========================================================================</span></span>
-<span id="cb33-2"><a href="" aria-label="2"></a><span class="co">#                            block1: 请修改 ... 中的值。</span></span>
-<span id="cb33-3"><a href="" aria-label="3"></a><span class="co">#===========================================================================</span></span>
-<span id="cb33-4"><a href="" aria-label="4"></a></span>
-<span id="cb33-5"><a href="" aria-label="5"></a><span class="co">#构建模型</span></span>
-<span id="cb33-6"><a href="" aria-label="6"></a></span>
-<span id="cb33-7"><a href="" aria-label="7"></a>stan_code <span class="ot">&lt;-</span> <span class="st">"</span></span>
-<span id="cb33-8"><a href="" aria-label="8"></a><span class="st">data {</span></span>
-<span id="cb33-9"><a href="" aria-label="9"></a><span class="st">  int&lt;lower=0&gt; n;           // 观测数据的数量</span></span>
-<span id="cb33-10"><a href="" aria-label="10"></a><span class="st">  vector[n] Y;              // 观测数据</span></span>
-<span id="cb33-11"><a href="" aria-label="11"></a><span class="st">}</span></span>
-<span id="cb33-12"><a href="" aria-label="12"></a></span>
-<span id="cb33-13"><a href="" aria-label="13"></a><span class="st">parameters {</span></span>
-<span id="cb33-14"><a href="" aria-label="14"></a><span class="st">  real mu;                  // 反应时间均值</span></span>
-<span id="cb33-15"><a href="" aria-label="15"></a><span class="st">}</span></span>
-<span id="cb33-16"><a href="" aria-label="16"></a></span>
-<span id="cb33-17"><a href="" aria-label="17"></a><span class="st">model {</span></span>
-<span id="cb33-18"><a href="" aria-label="18"></a><span class="st">  // 先验分布</span></span>
-<span id="cb33-19"><a href="" aria-label="19"></a><span class="st">  mu ~ normal(300, 50);</span></span>
-<span id="cb33-20"><a href="" aria-label="20"></a></span>
-<span id="cb33-21"><a href="" aria-label="21"></a><span class="st">  // 似然函数</span></span>
-<span id="cb33-22"><a href="" aria-label="22"></a><span class="st">  Y ~ normal(mu, 20);</span></span>
-<span id="cb33-23"><a href="" aria-label="23"></a><span class="st">}</span></span>
-<span id="cb33-24"><a href="" aria-label="24"></a><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb33-2"><a href=""></a><span class="co">#                            block1: 请修改 ... 中的值。</span></span>
+<span id="cb33-3"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb33-4"><a href=""></a></span>
+<span id="cb33-5"><a href=""></a><span class="co">#构建模型</span></span>
+<span id="cb33-6"><a href=""></a></span>
+<span id="cb33-7"><a href=""></a>stan_code <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb33-8"><a href=""></a><span class="st">data {</span></span>
+<span id="cb33-9"><a href=""></a><span class="st">  int&lt;lower=0&gt; n;           // 观测数据的数量</span></span>
+<span id="cb33-10"><a href=""></a><span class="st">  vector[n] Y;              // 观测数据</span></span>
+<span id="cb33-11"><a href=""></a><span class="st">}</span></span>
+<span id="cb33-12"><a href=""></a></span>
+<span id="cb33-13"><a href=""></a><span class="st">parameters {</span></span>
+<span id="cb33-14"><a href=""></a><span class="st">  real mu;                  // 反应时间均值</span></span>
+<span id="cb33-15"><a href=""></a><span class="st">}</span></span>
+<span id="cb33-16"><a href=""></a></span>
+<span id="cb33-17"><a href=""></a><span class="st">model {</span></span>
+<span id="cb33-18"><a href=""></a><span class="st">  // 先验分布</span></span>
+<span id="cb33-19"><a href=""></a><span class="st">  mu ~ normal(300, 50);</span></span>
+<span id="cb33-20"><a href=""></a></span>
+<span id="cb33-21"><a href=""></a><span class="st">  // 似然函数</span></span>
+<span id="cb33-22"><a href=""></a><span class="st">  Y ~ normal(mu, 20);</span></span>
+<span id="cb33-23"><a href=""></a><span class="st">}</span></span>
+<span id="cb33-24"><a href=""></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1737,30 +1731,30 @@ Y_i|\mu &amp; \stackrel{ind}{\sim} \text{Normal}(\mu, \sigma^2) \\
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-label="1"></a><span class="co">#===========================================================================</span></span>
-<span id="cb34-2"><a href="" aria-label="2"></a><span class="co">#                            block2: 请修改 ... 中的值。</span></span>
-<span id="cb34-3"><a href="" aria-label="3"></a><span class="co">#===========================================================================</span></span>
-<span id="cb34-4"><a href="" aria-label="4"></a><span class="co">#准备数据</span></span>
-<span id="cb34-5"><a href="" aria-label="5"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb34-6"><a href="" aria-label="6"></a>  <span class="at">Y =</span> <span class="fu">c</span>(<span class="dv">320</span>, <span class="dv">310</span>, <span class="dv">280</span>, <span class="dv">340</span>, <span class="dv">300</span>), <span class="co"># 观测数据</span></span>
-<span id="cb34-7"><a href="" aria-label="7"></a>  <span class="at">n =</span> <span class="dv">5</span>                          <span class="co"># 观测数据的数量</span></span>
-<span id="cb34-8"><a href="" aria-label="8"></a>)</span>
-<span id="cb34-9"><a href="" aria-label="9"></a></span>
-<span id="cb34-10"><a href="" aria-label="10"></a>trace <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan</span>(</span>
-<span id="cb34-11"><a href="" aria-label="11"></a>  <span class="at">model_code =</span> stan_code,            <span class="co"># 定义的模型或模型文件路径</span></span>
-<span id="cb34-12"><a href="" aria-label="12"></a>  <span class="at">data =</span> data_list,                  <span class="co"># 输入数据</span></span>
-<span id="cb34-13"><a href="" aria-label="13"></a>  <span class="at">chains =</span> <span class="dv">4</span> ,                        <span class="co"># 马尔可夫链数量</span></span>
-<span id="cb34-14"><a href="" aria-label="14"></a>  <span class="at">iter =</span> <span class="dv">2000</span> ,                       <span class="co"># 总迭代次数</span></span>
-<span id="cb34-15"><a href="" aria-label="15"></a>  <span class="at">warmup =</span> <span class="dv">1000</span> ,                      <span class="co"># 热身迭代次数</span></span>
-<span id="cb34-16"><a href="" aria-label="16"></a>  <span class="at">seed =</span> <span class="dv">202409</span></span>
-<span id="cb34-17"><a href="" aria-label="17"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb34-2"><a href=""></a><span class="co">#                            block2: 请修改 ... 中的值。</span></span>
+<span id="cb34-3"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb34-4"><a href=""></a><span class="co">#准备数据</span></span>
+<span id="cb34-5"><a href=""></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb34-6"><a href=""></a>  <span class="at">Y =</span> <span class="fu">c</span>(<span class="dv">320</span>, <span class="dv">310</span>, <span class="dv">280</span>, <span class="dv">340</span>, <span class="dv">300</span>), <span class="co"># 观测数据</span></span>
+<span id="cb34-7"><a href=""></a>  <span class="at">n =</span> <span class="dv">5</span>                          <span class="co"># 观测数据的数量</span></span>
+<span id="cb34-8"><a href=""></a>)</span>
+<span id="cb34-9"><a href=""></a></span>
+<span id="cb34-10"><a href=""></a>trace <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan</span>(</span>
+<span id="cb34-11"><a href=""></a>  <span class="at">model_code =</span> stan_code,            <span class="co"># 定义的模型或模型文件路径</span></span>
+<span id="cb34-12"><a href=""></a>  <span class="at">data =</span> data_list,                  <span class="co"># 输入数据</span></span>
+<span id="cb34-13"><a href=""></a>  <span class="at">chains =</span> <span class="dv">4</span> ,                        <span class="co"># 马尔可夫链数量</span></span>
+<span id="cb34-14"><a href=""></a>  <span class="at">iter =</span> <span class="dv">2000</span> ,                       <span class="co"># 总迭代次数</span></span>
+<span id="cb34-15"><a href=""></a>  <span class="at">warmup =</span> <span class="dv">1000</span> ,                      <span class="co"># 热身迭代次数</span></span>
+<span id="cb34-16"><a href=""></a>  <span class="at">seed =</span> <span class="dv">202409</span></span>
+<span id="cb34-17"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 Chain 1: 
-Chain 1: Gradient evaluation took 5e-06 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
+Chain 1: Gradient evaluation took 3e-06 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.03 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
@@ -1864,7 +1858,7 @@ Chain 4: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-label="1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(patchwork,tidyverse,rstan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(patchwork,tidyverse,rstan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -1873,18 +1867,18 @@ Chain 4: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-label="1"></a><span class="co">#创建绘图数据框</span></span>
-<span id="cb37-2"><a href="" aria-label="2"></a>idata <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">extract</span>(trace)</span>
-<span id="cb37-3"><a href="" aria-label="3"></a>sample_mu <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(idata<span class="sc">$</span>mu)</span>
-<span id="cb37-4"><a href="" aria-label="4"></a><span class="co">#采样密度图</span></span>
-<span id="cb37-5"><a href="" aria-label="5"></a>dens_mu <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_mu) <span class="sc">+</span>    </span>
-<span id="cb37-6"><a href="" aria-label="6"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu_prior"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb37-7"><a href="" aria-label="7"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb37-8"><a href="" aria-label="8"></a></span>
-<span id="cb37-9"><a href="" aria-label="9"></a><span class="co"># 绘制轨迹图</span></span>
-<span id="cb37-10"><a href="" aria-label="10"></a>trace_mu <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">traceplot</span>(trace,<span class="at">color =</span> <span class="st">'#6497b1'</span>)</span>
-<span id="cb37-11"><a href="" aria-label="11"></a></span>
-<span id="cb37-12"><a href="" aria-label="12"></a>dens_mu <span class="sc">+</span> trace_mu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="co">#创建绘图数据框</span></span>
+<span id="cb37-2"><a href=""></a>idata <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">extract</span>(trace)</span>
+<span id="cb37-3"><a href=""></a>sample_mu <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(idata<span class="sc">$</span>mu)</span>
+<span id="cb37-4"><a href=""></a><span class="co">#采样密度图</span></span>
+<span id="cb37-5"><a href=""></a>dens_mu <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_mu) <span class="sc">+</span>    </span>
+<span id="cb37-6"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu_prior"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb37-7"><a href=""></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb37-8"><a href=""></a></span>
+<span id="cb37-9"><a href=""></a><span class="co"># 绘制轨迹图</span></span>
+<span id="cb37-10"><a href=""></a>trace_mu <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">traceplot</span>(trace,<span class="at">color =</span> <span class="st">'#6497b1'</span>)</span>
+<span id="cb37-11"><a href=""></a></span>
+<span id="cb37-12"><a href=""></a>dens_mu <span class="sc">+</span> trace_mu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1900,38 +1894,38 @@ Chain 4: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-label="1"></a><span class="co">#===========================================================================</span></span>
-<span id="cb38-2"><a href="" aria-label="2"></a><span class="co">#                            为了和真实的后验分布进行比较，计算真实的后验分布。</span></span>
-<span id="cb38-3"><a href="" aria-label="3"></a><span class="co">#===========================================================================</span></span>
-<span id="cb38-4"><a href="" aria-label="4"></a></span>
-<span id="cb38-5"><a href="" aria-label="5"></a><span class="co"># 先验分布的均值和标准差</span></span>
-<span id="cb38-6"><a href="" aria-label="6"></a>mu_prior <span class="ot">&lt;-</span> <span class="dv">300</span>  <span class="co"># 先验均值</span></span>
-<span id="cb38-7"><a href="" aria-label="7"></a>sigma_prior <span class="ot">&lt;-</span> <span class="dv">50</span>  <span class="co"># 先验标准差</span></span>
-<span id="cb38-8"><a href="" aria-label="8"></a></span>
-<span id="cb38-9"><a href="" aria-label="9"></a><span class="co"># 观测数据的标准差 (已知)</span></span>
-<span id="cb38-10"><a href="" aria-label="10"></a>sigma_obs <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb38-11"><a href="" aria-label="11"></a></span>
-<span id="cb38-12"><a href="" aria-label="12"></a><span class="co"># 假设观测数据</span></span>
-<span id="cb38-13"><a href="" aria-label="13"></a>observed_data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">320</span>, <span class="dv">310</span>, <span class="dv">280</span>, <span class="dv">340</span>, <span class="dv">300</span>)  <span class="co"># 替换为实际观测数据</span></span>
-<span id="cb38-14"><a href="" aria-label="14"></a></span>
-<span id="cb38-15"><a href="" aria-label="15"></a><span class="co"># 计算观测数据的数量和均值</span></span>
-<span id="cb38-16"><a href="" aria-label="16"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(observed_data)  </span>
-<span id="cb38-17"><a href="" aria-label="17"></a>y_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(observed_data)  </span>
-<span id="cb38-18"><a href="" aria-label="18"></a></span>
-<span id="cb38-19"><a href="" aria-label="19"></a><span class="co"># 计算后验分布的均值和方差</span></span>
-<span id="cb38-20"><a href="" aria-label="20"></a>posterior_mean <span class="ot">&lt;-</span> (sigma_obs<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> mu_prior <span class="sc">+</span> n <span class="sc">*</span> sigma_prior<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> y_mean) <span class="sc">/</span> (n <span class="sc">*</span> sigma_prior<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> sigma_obs<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb38-21"><a href="" aria-label="21"></a>posterior_variance <span class="ot">&lt;-</span> (sigma_prior<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> sigma_obs<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">*</span> sigma_prior<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> sigma_obs<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb38-22"><a href="" aria-label="22"></a>posterior_std <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(posterior_variance)</span>
-<span id="cb38-23"><a href="" aria-label="23"></a></span>
-<span id="cb38-24"><a href="" aria-label="24"></a><span class="co"># 输出结果</span></span>
-<span id="cb38-25"><a href="" aria-label="25"></a><span class="fu">cat</span>(<span class="st">"后验分布的均值:"</span>, posterior_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb38-2"><a href=""></a><span class="co">#                            为了和真实的后验分布进行比较，计算真实的后验分布。</span></span>
+<span id="cb38-3"><a href=""></a><span class="co">#===========================================================================</span></span>
+<span id="cb38-4"><a href=""></a></span>
+<span id="cb38-5"><a href=""></a><span class="co"># 先验分布的均值和标准差</span></span>
+<span id="cb38-6"><a href=""></a>mu_prior <span class="ot">&lt;-</span> <span class="dv">300</span>  <span class="co"># 先验均值</span></span>
+<span id="cb38-7"><a href=""></a>sigma_prior <span class="ot">&lt;-</span> <span class="dv">50</span>  <span class="co"># 先验标准差</span></span>
+<span id="cb38-8"><a href=""></a></span>
+<span id="cb38-9"><a href=""></a><span class="co"># 观测数据的标准差 (已知)</span></span>
+<span id="cb38-10"><a href=""></a>sigma_obs <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb38-11"><a href=""></a></span>
+<span id="cb38-12"><a href=""></a><span class="co"># 假设观测数据</span></span>
+<span id="cb38-13"><a href=""></a>observed_data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">320</span>, <span class="dv">310</span>, <span class="dv">280</span>, <span class="dv">340</span>, <span class="dv">300</span>)  <span class="co"># 替换为实际观测数据</span></span>
+<span id="cb38-14"><a href=""></a></span>
+<span id="cb38-15"><a href=""></a><span class="co"># 计算观测数据的数量和均值</span></span>
+<span id="cb38-16"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(observed_data)  </span>
+<span id="cb38-17"><a href=""></a>y_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(observed_data)  </span>
+<span id="cb38-18"><a href=""></a></span>
+<span id="cb38-19"><a href=""></a><span class="co"># 计算后验分布的均值和方差</span></span>
+<span id="cb38-20"><a href=""></a>posterior_mean <span class="ot">&lt;-</span> (sigma_obs<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> mu_prior <span class="sc">+</span> n <span class="sc">*</span> sigma_prior<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> y_mean) <span class="sc">/</span> (n <span class="sc">*</span> sigma_prior<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> sigma_obs<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb38-21"><a href=""></a>posterior_variance <span class="ot">&lt;-</span> (sigma_prior<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> sigma_obs<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">*</span> sigma_prior<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> sigma_obs<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb38-22"><a href=""></a>posterior_std <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(posterior_variance)</span>
+<span id="cb38-23"><a href=""></a></span>
+<span id="cb38-24"><a href=""></a><span class="co"># 输出结果</span></span>
+<span id="cb38-25"><a href=""></a><span class="fu">cat</span>(<span class="st">"后验分布的均值:"</span>, posterior_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>后验分布的均值: 309.6899</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-label="1"></a><span class="fu">cat</span>(<span class="st">"后验分布的标准差:"</span>, posterior_std)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"后验分布的标准差:"</span>, posterior_std)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>后验分布的标准差: 8.804509</code></pre>
@@ -1943,24 +1937,24 @@ Chain 4: </code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-label="1"></a><span class="co"># 计算真实的后验分布</span></span>
-<span id="cb42-2"><a href="" aria-label="2"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">200</span>, <span class="dv">400</span>, <span class="at">length.out =</span> <span class="dv">5000</span>)                     <span class="co"># 创建从200到400的序列</span></span>
-<span id="cb42-3"><a href="" aria-label="3"></a>y <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> posterior_mean, <span class="at">sd =</span> posterior_std)  <span class="co"># 计算后验分布的概率密度</span></span>
-<span id="cb42-4"><a href="" aria-label="4"></a>posterior_real <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
-<span id="cb42-5"><a href="" aria-label="5"></a></span>
-<span id="cb42-6"><a href="" aria-label="6"></a><span class="co">#绘制采样结果直方图</span></span>
-<span id="cb42-7"><a href="" aria-label="7"></a>hist_mu <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_hist</span>(sample_mu, <span class="at">bins=</span><span class="dv">50</span>) <span class="sc">+</span>    </span>
-<span id="cb42-8"><a href="" aria-label="8"></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
-<span id="cb42-9"><a href="" aria-label="9"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb42-10"><a href="" aria-label="10"></a></span>
-<span id="cb42-11"><a href="" aria-label="11"></a><span class="co">#绘制采样结果分布图和真实后验分布图</span></span>
-<span id="cb42-12"><a href="" aria-label="12"></a>dens_mu_mix <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_mu) <span class="sc">+</span>  <span class="co">#采样结果</span></span>
-<span id="cb42-13"><a href="" aria-label="13"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">data =</span> posterior_real, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">color =</span> <span class="st">"red"</span>,<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span>  <span class="co">#真实后验</span></span>
-<span id="cb42-14"><a href="" aria-label="14"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
-<span id="cb42-15"><a href="" aria-label="15"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
-<span id="cb42-16"><a href="" aria-label="16"></a></span>
-<span id="cb42-17"><a href="" aria-label="17"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">16</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>) </span>
-<span id="cb42-18"><a href="" aria-label="18"></a>hist_mu <span class="sc">+</span> dens_mu_mix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="co"># 计算真实的后验分布</span></span>
+<span id="cb42-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">200</span>, <span class="dv">400</span>, <span class="at">length.out =</span> <span class="dv">5000</span>)                     <span class="co"># 创建从200到400的序列</span></span>
+<span id="cb42-3"><a href=""></a>y <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> posterior_mean, <span class="at">sd =</span> posterior_std)  <span class="co"># 计算后验分布的概率密度</span></span>
+<span id="cb42-4"><a href=""></a>posterior_real <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb42-5"><a href=""></a></span>
+<span id="cb42-6"><a href=""></a><span class="co">#绘制采样结果直方图</span></span>
+<span id="cb42-7"><a href=""></a>hist_mu <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_hist</span>(sample_mu, <span class="at">bins=</span><span class="dv">50</span>) <span class="sc">+</span>    </span>
+<span id="cb42-8"><a href=""></a>        ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
+<span id="cb42-9"><a href=""></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb42-10"><a href=""></a></span>
+<span id="cb42-11"><a href=""></a><span class="co">#绘制采样结果分布图和真实后验分布图</span></span>
+<span id="cb42-12"><a href=""></a>dens_mu_mix <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_dens</span>(sample_mu) <span class="sc">+</span>  <span class="co">#采样结果</span></span>
+<span id="cb42-13"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">data =</span> posterior_real, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">color =</span> <span class="st">"red"</span>,<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span>  <span class="co">#真实后验</span></span>
+<span id="cb42-14"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"mu"</span>, <span class="at">y =</span> <span class="st">"density"</span>) <span class="sc">+</span></span>
+<span id="cb42-15"><a href=""></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb42-16"><a href=""></a></span>
+<span id="cb42-17"><a href=""></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">16</span>, <span class="at">repr.plot.height=</span><span class="dv">6</span>) </span>
+<span id="cb42-18"><a href=""></a>hist_mu <span class="sc">+</span> dens_mu_mix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2289,7 +2283,7 @@ Chain 4: </code></pre>
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -2401,14 +2395,13 @@ Chain 4: </code></pre>
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
