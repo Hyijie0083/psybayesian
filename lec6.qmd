@@ -261,8 +261,7 @@ $$
 ---
 
 ## 未归一化后验：图示
-
-![Image Name](https://cdn.kesci.com/upload/s2ty9jty8t.png?imageView2/0/w/960/h/960){height=540}  
+![Image Name](https://cdn.kesci.com/upload/s2ty9jty8t.png){height=540}
 
 
 那么新的问题是，如何在不计算复杂归一化常数的情况下，有效地生成样本？🤔
