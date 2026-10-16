@@ -5,25 +5,123 @@ if (!requireNamespace('pacman', quietly = TRUE)) {
 }
 pacman::p_load("tidyverse","ggplot2", "dplyr","gridExtra","papaja", "patchwork","bayesplot","rstan")
 options(warn = -1)  # 抑制警告
-# 设置 x 的范围为 [2, 10]
-x_range <- seq(2, 10, length.out = 1000)
 
-# 计算正态分布的概率密度函数
-y_norm <- dnorm(x_range, mean = 6.25, sd = 0.75)
+#===========================================================================
+#        Normal-Normal 例子：解析解 vs Stan 的 MCMC
+#        模型：先验 mu ~ N(0, 1)，似然 Y ~ N(mu, 0.75^2)，观测到 Y = 6.25
+#===========================================================================
 
-# 对正态分布进行采样，得到1000个样本值
-samples <- rnorm(1000, mean = 6.25, sd = 0.75)
+#--------------- 方法1：解析解（Normal-Normal 共轭） ---------------
+# 后验均值 = (theta*sigma^2 + ybar*n*tau^2) / (n*tau^2 + sigma^2)
+# 后验方差 = tau^2*sigma^2 / (n*tau^2 + sigma^2)
+post_mean <- (0 * 0.75^2 + 6.25 * 1^2) / (1^2 + 0.75^2)   # 4
+post_sd   <- sqrt((1^2 * 0.75^2) / (1^2 + 0.75^2))         # 0.6
+cat("解析解：后验 ~ N(", post_mean, ",", post_sd^2, ")\n")
+
+#--------------- 方法2：Stan 的 MCMC ---------------
+# 准备观测数据
+y <- 6.25
+
+# 使用Stan语法建构模型
+stan_model_code <- "
+data {
+  real y;       // 观测数据
+}
+
+parameters {
+  real mu;      // 未知参数
+}
+
+model {
+  // 设置先验
+  mu ~ normal(0, 1);
+
+  // 设置似然
+  y ~ normal(mu, 0.75);
+}
+"
+
+# 拟合模型
+fit <- stan(
+  model_code = stan_model_code,      # 定义的模型或模型文件路径
+  data = list(y = y),                # 输入数据
+  chains = 4,                        # 马尔可夫链数量
+  iter = 2000,                       # 总迭代次数（每个链）
+  warmup = 1000,                     # 热身迭代次数（不保存）
+  cores = 4                          # 使用的CPU核心数
+)
+
+# 显示采样结果
+print(fit)
+
+#--------------- Step 4b：用 trace 图做视觉检查 ---------------
+# 提取 μ 的样本（4 条链、已去掉 warmup）用于 trace 图
+mu_draws <- data.frame(mu = rstan::extract(fit)$mu)
+
+bayesplot::mcmc_trace(mu_draws) +
+  ggplot2::labs(x = "iteration", y = "mu") +
+  papaja::theme_apa()
+
+#--------------- 与共轭后验对比（含 94% HDI） ---------------
+# 理论后验密度曲线
+x <- seq(post_mean - 4 * post_sd, post_mean + 4 * post_sd, length.out = 1000)
+theoretical <- data.frame(x = x, density = stats::dnorm(x, post_mean, post_sd))
+
+# 计算 94% HDI 与后验均值
+hdi     <- bayestestR::hdi(mu_draws$mu, ci = 0.94)
+mean_mu <- mean(mu_draws$mu)
+
+# 叠加 Stan 采样密度与理论后验
+p_nn <- ggplot2::ggplot() +
+  ggplot2::geom_histogram(
+    data = mu_draws,
+    ggplot2::aes(x = mu, y = ggplot2::after_stat(density)),
+    fill = "#6497b1", colour = "white", bins = 50
+  ) +
+  ggplot2::geom_line(
+    data = theoretical,
+    ggplot2::aes(x = x, y = density),
+    color = "red", linewidth = 1
+  ) +
+  ggplot2::annotate("segment",
+    x = hdi$CI_low, xend = hdi$CI_high,
+    y = 0, yend = 0, color = "black", linewidth = 2
+  ) +
+  ggplot2::annotate("text",
+    x = mean_mu, y = 0.02,
+    label = paste0("94% HDI; mean=", round(mean_mu, 2)),
+    size = 3.5, color = "black"
+  ) +
+  ggplot2::labs(
+    title = "Stan (histogram) vs. conjugate N(4, 0.6^2) (red)",
+    x = expression(mu), y = "density"
+  ) +
+  papaja::theme_apa()
+
+print(p_nn)
+
+#===========================================================================
+#        Monte Carlo：从已知的后验分布中独立抽样
+#===========================================================================
+# 设置 x 的范围为 [2, 7]
+x_range <- seq(2, 7, length.out = 1000)
+
+# 后验分布 N(4, 0.6^2) 的概率密度函数
+y_norm <- dnorm(x_range, mean = 4, sd = 0.6)
+
+# 从后验分布 N(4, 0.6^2) 中采样，得到1000个样本值
+samples <- rnorm(1000, mean = 4, sd = 0.6)
 
 # 显示前 10 个样本值
-cat("前 10 个样本值：", head(samples, 10))
+cat("前 10 个样本值：", head(samples, 10), "\n")
 
 # 绘制图像
 options(repr.plot.width=10, repr.plot.height=6) 
 df <- data.frame(x = x_range, y = y_norm)
 ggplot2::ggplot(df, aes(x = x, y = y)) +
-  ggplot2::geom_histogram(aes(x = samples, y = ..density..),  bins = 45, fill = "lightgrey", color = "black") +
-  ggplot2::geom_line(color = 'red', size = 1.5)+ 
-  ggplot2::scale_y_continuous(expand = c(0, 0) , limits = c(0, 0.55)) +
+  ggplot2::geom_histogram(aes(x = samples, y = after_stat(density)),  bins = 45, fill = "lightgrey", color = "black") +
+  ggplot2::geom_line(color = 'red', linewidth = 1.5) + 
+  ggplot2::scale_y_continuous(expand = c(0, 0) , limits = c(0, 0.85)) +
   papaja::theme_apa()
 
 #===========================================================================
@@ -46,7 +144,7 @@ P <- matrix(c(0.5, 0.25, 0.25,
             dimnames = list(c("开心", "冷静", "悲伤"),
                             c("开心", "冷静", "悲伤")))
 emo <- c("开心", "冷静", "悲伤")
-n_days <- 1000
+n_days <- 2000
 
 # 从 start 出发，按照 P 转移 n_days 次（每次 = 一天）
 set.seed(202409)
@@ -101,14 +199,14 @@ current <- 3                             # 假设theta^n为3
 
 proposal <- rnorm(1, mean = current, sd = 1)    # 从当前正态分布中抽出一个样本
 
-cat("从建议分布中新采样 θ(n+1)为：",proposal)
+cat("从建议分布中新采样 θ(n+1)为：",proposal, "\n")
 # 设置先验
-proposal_prior <- dnorm(proposal, mean = 3, sd = 1)  # 先验概率密度
-current_prior <- dnorm(current, mean = 3, sd = 1)    # 先验概率密度
+proposal_prior <- dnorm(proposal, mean = 0, sd = 1)  # 先验概率密度
+current_prior <- dnorm(current, mean = 0, sd = 1)    # 先验概率密度
 
 # 定义似然函数
 likelihood <- function(theta) {
-  Y <- 6  # 假设数据 Y 为 6
+  Y <- 6.25  # 假设数据 Y = 6.25
   return(dnorm(Y, mean = theta, sd = 0.75))  # 固定 sd=0.75
 }
 
@@ -137,12 +235,12 @@ one_mh_iteration <- function(current, sigma = 1) {
   proposal <- rnorm(1, mean = current, sd = sigma)
   
   # 设置先验并计算概率密度
-  proposal_prior <- dnorm(proposal, mean = 3, sd = 1)
-  current_prior <- dnorm(current, mean = 3, sd = 1)
+  proposal_prior <- dnorm(proposal, mean = 0, sd = 1)
+  current_prior <- dnorm(current, mean = 0, sd = 1)
   
   # 定义似然函数
   likelihood <- function(theta) {
-    Y <- 6  # 假设数据 Y 为 6
+    Y <- 6.25  # 假设数据 Y = 6.25
     return(dnorm(Y, mean = theta, sd = 0.75))  # 计算似然
   }
   
@@ -204,14 +302,14 @@ tail(mh_simulation, n = 5)
 
 # 绘制密度图
 density_plot <- ggplot2::ggplot(mh_simulation, aes(x = mu)) +
-  ggplot2::geom_histogram(aes(y = ..density..), 
+  ggplot2::geom_histogram(aes(y = after_stat(density)), 
                           bins = 30, 
                           color = "white", 
                           fill = "darkgrey", 
                           alpha = 0.7) +
-  ggplot2::geom_density(aes(y = ..density..), 
+  ggplot2::geom_density(aes(y = after_stat(density)), 
                         color = "#6497b1", 
-                        size = 1) +
+                        linewidth = 1) +
   ggplot2::labs(x = "mu", y = "density") +
   papaja::theme_apa()  + 
   ggplot2::scale_y_continuous(expand = c(0, 0) , limits = c(0, 0.7)) 
@@ -221,7 +319,7 @@ trace_plot <- ggplot2::ggplot(mh_simulation, aes(x = iteration, y = mu)) +
   ggplot2::geom_line(color = "#6497b1") +
   ggplot2::labs(x = "iteration", y = "mu") +
   papaja::theme_apa()  + 
-  ggplot2::scale_y_continuous(limits = c(3, 9)) 
+  ggplot2::scale_y_continuous(limits = c(1.5, 6.5)) 
 
 # 将两个图并排显示
 options(repr.plot.width=16, repr.plot.height=7) 
@@ -237,7 +335,7 @@ dens <- bayesplot::mcmc_dens(sample) +
 
 #采样轨迹图
 trace <- bayesplot::mcmc_trace(sample) +  
-  ggplot2::labs(x = "iteration", y = "density") +
+  ggplot2::labs(x = "iteration", y = "mu") +
   papaja::theme_apa()
 
 dens + trace
@@ -248,12 +346,12 @@ one_mh_iteration <- function(current, sigma = 1) {
   proposal <- rnorm(1, mean = current, sd = sigma)
   
   # 设置先验并计算概率密度
-  proposal_prior <- dnorm(proposal, mean = 3, sd = 1)
-  current_prior <- dnorm(current, mean = 3, sd = 1)
+  proposal_prior <- dnorm(proposal, mean = 0, sd = 1)
+  current_prior <- dnorm(current, mean = 0, sd = 1)
   
   # 定义似然函数
   likelihood <- function(theta) {
-    Y <- 6  # 假设数据 Y 为 6
+    Y <- 6.25  # 假设数据 Y = 6.25
     return(dnorm(Y, mean = theta, sd = 0.75))  # 计算似然
   }
   
@@ -310,10 +408,38 @@ dens_x <- bayesplot::mcmc_dens(sample_x) +
 #采样轨迹图
 trace_x <- bayesplot::mcmc_trace(sample_x) +  
   ggplot2::labs(x = "iteration", y = "density") +
-  ggplot2::scale_y_continuous(limits = c(2.5, 9)) +
+  ggplot2::scale_y_continuous(limits = c(1.5, 6.5)) +
   papaja::theme_apa()
 
 dens_x + trace_x
+
+#===========================================================================
+#        比较三种做法：解析解、Stan 的 MCMC 和手搓的 MCMC
+#===========================================================================
+# 1) 解析解：共轭后验 N(4, 0.6^2)
+x_grid <- seq(2, 7, length.out = 1000)
+analytic_df <- data.frame(x = x_grid, density = dnorm(x_grid, 4, 0.6))
+
+# 2) Stan 的后验样本
+stan_df <- data.frame(mu = mu_draws$mu)
+
+# 3) 手搓 MH 的后验样本（与 Stan 用的是同一个先验 N(0,1)）
+mh_df <- data.frame(mu = mh_simulation$mu)
+
+# 三条曲线叠在同一张图上；灰色虚线标出三种做法的共同中心 4
+ggplot() +
+  geom_histogram(data = stan_df, aes(x = mu, y = after_stat(density), fill = "Stan MCMC"),
+                 colour = "white", bins = 50, alpha = 0.7) +
+  geom_density(data = mh_df, aes(x = mu, colour = "Hand-coded MCMC"), linewidth = 1) +
+  geom_line(data = analytic_df, aes(x = x, y = density, colour = "Analytic solution"), linewidth = 1) +
+  geom_vline(xintercept = 4, linetype = "dashed", colour = "grey40") +
+  coord_cartesian(xlim = c(2, 6.5)) +
+  scale_fill_manual(values = c("Stan MCMC" = "#6497b1")) +
+  scale_colour_manual(values = c("Analytic solution" = "black",
+                                 "Hand-coded MCMC" = "#D55E00")) +
+  labs(x = expression(mu), y = "density", fill = NULL, colour = NULL) +
+  papaja::theme_apa() +
+  theme(legend.position = "top")
 
 ##Stan实战
 # 准备数据
@@ -359,9 +485,11 @@ trace_pi <- rstan::traceplot(trace,color = '#6497b1')
 
 dens_pi + trace_pi
 
-# 选取第一条Makov链的前20个采样结果和前200个结果
-sample_pi_20 <- as.data.frame(sample_pi[1:20, ])
-sample_pi_200 <- as.data.frame(sample_pi[1:200, ])
+# 含 warmup 的样本：取第一条链的前 20 次与前 200 次迭代（热身阶段）
+# 注意：inc_warmup 只在 permuted = FALSE 时生效（此时 第1维=迭代、第2维=链）
+pi_warm <- drop(rstan::extract(trace, pars = "pi", permuted = FALSE, inc_warmup = TRUE))
+sample_pi_20 <- data.frame(pi = pi_warm[1:20, 1])
+sample_pi_200 <- data.frame(pi = pi_warm[1:200, 1])
 
 # 绘图
 options(repr.plot.width=16, repr.plot.height=5) 
@@ -397,7 +525,7 @@ hist_pi <- bayesplot::mcmc_hist(sample_pi, bins=30) +
 
 #绘制采样结果分布图和真实后验分布图
 dens_pi_mix <- bayesplot::mcmc_dens(sample_pi) +  #采样结果
-  ggplot2::geom_line(data = posterior_data, aes(x = x, y = y), color = "black",size = 0.8) +  #真实后验
+  ggplot2::geom_line(data = posterior_data, aes(x = x, y = y), color = "black", linewidth = 0.8) +  #真实后验
   ggplot2::labs(x = "pi", y = "density") +
   papaja::theme_apa()
 
@@ -451,7 +579,7 @@ idata <- rstan::extract(trace)
 sample_mu <- as.data.frame(idata$mu)
 #采样密度图
 dens_mu <- bayesplot::mcmc_dens(sample_mu) +    
-  ggplot2::labs(x = "mu_prior", y = "density") +
+  ggplot2::labs(x = "mu", y = "density") +
   papaja::theme_apa()
 # 绘制轨迹图
 trace_mu <- rstan::traceplot(trace,color = '#6497b1')
@@ -483,8 +611,8 @@ posterior_variance <- (sigma_prior^2 * sigma_obs^2) / (n * sigma_prior^2 + sigma
 posterior_std <- sqrt(posterior_variance)
 
 # 输出结果
-cat("后验分布的均值:", posterior_mean)
-cat("后验分布的标准差:", posterior_std)
+cat("后验分布的均值:", posterior_mean, "\n")
+cat("后验分布的标准差:", posterior_std, "\n")
 
 # 计算真实的后验分布
 x <- seq(200, 400, length.out = 5000)  # 创建从200到400的序列
@@ -498,7 +626,7 @@ hist_mu <- bayesplot::mcmc_hist(sample_mu, bins=50) +
 
 #绘制采样结果分布图和真实后验分布图
 dens_mu_mix <- bayesplot::mcmc_dens(sample_mu) +  #采样结果
-  ggplot2::geom_line(data = posterior_real, aes(x = x, y = y), color = "red",size = 0.8) +  #真实后验
+  ggplot2::geom_line(data = posterior_real, aes(x = x, y = y), color = "red", linewidth = 0.8) +  #真实后验
   ggplot2::labs(x = "mu", y = "density") +
   papaja::theme_apa()
 

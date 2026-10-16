@@ -2,11 +2,42 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 
-x_range = np.linspace(2, 10, 1000)  # 设置 x 的范围为 [2,10]
-y_norm = norm.pdf(x_range, 6.25, 0.75)
+# ===========================================================================
+#    Normal-Normal 例子：解析解 vs PyMC 的 MCMC
+#    模型：先验 mu ~ N(0, 1)，似然 Y ~ N(mu, 0.75^2)，观测到 Y = 6.25
+# ===========================================================================
 
-# 对y_norm进行采样，得到1000个样本值
-samples = np.random.normal(6.25, 0.75, 1000)
+# --------------- 方法1：解析解（Normal-Normal 共轭） ---------------
+# 后验均值 = (theta*sigma^2 + ybar*n*tau^2) / (n*tau^2 + sigma^2)
+# 后验方差 = tau^2*sigma^2 / (n*tau^2 + sigma^2)
+post_mean = (0 * 0.75 ** 2 + 6.25 * 1 ** 2) / (1 ** 2 + 0.75 ** 2)   # 4
+post_var = (1 ** 2 * 0.75 ** 2) / (1 ** 2 + 0.75 ** 2)                # 0.36
+post_sd = np.sqrt(post_var)                                            # 0.6
+print(f"解析解：后验 ~ N({post_mean}, {post_var})")
+
+# --------------- 方法2：PyMC 的 MCMC ---------------
+import pymc as pm
+import arviz as az
+
+with pm.Model() as nn_model_simple:
+    mu = pm.Normal("mu", mu=0, sigma=1)                    # 先验
+    y = pm.Normal("y", mu=mu, sigma=0.75, observed=6.25)   # 似然
+    idata_nn = pm.sample(draws=1000,   # 每条链保留的样本数（对应 iter - warmup）
+                         tune=1000,    # 对应 R/Stan 的 warmup
+                         chains=4,
+                         random_seed=202409)
+
+print(az.summary(idata_nn, var_names=["mu"]))
+
+# --------------- Step 4b：用 trace 图做视觉检查 ---------------
+# ✅ 像"毛毛虫"：每条链在同一条水平带内快速抖动、互相重叠、没有趋势
+az.plot_trace(idata_nn, var_names=["mu"])
+
+x_range = np.linspace(2, 7, 1000)  # 设置 x 的范围为 [2,7]
+y_norm = norm.pdf(x_range, 4, 0.6)  # 后验分布 N(4, 0.6^2) 的概率密度
+
+# 从后验分布 N(4, 0.6^2) 中采样，得到1000个样本值
+samples = np.random.normal(4, 0.6, 1000)
 
 # 显示前 10 个样本值
 first_10_samples = samples[:10]
@@ -14,10 +45,11 @@ print("前 10 个样本值：", first_10_samples)
 
 #  绘制图像
 plt.figure(figsize=(10, 6))
-plt.plot(x_range, norm.pdf(x_range, 6.25, 0.75), linewidth=1.5, color='r', label='Normal Distribution PDF')
+plt.plot(x_range, norm.pdf(x_range, 4, 0.6), linewidth=1.5, color='r', label='Posterior N(4, 0.6^2)')
 count, bins, ignored = plt.hist(samples, bins=45, density=True, alpha=1, color='lightgrey', edgecolor='black',
                                 label='Sampled Histogram')
 
+plt.ylim(0, 0.85)  # 与 R 版保持一致
 plt.legend()
 plt.show()
 
@@ -40,7 +72,7 @@ P = np.array([[0.50, 0.25, 0.25],
               [0.50, 0.00, 0.50],
               [0.25, 0.25, 0.50]])
 
-n_days = 1000
+n_days = 2000
 rng = np.random.default_rng(202409)
 
 
@@ -106,11 +138,11 @@ proposal = st.norm(current, 1).rvs()  # 从当前正态分布中抽出一个样�
 print("从建议分布中新采样 θ(n+1)为：", proposal)
 
 # 设置先验
-prior = st.norm(loc=3, scale=1)
+prior = st.norm(loc=0, scale=1)
 
 
 def likelihood(theta):
-    Y = 6  # 假设数据 Y 为 6
+    Y = 6.25  # 假设数据 Y = 6.25
     return st.norm(loc=theta, scale=0.75).pdf(Y)  # 注意：这里为方便演示固定 scale = 0.75
 
 
@@ -145,11 +177,11 @@ def one_mh_iteration(current, sigma=1):
     """
     proposal = st.norm(current, sigma).rvs()
 
-    prior = st.norm(loc=3, scale=1)
+    prior = st.norm(loc=0, scale=1)
 
     def likelihood(theta):
-        # 假设数据 Y 为 6
-        Y = 6
+        # 假设数据 Y = 6.25
+        Y = 6.25
         return st.norm(loc=theta, scale=0.75).pdf(Y)
 
     proposal_posterior = prior.pdf(proposal) * likelihood(proposal)
@@ -212,7 +244,7 @@ axs[0].set_xlabel("mu", fontsize=16)
 axs[0].set_ylabel("density", fontsize=16)
 
 # 绘制分布外围线条
-x_norm = np.linspace(2, 10, 10000)
+x_norm = np.linspace(2, 6.5, 10000)
 y_norm = st.norm.pdf(x_norm, loc=mh_simulation["mu"].mean(), scale=mh_simulation["mu"].std())
 
 axs[0].plot(x_norm, y_norm, color='blue')
@@ -226,9 +258,9 @@ axs[1].set_ylabel("mu", fontsize=16)
 import arviz as az
 import matplotlib.pyplot as plt
 
-ax = az.plot_trace({"mu": mh_simulation["mu"]})
-
-ax[0, 0].set_xlim(2, 10)
+# arviz 1.x：plot_trace 需要 DataTree/InferenceData 对象（不再接受 dict）
+az.plot_trace(az.from_dict({"posterior": {"mu": mh_simulation["mu"].values[None, :]}}),
+              var_names=["mu"])
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -247,11 +279,11 @@ def one_mh_iteration(current, sigma=1):
     """
     proposal = st.norm(current, sigma).rvs()
 
-    prior = st.norm(loc=3, scale=1)
+    prior = st.norm(loc=0, scale=1)
 
     def likelihood(theta):
-        # 假设数据 Y 为 6
-        Y = 6
+        # 假设数据 Y = 6.25
+        Y = 6.25
         return st.norm(loc=theta, scale=0.75).pdf(Y)
 
     proposal_posterior = prior.pdf(proposal) * likelihood(proposal)
@@ -291,13 +323,37 @@ def mh_tour(N, sigma=1):
 np.random.seed(84735)
 
 mh_simulation = mh_tour(N=5000, sigma=1)
-az.plot_trace({"mu": mh_simulation["mu"]})
+az.plot_trace(az.from_dict({"posterior": {"mu": mh_simulation["mu"].values[None, :]}}),
+              var_names=["mu"])
 
 # ===========================================================================
 #                            可以自行复制代码多试几次
 # ===========================================================================
-mh_simulation = mh_tour(N=5000, sigma=...)
-az.plot_trace({"mu": mh_simulation["mu"]})
+# 练习：把下面的 ... 换成 0.01 / 1 / 100，看看轨迹图与密度图有什么不同
+# mh_simulation = mh_tour(N=5000, sigma=...)
+# az.plot_trace(az.from_dict({"posterior": {"mu": mh_simulation["mu"].values[None, :]}},
+#                            var_names=["mu"]))
+
+# ===========================================================================
+#        比较三种做法：解析解、PyMC 的 MCMC 和手搓的 MCMC
+# ===========================================================================
+mh_mu = mh_simulation["mu"].values
+pymc_mu = idata_nn.posterior["mu"].values.reshape(-1)
+
+fig, ax = plt.subplots(figsize=(10, 5))
+ax.hist(pymc_mu, bins=50, density=True, color="#6497b1", alpha=0.7,
+        edgecolor="white", label="PyMC MCMC")
+sns.kdeplot(mh_mu, color="#D55E00", linewidth=2, label="Hand-coded MCMC", ax=ax)
+xg = np.linspace(2, 6.5, 1000)
+ax.plot(xg, st.norm.pdf(xg, post_mean, post_sd), color="black", linewidth=2,
+        label="Analytic solution")
+ax.axvline(post_mean, linestyle="--", color="grey")
+ax.set_xlim(2, 6.5)
+ax.set_xlabel("mu")
+ax.set_ylabel("density")
+ax.legend()
+sns.despine()
+plt.show()
 
 ##PyMC实战
 import pymc as pm
@@ -316,27 +372,35 @@ with bb_model:
     # 定义符合binomial分布的变量likelihood，其中总次数为10，成功概率为pi，观测值为Y
     likelihood = pm.Binomial('likelihood', n=10, p=pi, observed=Y)
 
-pm.model_to_graphviz(bb_model)
+# 模型结构图（需要额外安装 graphviz：pip install graphviz + 系统 graphviz）
+try:
+    pm.model_to_graphviz(bb_model)
+except ImportError:
+    print("未安装 graphviz，跳过模型结构图")
 
 # 采样过程仍在该容器中进行
 with bb_model:
     trace = pm.sample(draws=1000,  # 每条链保留的样本数，对应 iter - warmup
                       tune=1000,  # 对应 R/Stan 的 warmup
                       chains=2,  # 设置MCMC的链数
-                      random_seed=202409)
+                      random_seed=202409,
+                      discard_tuned_samples=False)  # 保留 warmup 样本，便于观察热身阶段
 
 # 可视化采样结果
 az.plot_trace(trace)
 
-# 选取第一条Makov链的前20个采样结果和前200个结果
-# 从trace中提取pi的值，使用sel(chain=0)表示为选择第一条markov链。使用.values[:20]表示选取前20个采样结果
-samples_20 = trace.posterior["pi"].sel(chain=0).values[:20]
-samples_200 = trace.posterior["pi"].sel(chain=0).values[:200]
+# 含 warmup 的样本：取第一条 Markov 链的前 20 次与前 200 次迭代（热身阶段）
+# 提示：warmup 分组名随 arviz 版本不同（新版为 warmup_posterior，旧版为 warmup）
+warmup_group = trace["warmup_posterior"] if "warmup_posterior" in trace.children else trace["warmup"]
+samples_20 = warmup_group["pi"].sel(chain=0).values[:20]
+samples_200 = warmup_group["pi"].sel(chain=0).values[:200]
 
 # 绘图
 # az.plot_trace表示绘制前20个采样结果的轨迹图，其中pi为变量名，samples_20为采样结果
-az.plot_trace({"pi": samples_20})
-az.plot_trace({"pi": samples_200})
+az.plot_trace(az.from_dict({"posterior": {"pi": np.asarray(samples_20)[None, :]}}),
+              var_names=["pi"])
+az.plot_trace(az.from_dict({"posterior": {"pi": np.asarray(samples_200)[None, :]}}),
+              var_names=["pi"])
 
 import pandas as pd
 
