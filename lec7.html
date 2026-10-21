@@ -218,13 +218,13 @@
 <section id="回顾从先验到后验" class="slide level2">
 <h2>回顾：从先验到后验</h2>
 <p>前面的课程中，我们介绍了如下几个知识点：<br>
-- 贝叶斯推断的“精神”: 根据数据来更新对某个未知参数的信念(posterior distribution);<br>
-- 贝叶斯公式的四部分：后验、先验、似然、分母(归一化因子)</p>
+- 贝叶斯推断的核心: 根据数据来更新对某个未知参数的信念，得到后验分布(posterior distribution);<br>
+- 贝叶斯公式的四部分：先验、似然、分母(归一化因子)和后验</p>
 <p><span class="math display">\[  
 P(A|B) = \frac {P(A)P(B|A)}{P(B)}  
 \]</span></p>
 <ul>
-<li>贝叶斯推断的难点：获得后验
+<li>贝叶斯推断的难点：获得后验分布
 <ul>
 <li>解析解(套公式): conjugate<br>
 </li>
@@ -234,19 +234,9 @@ P(A|B) = \frac {P(A)P(B|A)}{P(B)}
 <li>MCMC的原理与实现
 <ul>
 <li>Stan</li>
+<li>PyMC</li>
+<li>…</li>
 </ul></li>
-</ul>
-</section>
-<section id="回顾stan-与概率编程" class="slide level2">
-<h2>回顾：Stan 与概率编程</h2>
-<ul>
-<li>Stan是概率编程语言（PPL）中的一种，可帮助我们进行贝叶斯模型的构建和后验推断。<br>
-</li>
-<li>在Stan中，定义先验分布、似然函数（模型）后，通过其采样器(sampler)来获得MCMC的采样。<br>
-</li>
-<li>Stan 支持多种采样方法，如 MCMC（马尔可夫链蒙特卡洛），这使得 Stan 在保持高效性的同时，能够处理更复杂的模型，满足多种统计建模需求。<br>
-</li>
-<li>Stan 是 PPL 框架的一个代表，不同的 PPL 框架（如 PyMC）在设计和功能上各有特色。</li>
 </ul>
 </section>
 <section id="回顾手动计算未归一化后验" class="slide level2">
@@ -264,7 +254,7 @@ P(A|B) = \frac {P(A)P(B|A)}{P(B)}
 <span id="cb1-6"><a href="" aria-label="6"></a>posterior_unstandardized <span class="ot">&lt;-</span> likelihood <span class="sc">*</span> prior_density</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>手动实现 MCMC 时，需要在提议点上计算这样的未归一化后验。</p>
+<p>手动实现 MCMC 时，需要对建议的参数样本计算未归一化后验，作为接受率。</p>
 </section>
 <section id="回顾在-stan-中定义模型" class="slide level2">
 <h2>回顾：在 Stan 中定义模型</h2>
@@ -287,9 +277,9 @@ P(A|B) = \frac {P(A)P(B|A)}{P(B)}
 <p>PPL 框架以及当前的贝叶斯推断的生态提供了其他更多的功能和特点，后面的课程中将接触到：</p>
 <table class="caption-top">
 <colgroup>
-<col style="width: 14%">
-<col style="width: 51%">
-<col style="width: 33%">
+<col style="width: 13%">
+<col style="width: 58%">
+<col style="width: 27%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -340,9 +330,9 @@ P(A|B) = \frac {P(A)P(B|A)}{P(B)}
 <section id="贝叶斯推断的核心术语1" class="slide level2 smaller">
 <h2>贝叶斯推断的核心术语（1）</h2>
 <ul>
-<li><p>先验分布（Prior Distribution）：先验分布是指在观察数据之前，研究人员对模型中未知参数的初始信念。这种信念可以基于现有研究或试点数据形成。</p></li>
-<li><p>似然函数（Likelihood Function）：固定观测数据后，将数据的概率或密度视作参数的函数；表示不同参数对数据的相对解释能力。</p></li>
-<li><p>后验分布（Posterior Distribution）：后验分布是指在观察到数据后，根据贝叶斯规则平衡先验知识与观测数据，对参数的更新信念。</p></li>
+<li><p>先验分布（Prior Distribution）：在观察数据之前，研究人员对模型中未知参数分布的初始估计。这种估计/信念可以基于现有研究或试点数据形成。</p></li>
+<li><p>似然函数（Likelihood Function）：数据的生成模型，即什么模型下可能会出现当前数据；可用来计算不同模型参数下出现当前数据的可能性（即似然）。</p></li>
+<li><p>后验分布（Posterior Distribution）：在观察到数据后，根据贝叶斯规则平衡先验知识与观测数据，对参数的更新信念。</p></li>
 <li><p>马尔可夫链蒙特卡洛方法（Markov Chain Monte Carlo, MCMC）：MCMC是一种通过模拟来推断后验分布的采样方法。通过算法构建多个马尔可夫链，使得它们的平稳分布与感兴趣的后验分布相匹配，这个过程称为MCMC收敛。</p></li>
 </ul>
 </section>
@@ -351,7 +341,7 @@ P(A|B) = \frac {P(A)P(B|A)}{P(B)}
 <ul>
 <li><p>采样样本（Samples/Draws）：采样样本值是指从后验分布中抽取的参数值，用作后验分布的近似，并通过蒙特卡洛积分获得后验分布的经验估计和感兴趣的汇总统计量。其采样结果在计算机术语中也称为 trace。</p></li>
 <li><p>调试样本（Tune）：调试样本是指在MCMC抽样过程中用于达到平稳分布的初始阶段，此阶段的样本通常被丢弃，不在最终分析中使用。也叫做 Warmup 或 burn-in，燃烧样本。</p></li>
-<li><p>链（Chains）：链是指来自单个MCMC链的一系列样本（或抽样值）。链用于诊断收敛性以及程序在特定应用中的其他潜在问题。</p></li>
+<li><p>链(Chains)或轨迹(trace)：自单个MCMC链的一系列样本（或抽样值）；用于诊断收敛性以及程序在特定应用中的其他潜在问题。</p></li>
 <li><p>有效样本大小（Effective Sample Size, ESS）：有效样本大小是指与N个自相关样本具有相同估计力的独立样本数量。ESS常用于判断MCMC链中的抽样数量是否足以保证可靠的估计不确定性。</p></li>
 </ul>
 </section>
@@ -390,8 +380,8 @@ P(A|B) = \frac {P(A)P(B|A)}{P(B)}
 * 后验估计<br>
 * 假设检验</p>
 </section>
-<section id="贯穿案例beta-binomial-模型" class="slide level2 smaller">
-<h2>贯穿案例：Beta-Binomial 模型</h2>
+<section id="老案例beta-binomial-模型" class="slide level2 smaller">
+<h2>老案例：Beta-Binomial 模型</h2>
 <p>仍然以随机点运动任务为例，每个试验中参与者判断正确的概率用 <span class="math inline">\(\theta\)</span> 表示。</p>
 <p><strong>模型假设</strong></p>
 <ul>
@@ -408,19 +398,18 @@ Y \sim \text{Binomial}(n, \theta)
 \]</span></p>
 <p>其中，<span class="math inline">\(n\)</span>是试验的总次数，<span class="math inline">\(Y\)</span>是成功次数。</p>
 </section>
-<section id="案例设定" class="slide level2 smaller">
-<h2>案例设定</h2>
-<p><strong>模型设定</strong></p>
-<p>在这个例子中，我们可以使用Beta-Binomial 模型来表示：</p>
+<section id="模型设定" class="slide level2 smaller">
+<h2>模型设定</h2>
+<p>使用Beta-Binomial 模型来表示：</p>
 <blockquote>
 <p>总试验数为n=10，成功次数为9 <span class="math inline">\((Y = 9)\)</span><br>
 先验分布为：<span class="math inline">\(\theta    \sim \text{Beta}(2, 2)\)</span><br>
 似然函数为：<span class="math inline">\(Y|\theta  \sim \text{Bin}(n, \theta)\)</span></p>
 </blockquote>
 </section>
-<section id="对应的-stan-模型代码" class="slide level2">
-<h2>对应的 Stan 模型代码</h2>
-<p>对应的 RStan 代码为：</p>
+<section id="stan-模型代码" class="slide level2">
+<h2>Stan 模型代码</h2>
+<p>Beta-Binomial 模型对应的 RStan 代码为：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="co"># 准备数据  </span></span>
 <span id="cb3-2"><a href="" aria-label="2"></a>stan_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">10</span>,<span class="at">Y =</span> <span class="dv">9</span>)  </span>
 <span id="cb3-3"><a href="" aria-label="3"></a></span>
@@ -439,8 +428,8 @@ Y \sim \text{Binomial}(n, \theta)
 <span id="cb3-16"><a href="" aria-label="16"></a><span class="st">}  </span></span>
 <span id="cb3-17"><a href="" aria-label="17"></a><span class="st">"</span>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="采样之后提取后验样本" class="slide level2">
-<h2>采样之后：提取后验样本</h2>
+<section id="采样和提取后验样本" class="slide level2">
+<h2>采样和提取后验样本</h2>
 <p>采样结果保存在 <code>fit</code> 对象中；<code>extract()</code> 可以提取后验样本。</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-label="1"></a>fit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan</span>(</span>
 <span id="cb4-2"><a href="" aria-label="2"></a>  <span class="at">model_code =</span> stan_model_code,</span>
@@ -541,8 +530,8 @@ Y \sim \text{Binomial}(n, \theta)
 </ol></li>
 </ul>
 </section>
-<section id="马尔可夫性质与相关性" class="slide level2">
-<h2>马尔可夫性质与相关性</h2>
+<section id="马尔可夫性质与自相关" class="slide level2">
+<h2>马尔可夫性质与自相关</h2>
 <p>MCMC 的“无记忆性”指：给定当前状态后，下一状态不再依赖更早的状态。</p>
 <ul>
 <li><strong>马尔可夫性质不等于相邻样本独立</strong>；相隔多步的样本也可能相关。</li>
@@ -671,9 +660,9 @@ Y \sim \text{Binomial}(n, \theta)
 <figcaption>比较多条平行链</figcaption>
 </figure>
 </div>
-<p>自相关和有效样本量仅针对于描述一条MCMC链的有效性。假如我们获得了四条并行的马尔可夫链。我们不仅希望看到每条链的稳定性，还希望看到<strong>四条链的一致性</strong>。</p>
-<p>可以想象，如果四条链的结果并不一致，那么推断结果的可靠性就很难保证。</p>
-<p>同样，我们首先展示一个良好的并行链的结果：</p>
+<p>自相关和有效样本量仅针对于描述一条MCMC链的有效性。有多条并行的马尔可夫链时，不仅链内要稳定，多条<strong>链之间也需要有一致性</strong>。</p>
+<p>如果四条链的结果并不一致，那么推断结果的可靠性就很难保证。</p>
+<p>良好的并行链的结果：</p>
 <ul>
 <li>四条链产生的后验近似值几乎没有差别，这证明我们的模拟是稳定的。</li>
 </ul>
@@ -686,7 +675,7 @@ Y \sim \text{Binomial}(n, \theta)
 <figcaption>迭代太少</figcaption>
 </figure>
 </div>
-<p>为了便于比较和展示一个糟糕的并行链的结果，我们用更短的马尔可夫链模拟来演示。</p>
+<p>为了便于比较和展示一个不好的并行链，我们用更短的马尔可夫链模拟来演示。</p>
 <ul>
 <li><p>运行四条并行链仅进行 100 次迭代，其中 50 次为warmup (见之前的词典解释)，因此最终产生 每条链 50 个后验样本，4 条链共 200 个。</p></li>
 <li><p>虽然这些链的轨迹图表现出相似的随机行为，但它们对应的密度图却不尽相同，因此产生的后验近似值也不尽相同。</p></li>
@@ -906,14 +895,14 @@ Y \sim \text{Binomial}(n, \theta)
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-label="1"></a>bayesplot<span class="sc">::</span><span class="fu">rhat</span>(fit, <span class="at">pars =</span> <span class="st">"theta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.000243</code></pre>
+<pre><code>[1] 1.001056</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a>bayesplot<span class="sc">::</span><span class="fu">neff_ratio</span>(fit, <span class="at">pars =</span> <span class="st">"theta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.3251329</code></pre>
+<pre><code>[1] 0.3675527</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -924,7 +913,7 @@ Y \sim \text{Binomial}(n, \theta)
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
-<p>最后一项为热身后的发散次数；本例期望为 0。</p>
+<p>最后一项为warmup后的发散次数；本例期望为 0。</p>
 </section>
 <section id="抽稀演示的设置" class="slide level2">
 <h2>抽稀演示的设置</h2>
@@ -1902,80 +1891,42 @@ f(\theta_\text{low} | \alpha, \beta) = f(\theta_\text{high} | \alpha, \beta)
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
