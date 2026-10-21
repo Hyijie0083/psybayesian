@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="assets/libs/clipboard/clipboard.min.js"></script>
+<script src="assets/libs/quarto-html/tabby.min.js"></script>
+<script src="assets/libs/quarto-html/popper.min.js"></script>
+<script src="assets/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="assets/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="assets/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="assets/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="胡传鹏 (Dr.&nbsp;Hu Chuan-Peng)">
+  <title>高级心理统计 · 第7讲</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="assets/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="assets/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="assets/libs/revealjs/dist/theme/quarto-03ee58d93aa56ae2ee8298346d0b2a97.css">
+  <link rel="stylesheet" href="lec.css">
+  <link href="assets/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="assets/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="assets/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="assets/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">高级心理统计 · 第7讲</h1>
+  <p class="subtitle">Posterior Inference &amp; Estimation · 后验推断与估计</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+胡传鹏 (Dr.&nbsp;Hu Chuan-Peng)
+</div>
+        <p class="quarto-title-affiliation">
+            南京师范大学心理学院 · School of Psychology, Nanjing Normal University
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="回顾从先验到后验" class="slide level2">
+<h2>回顾：从先验到后验</h2>
+<p>前面的课程中，我们介绍了如下几个知识点：<br>
+- 贝叶斯推断的“精神”: 根据数据来更新对某个未知参数的信念(posterior distribution);<br>
+- 贝叶斯公式的四部分：后验、先验、似然、分母(归一化因子)</p>
+<p><span class="math display">\[  
+P(A|B) = \frac {P(A)P(B|A)}{P(B)}  
+\]</span></p>
+<ul>
+<li>贝叶斯推断的难点：获得后验
+<ul>
+<li>解析解(套公式): conjugate<br>
+</li>
+<li>近似解: 网格法、<strong>MCMC</strong><br>
+</li>
+</ul></li>
+<li>MCMC的原理与实现
+<ul>
+<li>Stan</li>
+</ul></li>
+</ul>
+</section>
+<section id="回顾stan-与概率编程" class="slide level2">
+<h2>回顾：Stan 与概率编程</h2>
+<ul>
+<li>Stan是概率编程语言（PPL）中的一种，可帮助我们进行贝叶斯模型的构建和后验推断。<br>
+</li>
+<li>在Stan中，定义先验分布、似然函数（模型）后，通过其采样器(sampler)来获得MCMC的采样。<br>
+</li>
+<li>Stan 支持多种采样方法，如 MCMC（马尔可夫链蒙特卡洛），这使得 Stan 在保持高效性的同时，能够处理更复杂的模型，满足多种统计建模需求。<br>
+</li>
+<li>Stan 是 PPL 框架的一个代表，不同的 PPL 框架（如 PyMC）在设计和功能上各有特色。</li>
+</ul>
+</section>
+<section id="回顾手动计算未归一化后验" class="slide level2">
+<h2>回顾：手动计算未归一化后验</h2>
+<p>概率编程语言的核心作用在于自动帮助我们进行后验采样，获得贝叶斯后验分布。</p>
+<p>传统贝叶斯后验分布的推理中，我们不仅需要自己定义模型（似然函数、先验），还需要想办法获得后验如（MCMC）。</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a>N <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-2"><a href="" aria-label="2"></a>Y <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb1-3"><a href="" aria-label="3"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">10000</span>)</span>
+<span id="cb1-4"><a href="" aria-label="4"></a>prior_density <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(theta, <span class="at">shape1 =</span> <span class="dv">2</span>, <span class="at">shape2 =</span> <span class="dv">2</span>)</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(Y, <span class="at">size =</span> N, <span class="at">prob =</span> theta)</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>posterior_unstandardized <span class="ot">&lt;-</span> likelihood <span class="sc">*</span> prior_density</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>手动实现 MCMC 时，需要在提议点上计算这样的未归一化后验。</p>
+</section>
+<section id="回顾在-stan-中定义模型" class="slide level2">
+<h2>回顾：在 Stan 中定义模型</h2>
+<p>在 Stan 中，定义先验和似然后，由采样器近似后验。</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource stan number-lines code-with-copy"><code class="sourceCode stan"><span id="cb2-1"><a href="" aria-label="1"></a><span class="kw">data</span> {</span>
+<span id="cb2-2"><a href="" aria-label="2"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; N;</span>
+<span id="cb2-3"><a href="" aria-label="3"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=N&gt; Y;</span>
+<span id="cb2-4"><a href="" aria-label="4"></a>}</span>
+<span id="cb2-5"><a href="" aria-label="5"></a><span class="kw">parameters</span> {</span>
+<span id="cb2-6"><a href="" aria-label="6"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>, <span class="kw">upper</span>=<span class="dv">1</span>&gt; theta;</span>
+<span id="cb2-7"><a href="" aria-label="7"></a>}</span>
+<span id="cb2-8"><a href="" aria-label="8"></a><span class="kw">model</span> {</span>
+<span id="cb2-9"><a href="" aria-label="9"></a>  theta ~ beta(<span class="dv">2</span>, <span class="dv">2</span>);</span>
+<span id="cb2-10"><a href="" aria-label="10"></a>  Y ~ binomial(N, theta);</span>
+<span id="cb2-11"><a href="" aria-label="11"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>Y ~ binomial(N, theta)</code> 指定给定成功概率时观测成功次数的概率模型。</p>
+</section>
+<section id="概率编程框架提供哪些功能" class="slide level2 smaller">
+<h2>概率编程框架提供哪些功能？</h2>
+<p>PPL 框架以及当前的贝叶斯推断的生态提供了其他更多的功能和特点，后面的课程中将接触到：</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 51%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>功能</th>
+<th>描述</th>
+<th>主要用途</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>模型定义</strong></td>
+<td>用简洁语法定义先验分布和似然函数，支持分层模型</td>
+<td>简化模型构建流程，灵活定义复杂结构</td>
+</tr>
+<tr class="even">
+<td><strong>自动采样</strong></td>
+<td>提供 MCMC (HMC、NUTS)、变分推断等多种近似算法</td>
+<td>高效获取后验样本，适应高维复杂模型</td>
+</tr>
+<tr class="odd">
+<td><strong>自动微分</strong></td>
+<td>自动计算梯度，支持高维复杂模型</td>
+<td>加速模型优化，适应复杂计算需求</td>
+</tr>
+<tr class="even">
+<td><strong>诊断与调试</strong></td>
+<td>提供 Trace Plot、R-hat 等诊断工具，检测采样质量与收敛性</td>
+<td>确保采样结果可靠，识别采样问题</td>
+</tr>
+<tr class="odd">
+<td><strong>后验分析和可视化</strong></td>
+<td>提供后验分布图、密度图、可信区间等可视化工具</td>
+<td>直观理解参数分布和不确定性，辅助决策</td>
+</tr>
+<tr class="even">
+<td><strong>后验预测</strong></td>
+<td>从后验分布生成新观测数据，用于模型验证</td>
+<td>检查模型合理性，评估预测效果</td>
+</tr>
+<tr class="odd">
+<td><strong>灵活建模扩展性</strong></td>
+<td>支持模块化建模、集成外部工具，构建自定义模型</td>
+<td>适应不同应用场景，增强模型的扩展性</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="贝叶斯推断的核心术语1" class="slide level2 smaller">
+<h2>贝叶斯推断的核心术语（1）</h2>
+<ul>
+<li><p>先验分布（Prior Distribution）：先验分布是指在观察数据之前，研究人员对模型中未知参数的初始信念。这种信念可以基于现有研究或试点数据形成。</p></li>
+<li><p>似然函数（Likelihood Function）：固定观测数据后，将数据的概率或密度视作参数的函数；表示不同参数对数据的相对解释能力。</p></li>
+<li><p>后验分布（Posterior Distribution）：后验分布是指在观察到数据后，根据贝叶斯规则平衡先验知识与观测数据，对参数的更新信念。</p></li>
+<li><p>马尔可夫链蒙特卡洛方法（Markov Chain Monte Carlo, MCMC）：MCMC是一种通过模拟来推断后验分布的采样方法。通过算法构建多个马尔可夫链，使得它们的平稳分布与感兴趣的后验分布相匹配，这个过程称为MCMC收敛。</p></li>
+</ul>
+</section>
+<section id="贝叶斯推断的核心术语2" class="slide level2 smaller">
+<h2>贝叶斯推断的核心术语（2）</h2>
+<ul>
+<li><p>采样样本（Samples/Draws）：采样样本值是指从后验分布中抽取的参数值，用作后验分布的近似，并通过蒙特卡洛积分获得后验分布的经验估计和感兴趣的汇总统计量。其采样结果在计算机术语中也称为 trace。</p></li>
+<li><p>调试样本（Tune）：调试样本是指在MCMC抽样过程中用于达到平稳分布的初始阶段，此阶段的样本通常被丢弃，不在最终分析中使用。也叫做 Warmup 或 burn-in，燃烧样本。</p></li>
+<li><p>链（Chains）：链是指来自单个MCMC链的一系列样本（或抽样值）。链用于诊断收敛性以及程序在特定应用中的其他潜在问题。</p></li>
+<li><p>有效样本大小（Effective Sample Size, ESS）：有效样本大小是指与N个自相关样本具有相同估计力的独立样本数量。ESS常用于判断MCMC链中的抽样数量是否足以保证可靠的估计不确定性。</p></li>
+</ul>
+</section>
+<section id="贝叶斯推断的核心术语3" class="slide level2 smaller">
+<h2>贝叶斯推断的核心术语（3）</h2>
+<ul>
+<li><p>R-hat（<span class="math inline">\(\hat R\)</span>）：比较链间与链内变异的诊断量；接近 1 提示链间一致性较好，仍需结合其他诊断判断。</p></li>
+<li><p>最高密度区间（Highest Density Interval, HDI）：最高密度区间是贝叶斯统计中参数可信范围的估计。它包括后验分布中的一个区间，该区间内的每个点的密度都高于区间外的点。</p></li>
+<li><p>实际等效区间（Region of Practical Equivalence, ROPE）：预先定义的参数范围，范围内的值在研究情境中被视作实际等效于某个参考值。</p></li>
+<li><p>贝叶斯因子（Bayes Factor, BF）：贝叶斯因子量化了一个统计模型相对于另一个模型的证据强度。大于1的值表明相对于原始模型，替代模型得到了更多的支持。</p></li>
+</ul>
+</section>
+<section id="回顾推断统计的目标" class="slide level2">
+<h2>回顾：推断统计的目标</h2>
+<ul>
+<li>学习统计的目的是什么？
+<ul>
+<li>参数估计；<br>
+</li>
+<li>假设检验；</li>
+</ul></li>
+<li>获得后验之后，接下来要考虑与推断统计的目标进行整合。</li>
+</ul>
+</section>
+<section id="本节课获得后验之后" class="slide level2 smaller">
+<h2>本节课：获得后验之后</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/inference-overview.png" height="300"></p>
+<figcaption>后验推断工作流</figcaption>
+</figure>
+</div>
+<p>⭐ 通常，通过 Stan 等概率编程语言(PPL) 得到后验之后，需要首先确保MCMC的后验是有效的，然后进行推断。</p>
+<p>本节课将主要包括：<br>
+* MCMC诊断<br>
+* 后验估计<br>
+* 假设检验</p>
+</section>
+<section id="贯穿案例beta-binomial-模型" class="slide level2 smaller">
+<h2>贯穿案例：Beta-Binomial 模型</h2>
+<p>仍然以随机点运动任务为例，每个试验中参与者判断正确的概率用 <span class="math inline">\(\theta\)</span> 表示。</p>
+<p><strong>模型假设</strong></p>
+<ul>
+<li>判断正确概率 <span class="math inline">\(\theta\)</span> 服从 <strong>Beta 分布</strong>分布：</li>
+</ul>
+<p><span class="math display">\[
+\theta \sim \text{Beta}(\alpha, \beta)
+\]</span></p>
+<ul>
+<li>在每次试验中，参与者的成功次数 <span class="math inline">\(Y\)</span> 服从 <strong>Binomial 分布</strong>：</li>
+</ul>
+<p><span class="math display">\[
+Y \sim \text{Binomial}(n, \theta)
+\]</span></p>
+<p>其中，<span class="math inline">\(n\)</span>是试验的总次数，<span class="math inline">\(Y\)</span>是成功次数。</p>
+</section>
+<section id="案例设定" class="slide level2 smaller">
+<h2>案例设定</h2>
+<p><strong>模型设定</strong></p>
+<p>在这个例子中，我们可以使用Beta-Binomial 模型来表示：</p>
+<blockquote>
+<p>总试验数为n=10，成功次数为9 <span class="math inline">\((Y = 9)\)</span><br>
+先验分布为：<span class="math inline">\(\theta    \sim \text{Beta}(2, 2)\)</span><br>
+似然函数为：<span class="math inline">\(Y|\theta  \sim \text{Bin}(n, \theta)\)</span></p>
+</blockquote>
+</section>
+<section id="对应的-stan-模型代码" class="slide level2">
+<h2>对应的 Stan 模型代码</h2>
+<p>对应的 RStan 代码为：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="co"># 准备数据  </span></span>
+<span id="cb3-2"><a href="" aria-label="2"></a>stan_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">10</span>,<span class="at">Y =</span> <span class="dv">9</span>)  </span>
+<span id="cb3-3"><a href="" aria-label="3"></a></span>
+<span id="cb3-4"><a href="" aria-label="4"></a><span class="co"># 定义模型  </span></span>
+<span id="cb3-5"><a href="" aria-label="5"></a>stan_model_code <span class="ot">&lt;-</span> <span class="st">"  </span></span>
+<span id="cb3-6"><a href="" aria-label="6"></a><span class="st">data {  </span></span>
+<span id="cb3-7"><a href="" aria-label="7"></a><span class="st">  int&lt;lower=0&gt; N;       </span></span>
+<span id="cb3-8"><a href="" aria-label="8"></a><span class="st">  int&lt;lower=0, upper=N&gt; Y;  </span></span>
+<span id="cb3-9"><a href="" aria-label="9"></a><span class="st">}  </span></span>
+<span id="cb3-10"><a href="" aria-label="10"></a><span class="st">parameters {  </span></span>
+<span id="cb3-11"><a href="" aria-label="11"></a><span class="st">  real&lt;lower=0, upper=1&gt; theta;  </span></span>
+<span id="cb3-12"><a href="" aria-label="12"></a><span class="st">}  </span></span>
+<span id="cb3-13"><a href="" aria-label="13"></a><span class="st">model {  </span></span>
+<span id="cb3-14"><a href="" aria-label="14"></a><span class="st">  theta ~ beta(2, 2);  </span></span>
+<span id="cb3-15"><a href="" aria-label="15"></a><span class="st">  Y ~ binomial(N, theta);  </span></span>
+<span id="cb3-16"><a href="" aria-label="16"></a><span class="st">}  </span></span>
+<span id="cb3-17"><a href="" aria-label="17"></a><span class="st">"</span>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="采样之后提取后验样本" class="slide level2">
+<h2>采样之后：提取后验样本</h2>
+<p>采样结果保存在 <code>fit</code> 对象中；<code>extract()</code> 可以提取后验样本。</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-label="1"></a>fit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan</span>(</span>
+<span id="cb4-2"><a href="" aria-label="2"></a>  <span class="at">model_code =</span> stan_model_code,</span>
+<span id="cb4-3"><a href="" aria-label="3"></a>  <span class="at">data =</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">10</span>, <span class="at">Y =</span> <span class="dv">9</span>),</span>
+<span id="cb4-4"><a href="" aria-label="4"></a>  <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">2000</span>, <span class="at">warmup =</span> <span class="dv">1000</span>,</span>
+<span id="cb4-5"><a href="" aria-label="5"></a>  <span class="at">seed =</span> <span class="dv">84735</span></span>
+<span id="cb4-6"><a href="" aria-label="6"></a>)</span>
+<span id="cb4-7"><a href="" aria-label="7"></a>draws <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">extract</span>(fit, <span class="at">pars =</span> <span class="st">"theta"</span>)</span>
+<span id="cb4-8"><a href="" aria-label="8"></a>sample_theta <span class="ot">&lt;-</span> draws<span class="sc">$</span>theta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>但在使用这些样本之前，需要先判断后验近似是否可信。</strong></p>
+</section>
+<section id="为什么要检查采样质量" class="slide level2">
+<h2>为什么要检查采样质量？</h2>
+<p>由于这些采样来自于 MCMC 算法，即马尔科夫链蒙特卡洛算法，而模拟采样方法的关键是 “近似”和 “收敛” 。</p>
+<p>这就引出了以下问题：</p>
+<ul>
+<li>好的马尔可夫链是什么样的？<br>
+</li>
+<li>如何判断马尔可夫链样本是否产生了合理的后验近似值？<br>
+</li>
+<li>马尔可夫链样本量应该多大？</li>
+</ul>
+<p>诊断的意义：确定好的trace的标准，为我们不知道真实的后验时作为标准进行推断。</p>
+</section>
+<section id="诊断需要多种证据" class="slide level2">
+<h2>诊断需要多种证据</h2>
+<p>在本节中，将重点介绍几种诊断方法：</p>
+<ul>
+<li>可视化诊断：轨迹图 (trace plot)和平行链 (parallel chains)。<br>
+</li>
+<li>量化诊断指标：有效样本大小 ESS(effective sample size)、自相关性 (autocorrelation)和 <span class="math inline">\(\hat{R}\)</span> (R-hat)。</li>
+</ul>
+<blockquote>
+<p>这些诊断方法的使用应综合考虑。没有一种视觉或数值诊断方法是万能的，通常要一起考虑。</p>
+</blockquote>
+</section>
+<section id="轨迹图trace-plot" class="slide level2">
+<h2>轨迹图（trace plot）</h2>
+<p>轨迹图 (trace plot) 是一种可视化方法，用于显示马尔可夫链的轨迹，即马尔可夫链在参数空间中的位置。<br>
+- 图中的横坐标是时间步长，纵坐标是参数的值。<br>
+- 轨迹图往往结合参数的后验分布一起展示，以便于观察采样样本对于参数分布的代表性。</p>
+</section>
+<section id="正常的轨迹图" class="slide level2">
+<h2>正常的轨迹图</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/trace-good.png" height="480"></p>
+<figcaption>良好的采样轨迹图</figcaption>
+</figure>
+</div>
+<p>我们先来看一下正常的轨迹图是什么样：</p>
+<ul>
+<li>这是之前 Beta-Binomial model 的示例。<br>
+</li>
+<li>图中：轨迹图看起来像一堆白噪声，没有明显的趋势或现象，这意味着<strong>链是稳定的</strong>。<br>
+</li>
+<li>图中：展示了正常的参数后验分布的情况。</li>
+</ul>
+</section>
+<section id="轨迹图问题-a持续趋势" class="slide level2 smaller">
+<h2>轨迹图问题 A：持续趋势</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/trace-problems.png" height="480"></p>
+<figcaption>持续趋势</figcaption>
+</figure>
+</div>
+<ul>
+<li>5000 次迭代后仍有下降趋势，只探索了局部参数范围。</li>
+<li>持续趋势和强自相关表明链尚未充分探索后验。</li>
+<li>密度图可能高估中央区域，低估范围之外的可信值。</li>
+</ul>
+</section>
+<section id="轨迹图问题-b链在局部停滞" class="slide level2 smaller">
+<h2>轨迹图问题 B：链在局部停滞</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/trace-problems.png" height="480"></p>
+<figcaption>链在局部停滞</figcaption>
+</figure>
+</div>
+<ul>
+<li>局部出现接近平直的轨迹，说明链可能停留在某些参数值附近。</li>
+<li>局部强相关会造成某些区域过度采样。</li>
+<li>即使密度图看似接近目标分布，也需要检查轨迹和数值诊断。</li>
+</ul>
+</section>
+<section id="轨迹图不理想时如何处理" class="slide level2">
+<h2>轨迹图不理想时如何处理？</h2>
+<p>如果我们得到一个糟糕的轨迹图，如何进行补救📍：</p>
+<ul>
+<li><ol type="1">
+<li>检查模型。确定假定的<strong>先验模型</strong>和<strong>数据模型</strong>是否合适？<br>
+</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>对数据链进行<strong>更多迭代</strong>。一些不理想的短期连锁趋势可能会在长期内得到改善。</li>
+</ol></li>
+</ul>
+</section>
+<section id="马尔可夫性质与相关性" class="slide level2">
+<h2>马尔可夫性质与相关性</h2>
+<p>MCMC 的“无记忆性”指：给定当前状态后，下一状态不再依赖更早的状态。</p>
+<ul>
+<li><strong>马尔可夫性质不等于相邻样本独立</strong>；相隔多步的样本也可能相关。</li>
+<li>自相关函数（ACF）描述相关性如何随滞后步数变化。</li>
+<li>有效样本量（ESS）描述相关样本在估计精度上相当于多少独立样本。</li>
+</ul>
+<p>因此，评估采样质量需要同时关注链混合和估计精度。</p>
+</section>
+<section id="自相关性autocorrelation" class="slide level2">
+<h2>自相关性（autocorrelation）</h2>
+<ul>
+<li>链值 <span class="math inline">\(\theta_i\)</span> 依赖于 <span class="math inline">\(\theta_{i-1}\)</span>，也可能间接关联更早的链值。</li>
+<li>这种关联在混合良好的链中通常随滞后增大而减弱。</li>
+<li>正的自相关较强时，同样数量的抽样通常提供更少的有效信息。</li>
+</ul>
+<blockquote>
+<p>直观类比：相距较近的链值，往往比相距较远的链值更相似。</p>
+</blockquote>
+</section>
+<section id="快速衰减的自相关" class="slide level2 smaller">
+<h2>快速衰减的自相关</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/acf-good.png" height="400"></p>
+<figcaption>快速衰减的自相关</figcaption>
+</figure>
+</div>
+<ul>
+<li>左侧为轨迹图，右侧为自相关图。</li>
+<li>滞后 0 的自相关为 1；滞后 1 时约为 0.5。</li>
+<li>自相关随滞后迅速下降，约在滞后 5 附近接近 0。</li>
+<li>这提示链在可信参数范围内混合较快。</li>
+</ul>
+</section>
+<section id="补充怎样理解滞后" class="slide level2">
+<h2>补充：怎样理解滞后？</h2>
+<p>设一条链有 100 个样本 <span class="math inline">\(\theta_1,\ldots,\theta_{100}\)</span>。</p>
+<p>滞后 10 的相关性比较：</p>
+<p><span class="math display">\[ (\theta_1,\ldots,\theta_{90})\quad\text{与}\quad(\theta_{11},\ldots,\theta_{100}). \]</span></p>
+<p>两组均有 90 个配对值；滞后越大，可用配对数越少。</p>
+<p>自相关估计应结合整条相关函数及其估计不确定性理解。</p>
+</section>
+<section id="缓慢衰减的自相关" class="slide level2">
+<h2>缓慢衰减的自相关</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/acf-slow.png" height="300"></p>
+<figcaption>缓慢衰减的自相关</figcaption>
+</figure>
+</div>
+<p>一个自相关糟糕的例子：</p>
+<ul>
+<li>自相关曲线的缓慢下降表明，链值之间的依赖关系不会很快消失。<br>
+</li>
+<li>相差整整 20 步的马尔可夫链值之间存在大约 0.9 的相关性！<br>
+</li>
+<li>由于其链值与前值的联系非常紧密，因此该链的<strong>混合速度很慢</strong>，<strong>需要很长时间才能充分探索后验的全部范围</strong>。<br>
+</li>
+<li>因此，应该谨慎使用该链来近似后验。</li>
+</ul>
+</section>
+<section id="快速混合与慢速混合" class="slide level2">
+<h2>快速混合与慢速混合</h2>
+<p><strong>重要概念：Fast vs slow mixing Markov chains</strong></p>
+<ul>
+<li><p>快速混合：指链表现出与独立样本的行为，即混合链值之间的自相关性迅速下降，有效样本大小比相当大。</p></li>
+<li><p>慢速混合：指链不具有独立样本的特征，即混合链值之间的自相关性下降非常缓慢，有效样本大小比很小。换句话说，链在后验可信值范围内 “缓慢”移动。</p></li>
+</ul>
+</section>
+<section id="混合较慢时的处理策略" class="slide level2">
+<h2>混合较慢时的处理策略</h2>
+<ol type="1">
+<li>检查模型、参数化和采样警告；必要时改善参数化或调整采样设置。</li>
+<li>在链已经能够探索目标分布的前提下，延长采样以提高估计精度。</li>
+<li>抽稀（thinning）每隔若干次迭代保留一个样本，可减少存储量。</li>
+</ol>
+<p>例如 <code>thin = 10</code> 保留 <span class="math inline">\(\{\theta_{10},\theta_{20},\ldots\}\)</span>。</p>
+<p><strong>抽稀会丢失样本，不能修复未收敛，也不保证提高单位计算时间的 ESS。</strong></p>
+</section>
+<section id="抽稀前后保留样本之间相距更远" class="slide level2 smaller">
+<h2>抽稀前后：保留样本之间相距更远</h2>
+<p>抽稀前：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/acf-slow.png" height="300"></p>
+<figcaption>抽稀前</figcaption>
+</figure>
+</div>
+<p>每隔 10 个样本保留一个，抽稀后：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/acf-thinned.png" height="300"></p>
+<figcaption>抽稀后</figcaption>
+</figure>
+</div>
+<p>抽稀可能降低相邻保留样本的相关性，但也丢弃了 90% 的样本。</p>
+</section>
+<section id="有效样本量与有效样本量比率" class="slide level2">
+<h2>有效样本量与有效样本量比率</h2>
+<p>ESS 表示：在估计某个后验量时，当前相关样本相当于多少个独立样本。</p>
+<p><span class="math display">\[\text{ESS ratio}=\frac{N_{\mathrm{eff}}}{N}.\]</span></p>
+<ul>
+<li><span class="math inline">\(N\)</span>：热身后保留的总样本数；<span class="math inline">\(N_{\mathrm{eff}}\)</span>：有效样本量。</li>
+<li>示例：<span class="math inline">\(N=20000\)</span>，<span class="math inline">\(N_{\mathrm{eff}}=6800\)</span>，则比率为 <span class="math inline">\(34\%\)</span>。</li>
+<li>ESS 是估计精度的等效量，<strong>不是直接数出独立样本</strong>。</li>
+<li>正自相关常使 ESS 小于 <span class="math inline">\(N\)</span>；负自相关可能使 ESS 大于 <span class="math inline">\(N\)</span>。</li>
+<li>比率不能单独作为收敛标准，还需结合绝对 ESS、<span class="math inline">\(\hat R\)</span> 和采样警告。</li>
+</ul>
+</section>
+<section id="补充ess-的计算思想" class="slide level2">
+<h2>补充：ESS 的计算思想</h2>
+<p>对于平稳链，积分自相关时间和 ESS 的基本关系为：</p>
+<p><span class="math display">\[\tau=1+2\sum_{k=1}^{\infty}\rho_k,\qquad N_{\mathrm{eff}}\approx\frac{N}{\tau}.\]</span></p>
+<ul>
+<li><span class="math inline">\(\rho_k\)</span> 是滞后 <span class="math inline">\(k\)</span> 时的自相关系数。</li>
+<li>实际计算需要估计并截断自相关序列，避免尾部噪声累积。</li>
+<li>使用软件提供的稳健估计；不要仅凭某一个滞后处 ACF 小于 0.1 就截断。</li>
+<li>多链分析还会结合链间信息，并分别关注 bulk ESS 和 tail ESS。</li>
+</ul>
+</section>
+<section id="比较多条平行链" class="slide level2 smaller">
+<h2>比较多条平行链</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/parallel-chains-good.png" height="300"></p>
+<figcaption>比较多条平行链</figcaption>
+</figure>
+</div>
+<p>自相关和有效样本量仅针对于描述一条MCMC链的有效性。假如我们获得了四条并行的马尔可夫链。我们不仅希望看到每条链的稳定性，还希望看到<strong>四条链的一致性</strong>。</p>
+<p>可以想象，如果四条链的结果并不一致，那么推断结果的可靠性就很难保证。</p>
+<p>同样，我们首先展示一个良好的并行链的结果：</p>
+<ul>
+<li>四条链产生的后验近似值几乎没有差别，这证明我们的模拟是稳定的。</li>
+</ul>
+</section>
+<section id="迭代太少链间密度仍有差别" class="slide level2 smaller">
+<h2>迭代太少：链间密度仍有差别</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/parallel-chains-short.png" height="300"></p>
+<figcaption>迭代太少</figcaption>
+</figure>
+</div>
+<p>为了便于比较和展示一个糟糕的并行链的结果，我们用更短的马尔可夫链模拟来演示。</p>
+<ul>
+<li><p>运行四条并行链仅进行 100 次迭代，其中 50 次为warmup (见之前的词典解释)，因此最终产生 每条链 50 个后验样本，4 条链共 200 个。</p></li>
+<li><p>虽然这些链的轨迹图表现出相似的随机行为，但它们对应的密度图却不尽相同，因此产生的后验近似值也不尽相同。</p></li>
+</ul>
+<p>这表明，如果我们只进行了 100 次迭代就停止模拟，那结果是不稳的。</p>
+</section>
+<section id="良好的链内与链间变异" class="slide level2 smaller">
+<h2>良好的链内与链间变异</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/parallel-chains-good.png" height="300"></p>
+<figcaption>良好的链内与链间变异</figcaption>
+</figure>
+</div>
+<p>此外，不同链样本之间的变异性的一致性非常重要。</p>
+<p>之前的结果同样显示，其中四条链具有相似的变异：</p>
+<ul>
+<li>图中中间显示，四条链的可变性几乎是相同的。<br>
+</li>
+<li>图中右显示，所有链的变异与综合为单个链的变异性相似。</li>
+</ul>
+</section>
+<section id="相互冲突的平行链" class="slide level2 smaller">
+<h2>相互冲突的平行链</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/parallel-chains-problems.png" height="300"></p>
+<figcaption>相互冲突的平行链</figcaption>
+</figure>
+</div>
+<p>一个糟糕的例子：</p>
+<ul>
+<li>四条平行链产生了相互冲突的后验近似值（中图）<br>
+</li>
+<li>当我们将这些链组合在一起时，后验近似值不稳定且较差（右图）。<br>
+</li>
+<li>因此，不同MCMC链参数值的范围和变异性远大于任何单个链中参数值的范围和变异性。</li>
+</ul>
+</section>
+<section id="从变异比较到-r-hat" class="slide level2">
+<h2>从变异比较到 R-hat</h2>
+<p>可直观地看出，所有链条上的数值变化与单个并行链条内部的数值变化之间的关系非常重要。具体来说</p>
+<ul>
+<li>在 “好的”马尔可夫链模拟中，所有并行链的变异性总和将与任何单个链内的变异性<strong>大致相当</strong>；<br>
+</li>
+<li>在 “坏的”马尔可夫链模拟中，所有并行链的变异性总和可能<strong>超过</strong>每个链内的典型变异性</li>
+</ul>
+<p>可使用 <span class="math inline">\(\hat{R}\)</span> 量化综合链变异性和链内变异性之间的关系。</p>
+</section>
+<section id="r-hat-的解释与边界" class="slide level2">
+<h2>R-hat 的解释与边界</h2>
+<p><span class="math inline">\(\hat R\)</span> 通过比较链内与链间的变异评估多条链的一致性。</p>
+<p>经典形式可概括为：</p>
+<p><span class="math display">\[\hat R=\sqrt{\frac{\widehat{\mathrm{var}}^{+}}{W}},\]</span></p>
+<p>其中 <span class="math inline">\(W\)</span> 为链内方差估计，<span class="math inline">\(\widehat{\mathrm{var}}^{+}\)</span> 综合链内与链间信息。</p>
+<ul>
+<li>理想值接近 1；现代诊断通常关注 rank-normalized split-<span class="math inline">\(\hat R\)</span>。</li>
+<li>正式分析通常要求 <span class="math inline">\(\hat R&lt;1.01\)</span>，并结合 ESS 和发散诊断。</li>
+<li><span class="math inline">\(\hat R\)</span> 接近 1 不能单独证明收敛。</li>
+</ul>
+<p>参考：<a href="https://mc-stan.org/learn-stan/diagnostics-warnings.html">Stan diagnostics</a>。</p>
+</section>
+<section id="两个示例的-r-hat" class="slide level2">
+<h2>两个示例的 R-hat</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>示例</th>
+<th><span class="math inline">\(\hat R\)</span></th>
+<th>解读</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>良好的平行链</td>
+<td>约 1</td>
+<td>链内与链间的变异较一致</td>
+</tr>
+<tr class="even">
+<td>相互冲突的平行链</td>
+<td>5.35</td>
+<td>链间差异远超链内典型波动</td>
+</tr>
+</tbody>
+</table>
+<p>第二个示例提示平行链未产生一致的后验近似，不能据此直接进行后续推断。</p>
+<p>注意：<span class="math inline">\(\hat R\)</span> 不是方差比本身；不能将 5.35 直接解释为方差大了 5.35 倍。</p>
+</section>
+<section id="代码演示mcmc-诊断" class="slide level2">
+<h2>代码演示：MCMC 诊断</h2>
+<p>使用 Stan 建模的模型默认使用 MCMC 方法进行参数估计。</p>
+<p>且可以很方便的使用<code>bayesplot</code>包中 的<code>mcmc_trace</code> 和 <code>mcmc_acf</code> 函数查看轨迹图和自相关图。</p>
+</section>
+<section id="采样设置样本链与热身" class="slide level2">
+<h2>采样设置：样本、链与热身</h2>
+<p>沿用 Beta-Binomial 模型：<span class="math inline">\(N=10\)</span>，<span class="math inline">\(Y=9\)</span>，先验为 <span class="math inline">\(\mathrm{Beta}(2,2)\)</span>。</p>
+<ul>
+<li>运行 4 条链，每条链 <code>iter = 2000</code>。</li>
+<li>每条链 <code>warmup = 1000</code>，用于采样器调试，热身样本不进入后验分析。</li>
+<li>热身后共保留 <span class="math inline">\(4\times1000=4000\)</span> 个样本。</li>
+<li>固定随机种子 <code>seed = 84735</code>。</li>
+</ul>
+<p>接下来依次检查轨迹、自相关、<span class="math inline">\(\hat R\)</span>、ESS 和发散。</p>
+</section>
+<section id="加载本节所需的-r-包" class="slide level2">
+<h2>加载本节所需的 R 包</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(ggplot2, patchwork, papaja, bayesplot, rstan, bayestestR)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="拟合-beta-binomial-模型" class="slide level2">
+<h2>拟合 Beta-Binomial 模型</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-label="1"></a>stan_data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">N =</span> <span class="dv">10</span>,<span class="at">Y =</span> <span class="dv">9</span>)</span>
+<span id="cb6-2"><a href="" aria-label="2"></a></span>
+<span id="cb6-3"><a href="" aria-label="3"></a><span class="co"># 定义模型</span></span>
+<span id="cb6-4"><a href="" aria-label="4"></a>stan_model_code <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb6-5"><a href="" aria-label="5"></a><span class="st">data {</span></span>
+<span id="cb6-6"><a href="" aria-label="6"></a><span class="st">  int&lt;lower=0&gt; N;       </span></span>
+<span id="cb6-7"><a href="" aria-label="7"></a><span class="st">  int&lt;lower=0, upper=N&gt; Y; </span></span>
+<span id="cb6-8"><a href="" aria-label="8"></a><span class="st">}</span></span>
+<span id="cb6-9"><a href="" aria-label="9"></a><span class="st">parameters {</span></span>
+<span id="cb6-10"><a href="" aria-label="10"></a><span class="st">  real&lt;lower=0, upper=1&gt; theta;</span></span>
+<span id="cb6-11"><a href="" aria-label="11"></a><span class="st">}</span></span>
+<span id="cb6-12"><a href="" aria-label="12"></a><span class="st">model {</span></span>
+<span id="cb6-13"><a href="" aria-label="13"></a><span class="st">  theta ~ beta(2, 2);</span></span>
+<span id="cb6-14"><a href="" aria-label="14"></a><span class="st">  Y ~ binomial(N, theta);</span></span>
+<span id="cb6-15"><a href="" aria-label="15"></a><span class="st">}</span></span>
+<span id="cb6-16"><a href="" aria-label="16"></a><span class="st">"</span></span>
+<span id="cb6-17"><a href="" aria-label="17"></a></span>
+<span id="cb6-18"><a href="" aria-label="18"></a><span class="co"># 进行采样</span></span>
+<span id="cb6-19"><a href="" aria-label="19"></a>fit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan</span>(</span>
+<span id="cb6-20"><a href="" aria-label="20"></a>  <span class="at">model_code =</span> stan_model_code,      <span class="co"># 定义的模型或模型文件路径</span></span>
+<span id="cb6-21"><a href="" aria-label="21"></a>  <span class="at">data =</span> stan_data,                  <span class="co"># 输入数据</span></span>
+<span id="cb6-22"><a href="" aria-label="22"></a>  <span class="at">chains =</span> <span class="dv">4</span>,                        <span class="co"># 马尔可夫链数量</span></span>
+<span id="cb6-23"><a href="" aria-label="23"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,                       <span class="co"># 总迭代次数（每个链）</span></span>
+<span id="cb6-24"><a href="" aria-label="24"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,                        <span class="co"># 热身迭代次数（不保存）</span></span>
+<span id="cb6-25"><a href="" aria-label="25"></a>  <span class="at">seed =</span> <span class="dv">84735</span>,</span>
+<span id="cb6-26"><a href="" aria-label="26"></a>  <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb6-27"><a href="" aria-label="27"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="检查轨迹图" class="slide level2">
+<h2>检查轨迹图</h2>
+<p>绘制 trace 图。</p>
+<ul>
+<li>可以看到，每条链的后验分布都重合在一起。<br>
+</li>
+<li>MCMC链的行为表现得类似噪音一样，这是一个好的表现。</li>
+</ul>
+</section>
+<section id="代码与结果轨迹图" class="slide level2">
+<h2>代码与结果：轨迹图</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a>trace <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(fit, <span class="at">pars =</span> <span class="st">"theta"</span>) <span class="sc">+</span>  </span>
+<span id="cb7-2"><a href="" aria-label="2"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb7-3"><a href="" aria-label="3"></a>trace</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/trace-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="检查自相关图" class="slide level2">
+<h2>检查自相关图</h2>
+<p>绘制自相关图</p>
+<ul>
+<li>可以看到，随着滞后的增大，自相关快速下降。</li>
+</ul>
+</section>
+<section id="代码与结果自相关图" class="slide level2">
+<h2>代码与结果：自相关图</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-label="1"></a>auto_r <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_acf</span>(fit, <span class="at">pars =</span> <span class="st">"theta"</span>) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="" aria-label="2"></a>          papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb8-3"><a href="" aria-label="3"></a></span>
+<span id="cb8-4"><a href="" aria-label="4"></a>auto_r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/autocorrelation-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="提取数值诊断" class="slide level2">
+<h2>提取数值诊断</h2>
+<p>使用 <code>bayesplot::rhat()</code> 和 <code>bayesplot::neff_ratio()</code> 提取诊断量。</p>
+<ul>
+<li><span class="math inline">\(\hat R\)</span> 越接近 1，链间与链内变异越一致。</li>
+<li>ESS ratio 描述保留样本的等效信息量，应结合绝对 ESS 理解。</li>
+<li>下一页显示本次实际运行的结果。</li>
+<li>同时检查发散，不能只依赖单个指标。</li>
+</ul>
+</section>
+<section id="代码与结果r-hatess-与发散" class="slide level2">
+<h2>代码与结果：R-hat、ESS 与发散</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-label="1"></a>bayesplot<span class="sc">::</span><span class="fu">rhat</span>(fit, <span class="at">pars =</span> <span class="st">"theta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.000243</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a>bayesplot<span class="sc">::</span><span class="fu">neff_ratio</span>(fit, <span class="at">pars =</span> <span class="st">"theta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3251329</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-label="1"></a>sampler_params <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">get_sampler_params</span>(fit, <span class="at">inc_warmup =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-2"><a href="" aria-label="2"></a><span class="fu">sum</span>(<span class="fu">vapply</span>(sampler_params, <span class="cf">function</span>(x) <span class="fu">sum</span>(x[, <span class="st">"divergent__"</span>]), <span class="fu">numeric</span>(<span class="dv">1</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>最后一项为热身后的发散次数；本例期望为 0。</p>
+</section>
+<section id="抽稀演示的设置" class="slide level2">
+<h2>抽稀演示的设置</h2>
+<p>继续使用同一模型，演示 <code>thin = 10</code>。</p>
+<ul>
+<li>每条链迭代 4000 次，其中 2000 次为热身。</li>
+<li>每条链热身后保留 <span class="math inline">\(2000/10=200\)</span> 个样本，共 <span class="math inline">\(800\)</span> 个。</li>
+<li>抽稀后的相邻保留样本相距更远，但样本总量也减少了。</li>
+<li>本例用于说明抽稀效果，不把抽稀作为默认的收敛修复方法。</li>
+</ul>
+</section>
+<section id="运行抽稀后的采样" class="slide level2">
+<h2>运行抽稀后的采样</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-label="1"></a>thinned_fit <span class="ot">&lt;-</span> rstan<span class="sc">::</span><span class="fu">stan</span>(</span>
+<span id="cb15-2"><a href="" aria-label="2"></a>  <span class="at">fit =</span> fit, <span class="at">data =</span> stan_data,</span>
+<span id="cb15-3"><a href="" aria-label="3"></a>  <span class="at">chains =</span> <span class="dv">4</span>, <span class="at">iter =</span> <span class="dv">4000</span>, <span class="at">warmup =</span> <span class="dv">2000</span>,</span>
+<span id="cb15-4"><a href="" aria-label="4"></a>  <span class="at">thin =</span> <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">84735</span>, <span class="at">refresh =</span> <span class="dv">0</span></span>
+<span id="cb15-5"><a href="" aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><code>fit = fit</code> 复用已编译的模型；这是一次新的采样。</p>
+</section>
+<section id="抽稀后的轨迹图" class="slide level2">
+<h2>抽稀后的轨迹图</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a>thinned_trace <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(thinned_fit, <span class="at">pars =</span> <span class="st">"theta"</span>) <span class="sc">+</span>  </span>
+<span id="cb16-2"><a href="" aria-label="2"></a>        papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb16-3"><a href="" aria-label="3"></a></span>
+<span id="cb16-4"><a href="" aria-label="4"></a>thinned_trace</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/thinned-trace-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="比较抽稀前后的自相关" class="slide level2">
+<h2>比较抽稀前后的自相关</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-label="1"></a>p1 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_acf_bar</span>(fit, <span class="at">pars =</span> <span class="st">"theta"</span>, <span class="at">lags =</span> <span class="dv">10</span>) <span class="sc">+</span> </span>
+<span id="cb17-2"><a href="" aria-label="2"></a>      papaja<span class="sc">::</span><span class="fu">theme_apa</span>() <span class="sc">+</span> </span>
+<span id="cb17-3"><a href="" aria-label="3"></a>      ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">'Full Trace'</span>)</span>
+<span id="cb17-4"><a href="" aria-label="4"></a></span>
+<span id="cb17-5"><a href="" aria-label="5"></a>p2 <span class="ot">&lt;-</span> bayesplot<span class="sc">::</span><span class="fu">mcmc_acf_bar</span>(thinned_fit, <span class="at">pars =</span> <span class="st">"theta"</span>, <span class="at">lags =</span> <span class="dv">10</span>) <span class="sc">+</span> </span>
+<span id="cb17-6"><a href="" aria-label="6"></a>      papaja<span class="sc">::</span><span class="fu">theme_apa</span>() <span class="sc">+</span></span>
+<span id="cb17-7"><a href="" aria-label="7"></a>      ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">'Thinned Trace'</span>)</span>
+<span id="cb17-8"><a href="" aria-label="8"></a></span>
+<span id="cb17-9"><a href="" aria-label="9"></a>p1 <span class="sc">+</span> p2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/acf-comparison-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="参数估计后验分布能告诉我们什么" class="slide level2">
+<h2>参数估计：后验分布能告诉我们什么？</h2>
+<p>当确定 MCMC 采样结果可以相信之后，就可以将其<strong>当作后验分布</strong>进行统计推断。</p>
+<p>再回顾后验分布的含义和意义。</p>
+</section>
+<section id="绘图先验似然与后验" class="slide level2">
+<h2>绘图：先验、似然与后验</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-label="1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">10001</span>)</span>
+<span id="cb18-2"><a href="" aria-label="2"></a>prior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb18-3"><a href="" aria-label="3"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">9</span>, <span class="dv">10</span>, x)</span>
+<span id="cb18-4"><a href="" aria-label="4"></a>scaled_likelihood <span class="ot">&lt;-</span> likelihood <span class="sc">/</span> <span class="fu">max</span>(likelihood) <span class="sc">*</span> <span class="fu">max</span>(prior)</span>
+<span id="cb18-5"><a href="" aria-label="5"></a>posterior <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x, <span class="dv">11</span>, <span class="dv">3</span>)</span>
+<span id="cb18-6"><a href="" aria-label="6"></a>curve_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, prior, scaled_likelihood, posterior)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>先验与后验是真正的概率密度；似然仅按峰高缩放以便展示。</p>
+</section>
+<section id="先验似然与后验的关系" class="slide level2">
+<h2>先验、似然与后验的关系</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(curve_data, <span class="fu">aes</span>(x)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="" aria-label="2"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> prior, <span class="at">color =</span> <span class="st">"Prior"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="" aria-label="3"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> scaled_likelihood, <span class="at">color =</span> <span class="st">"Scaled likelihood"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="" aria-label="4"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> posterior, <span class="at">color =</span> <span class="st">"Posterior"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="" aria-label="5"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">"Density / scaled likelihood"</span>, <span class="at">color =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/posterior-density-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="思考怎样描述后验分布" class="slide level2">
+<h2>思考：怎样描述后验分布？</h2>
+<p>后验分布描述给定数据与模型后，成功概率 <span class="math inline">\(\theta\)</span> 的不确定性。</p>
+<p>当你看到后验分布时，哪种表述更完整？</p>
+<ol type="a">
+<li><p>参与者判断正确的概率大约为 80%。</p></li>
+<li><p>判断正确的概率集中在约 80% 附近，但其他取值仍有不同程度的可信度。</p></li>
+</ol>
+<blockquote>
+<p>后验分布同时包含集中趋势和不确定性。</p>
+</blockquote>
+</section>
+<section id="样本量增加后的后验" class="slide level2 smaller">
+<h2>样本量增加后的后验</h2>
+<p>选项 b 同时描述集中趋势和不确定性，更完整地表达后验信息。</p>
+<p>现在保持先验不变，将数据改为 <span class="math inline">\(N=118\)</span>、<span class="math inline">\(Y=99\)</span>：</p>
+<p><span class="math display">\[\theta\sim\mathrm{Beta}(2,2),\qquad Y\mid\theta\sim\mathrm{Binomial}(118,\theta).\]</span></p>
+<p>根据共轭更新：</p>
+<p><span class="math display">\[\theta\mid Y\sim\mathrm{Beta}(2+99,\ 2+118-99)=\mathrm{Beta}(101,21).\]</span></p>
+</section>
+<section id="众数相近不确定性不同" class="slide level2">
+<h2>众数相近，不确定性不同</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/posterior-comparison.png" height="300"></p>
+<figcaption>课程示意图</figcaption>
+</figure>
+</div>
+<p>图中展示了这两种情况下的后验分布</p>
+<blockquote>
+<p>黑线表示众数，即在后验分布中最可能出现的值</p>
+</blockquote>
+</section>
+<section id="点估计之外还需要区间估计" class="slide level2">
+<h2>点估计之外还需要区间估计</h2>
+<ul>
+<li><p>在这两种分布下，<span class="math inline">\(\theta\)</span>最可能的取值都在83-84%左右</p></li>
+<li><p>如果只关注众数，两种截然不同的情况却会导致相似的结论❌</p></li>
+<li><p>但很明显，我们可以看到两图中<span class="math inline">\(\theta\)</span>的分布范围是不同的</p></li>
+</ul>
+<p><strong>要同时看到<span class="math inline">\(\theta\)</span>的集中趋势和离散趋势，可使用 <em>94%的可信区间(credible intervals, CrI)</em> 来描述<span class="math inline">\(\theta\)</span></strong></p>
+</section>
+<section id="等尾可信区间" class="slide level2">
+<h2>94% 等尾可信区间</h2>
+<p>等尾可信区间（equal-tailed interval, ETI）可由后验分位数构造。</p>
+<p><span class="math display">\[I_{94\%}=[q_{0.03},q_{0.97}].\]</span></p>
+<p>对于 <span class="math inline">\(\mathrm{Beta}(101,21)\)</span>，94% ETI 为 <span class="math inline">\([0.760,\ 0.887]\)</span>。</p>
+<p><strong>给定当前数据、模型和先验，<span class="math inline">\(\theta\)</span> 落在该区间内的后验概率为 94%。</strong></p>
+<p>这不表示“94% 的参与者的成功概率落在该区间内”。</p>
+</section>
+<section id="比较两个后验的-94-可信区间" class="slide level2 smaller">
+<h2>比较两个后验的 94% 可信区间</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a><span class="co"># 创建 Beta 分布的数据</span></span>
+<span id="cb20-2"><a href="" aria-label="2"></a>x_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb20-3"><a href="" aria-label="3"></a>y_values1 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x_values, <span class="at">shape1 =</span> <span class="dv">11</span>, <span class="at">shape2 =</span> <span class="dv">3</span>)</span>
+<span id="cb20-4"><a href="" aria-label="4"></a>y_values2 <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x_values, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)</span>
+<span id="cb20-5"><a href="" aria-label="5"></a></span>
+<span id="cb20-6"><a href="" aria-label="6"></a><span class="co"># 计算 94% 可信区间（CI）</span></span>
+<span id="cb20-7"><a href="" aria-label="7"></a>  lower_bound1_94 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.03</span>, <span class="at">shape1 =</span> <span class="dv">11</span>, <span class="at">shape2 =</span> <span class="dv">3</span>)  </span>
+<span id="cb20-8"><a href="" aria-label="8"></a>  upper_bound1_94 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.97</span>, <span class="at">shape1 =</span> <span class="dv">11</span>, <span class="at">shape2 =</span> <span class="dv">3</span>)  </span>
+<span id="cb20-9"><a href="" aria-label="9"></a>  lower_bound2_94 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.03</span>, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)  </span>
+<span id="cb20-10"><a href="" aria-label="10"></a>  upper_bound2_94 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.97</span>, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)  </span>
+<span id="cb20-11"><a href="" aria-label="11"></a></span>
+<span id="cb20-12"><a href="" aria-label="12"></a><span class="co"># 绘制 Beta 分布的 PDF</span></span>
+<span id="cb20-13"><a href="" aria-label="13"></a>p1 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values1),<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="" aria-label="14"></a>  <span class="fu">geom_line</span>(<span class="at">col =</span> <span class="st">'black'</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb20-15"><a href="" aria-label="15"></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">subset</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values1),</span>
+<span id="cb20-16"><a href="" aria-label="16"></a>                           x <span class="sc">&gt;=</span> lower_bound1_94 <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> upper_bound1_94), </span>
+<span id="cb20-17"><a href="" aria-label="17"></a>            <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="" aria-label="18"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Posterior</span><span class="sc">\n</span><span class="st">(Beta(alpha = 11, beta = 3))"</span>)  <span class="sc">+</span></span>
+<span id="cb20-19"><a href="" aria-label="19"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="at">limit =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">12</span>)) <span class="sc">+</span> </span>
+<span id="cb20-20"><a href="" aria-label="20"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb20-21"><a href="" aria-label="21"></a></span>
+<span id="cb20-22"><a href="" aria-label="22"></a>p2 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values2),<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb20-23"><a href="" aria-label="23"></a>  <span class="fu">geom_line</span>(<span class="at">col =</span> <span class="st">'black'</span>, <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb20-24"><a href="" aria-label="24"></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">subset</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values2),</span>
+<span id="cb20-25"><a href="" aria-label="25"></a>                           x <span class="sc">&gt;=</span> lower_bound2_94 <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> upper_bound2_94), </span>
+<span id="cb20-26"><a href="" aria-label="26"></a>            <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb20-27"><a href="" aria-label="27"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Posterior</span><span class="sc">\n</span><span class="st">(Beta(alpha = 101, beta = 21))"</span>)  <span class="sc">+</span></span>
+<span id="cb20-28"><a href="" aria-label="28"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="at">limit =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">12</span>)) <span class="sc">+</span> </span>
+<span id="cb20-29"><a href="" aria-label="29"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb20-30"><a href="" aria-label="30"></a></span>
+<span id="cb20-31"><a href="" aria-label="31"></a><span class="co">#并排显示</span></span>
+<span id="cb20-32"><a href="" aria-label="32"></a>p1 <span class="sc">+</span> p2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/credible-intervals-comparison-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="选择可信区间的概率质量" class="slide level2">
+<h2>选择可信区间的概率质量</h2>
+<p>可信区间的概率质量应明确报告，并保持图文一致。</p>
+<ul>
+<li>50% ETI：<span class="math inline">\([q_{0.25},q_{0.75}]\)</span>。</li>
+<li>94% ETI：<span class="math inline">\([q_{0.03},q_{0.97}]\)</span>。</li>
+<li>99% ETI：<span class="math inline">\([q_{0.005},q_{0.995}]\)</span>。</li>
+</ul>
+<p>概率质量越高，区间通常越宽。</p>
+<p>ETI 两侧尾部的概率质量相等；HDI 则优先包含后验密度较高的参数值。</p>
+</section>
+<section id="与-99-可信区间" class="slide level2 smaller">
+<h2>50%、94% 与 99% 可信区间</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a>x_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb21-2"><a href="" aria-label="2"></a>y_values <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(x_values, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)</span>
+<span id="cb21-3"><a href="" aria-label="3"></a></span>
+<span id="cb21-4"><a href="" aria-label="4"></a><span class="co"># 计算三种可信区间（CI）</span></span>
+<span id="cb21-5"><a href="" aria-label="5"></a>  lower_bound_94 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.03</span>, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)  </span>
+<span id="cb21-6"><a href="" aria-label="6"></a>  upper_bound_94 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.97</span>, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)  </span>
+<span id="cb21-7"><a href="" aria-label="7"></a>  lower_bound_50 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.25</span>, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)  </span>
+<span id="cb21-8"><a href="" aria-label="8"></a>  upper_bound_50 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.75</span>, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)  </span>
+<span id="cb21-9"><a href="" aria-label="9"></a>  lower_bound_99 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.005</span>, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)  </span>
+<span id="cb21-10"><a href="" aria-label="10"></a>  upper_bound_99 <span class="ot">&lt;-</span> <span class="fu">qbeta</span>(<span class="fl">0.995</span>, <span class="at">shape1 =</span> <span class="dv">101</span>, <span class="at">shape2 =</span> <span class="dv">21</span>)  </span>
+<span id="cb21-11"><a href="" aria-label="11"></a></span>
+<span id="cb21-12"><a href="" aria-label="12"></a><span class="co"># 绘制 Beta 分布的 PDF</span></span>
+<span id="cb21-13"><a href="" aria-label="13"></a>p1 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values),<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="" aria-label="14"></a>  <span class="fu">geom_line</span>(<span class="at">col =</span> <span class="st">'black'</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-15"><a href="" aria-label="15"></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">subset</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values),</span>
+<span id="cb21-16"><a href="" aria-label="16"></a>                           x <span class="sc">&gt;=</span> lower_bound_50 <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> upper_bound_50), </span>
+<span id="cb21-17"><a href="" aria-label="17"></a>            <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">fill =</span> <span class="st">"#bdd7e7"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb21-18"><a href="" aria-label="18"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"50% CI for Beta(101, 21)"</span>)  <span class="sc">+</span></span>
+<span id="cb21-19"><a href="" aria-label="19"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="at">limit =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">12</span>)) <span class="sc">+</span> </span>
+<span id="cb21-20"><a href="" aria-label="20"></a>  <span class="fu">xlim</span>(<span class="fl">0.5</span>,<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-21"><a href="" aria-label="21"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb21-22"><a href="" aria-label="22"></a></span>
+<span id="cb21-23"><a href="" aria-label="23"></a></span>
+<span id="cb21-24"><a href="" aria-label="24"></a>p2 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values),<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb21-25"><a href="" aria-label="25"></a>  <span class="fu">geom_line</span>(<span class="at">col =</span> <span class="st">'black'</span>, <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb21-26"><a href="" aria-label="26"></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">subset</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values),</span>
+<span id="cb21-27"><a href="" aria-label="27"></a>                           x <span class="sc">&gt;=</span> lower_bound_94 <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> upper_bound_94), </span>
+<span id="cb21-28"><a href="" aria-label="28"></a>            <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">fill =</span> <span class="st">"#6baed6"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb21-29"><a href="" aria-label="29"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"94% CI for Beta(101, 21)"</span>)  <span class="sc">+</span></span>
+<span id="cb21-30"><a href="" aria-label="30"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="at">limit =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">12</span>)) <span class="sc">+</span> </span>
+<span id="cb21-31"><a href="" aria-label="31"></a>  <span class="fu">xlim</span>(<span class="fl">0.5</span>,<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-32"><a href="" aria-label="32"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb21-33"><a href="" aria-label="33"></a></span>
+<span id="cb21-34"><a href="" aria-label="34"></a>p3 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values),<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb21-35"><a href="" aria-label="35"></a>  <span class="fu">geom_line</span>(<span class="at">col =</span> <span class="st">'black'</span>, <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb21-36"><a href="" aria-label="36"></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">subset</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x_values, <span class="at">y =</span> y_values),</span>
+<span id="cb21-37"><a href="" aria-label="37"></a>                           x <span class="sc">&gt;=</span> lower_bound_99 <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> upper_bound_99), </span>
+<span id="cb21-38"><a href="" aria-label="38"></a>            <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="at">fill =</span> <span class="st">"#3182bd"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb21-39"><a href="" aria-label="39"></a>  <span class="fu">labs</span>( <span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"99% CI for Beta(101, 21)"</span>)  <span class="sc">+</span></span>
+<span id="cb21-40"><a href="" aria-label="40"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb21-41"><a href="" aria-label="41"></a>  <span class="fu">xlim</span>(<span class="fl">0.5</span>,<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-42"><a href="" aria-label="42"></a>  papaja<span class="sc">::</span><span class="fu">theme_apa</span>()</span>
+<span id="cb21-43"><a href="" aria-label="43"></a></span>
+<span id="cb21-44"><a href="" aria-label="44"></a><span class="co">#并排显示</span></span>
+<span id="cb21-45"><a href="" aria-label="45"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/credible-intervals-masses-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="练习用-stan-后验样本构造区间" class="slide level2">
+<h2>练习：用 Stan 后验样本构造区间</h2>
+<p>使用 Stan 采样替代共轭解析解，拟合 <span class="math inline">\(N=118\)</span>、<span class="math inline">\(Y=99\)</span> 的 Beta-Binomial 模型。</p>
+<ol type="1">
+<li>保持先验为 <span class="math inline">\(\mathrm{Beta}(2,2)\)</span>。</li>
+<li>提取 <span class="math inline">\(\theta\)</span> 的后验样本。</li>
+<li>使用 <code>quantile()</code> 计算 50%、94%、99% ETI。</li>
+<li>与 <code>qbeta()</code> 给出的解析区间比较。</li>
+</ol>
+<blockquote>
+<p>先检查采样诊断，再讨论蒙特卡洛近似与解析值的差别。</p>
+</blockquote>
+</section>
+<section id="最高密度区间hdi" class="slide level2 smaller">
+<h2>最高密度区间（HDI）</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/eti-versus-hdi.png" height="300"></p>
+<figcaption>ETI 与 HDI 的区别</figcaption>
+</figure>
+</div>
+<p>最高密度区间（highest density interval, HDI）包含指定的后验概率质量，并优先纳入密度较高的值。</p>
+<ul>
+<li>ETI 的两侧尾部概率相等。</li>
+<li>HDI 的区间内密度不低于区间外密度；在偏态分布中可能与 ETI 不同。</li>
+</ul>
+</section>
+<section id="hdi-的密度阈值直觉" class="slide level2 smaller">
+<h2>HDI 的密度阈值直觉</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/hdi-density-cutoff.png" height="400"></p>
+<figcaption>HDI 的密度阈值直觉</figcaption>
+</figure>
+</div>
+<p>直觉理解：想象有一根水平的线从后验概率密度最高点往下滑，如果是95%HDI，则意味着黄色部分的面积占曲线下面积的95%</p>
+<blockquote>
+<p>来源：<a href="https://mathematica.stackexchange.com/questions/173282/computing-credible-region-highest-posterior-density-from-empirical-distributio">HDI 示意图原始讨论</a>。</p>
+</blockquote>
+</section>
+<section id="ci-与-95-hdi" class="slide level2">
+<h2>95% CI 与 95% HDI</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/interval-comparison.png" height="480"></p>
+<figcaption>课程示意图</figcaption>
+</figure>
+</div>
+</section>
+<section id="小结先诊断再推断" class="slide level2">
+<h2>小结：先诊断，再推断</h2>
+<p>通过概率编程语言中的MCMC samplers完成对后验分布的近似后，我们可以开始进行推断统计。</p>
+<p>但进行推断之前，首先要检查 MCMC 的质量。<br>
+- 可视化：直观地检查多个并行链的轨迹图和密度图，以确定模拟的稳定性和混合性。<br>
+- 数学指标：用有效样本量比、自相关性和 <span class="math inline">\(\hat{R}\)</span>等数值诊断来补充这些视觉诊断。</p>
+</section>
+<section id="均值中位数与众数" class="slide level2 smaller">
+<h2>均值、中位数与众数</h2>
+<div class="columns">
+<div class="column" style="width:53%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/mean-median-mode.png" height="480"></p>
+<figcaption>均值、中位数与众数</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:47%;">
+<p>在对后验进行推断中，要注意非正态分布后验的平均值、中位数和众数并不相等。</p>
+<ul>
+<li>其中众数为分布最高点对应的参数值<br>
+</li>
+<li>中位数左右两侧分布的面积各占50%<br>
+</li>
+<li>均值是参数值按后验密度加权的平均，可能受偏态和尾部影响。</li>
+</ul>
+<blockquote>
+<p>source: book–A Student’s Guide to Bayesian Statistics</p>
+</blockquote>
+</div></div>
+</section>
+<section id="从参数估计到假设与决策" class="slide level2">
+<h2>从参数估计到假设与决策</h2>
+<p>后验估计回答：成功概率 <span class="math inline">\(\theta\)</span> 可能取哪些值？</p>
+<p>进一步的研究问题包括：成功概率是否高于随机水平？差异是否具有实际意义？</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>方法</th>
+<th>回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HDI</td>
+<td>哪些参数值位于高密度的可信范围内？</td>
+</tr>
+<tr class="even">
+<td>HDI + ROPE</td>
+<td>可信范围与预先定义的实际等效区间是什么关系？</td>
+</tr>
+<tr class="odd">
+<td>Bayes factor</td>
+<td>数据如何改变两个明确假设之间的相对证据？</td>
+</tr>
+</tbody>
+</table>
+<p>这些方法的解释和决策规则应分别说明。</p>
+</section>
+<section id="研究问题成功概率与随机水平" class="slide level2">
+<h2>研究问题：成功概率与随机水平</h2>
+<p>以 <span class="math inline">\(N=118\)</span>、<span class="math inline">\(Y=99\)</span> 为例，后验为 <span class="math inline">\(\mathrm{Beta}(101,21)\)</span>。</p>
+<p>研究问题：成功概率是否不同于随机水平 <span class="math inline">\(0.5\)</span>？</p>
+<p><span class="math display">\[H_0:\theta=0.5,\qquad H_a:\theta\ne0.5.\]</span></p>
+<ul>
+<li>HDI 可用于检查 <span class="math inline">\(0.5\)</span> 是否位于高密度可信范围内。</li>
+<li>如果关心“高于 0.5”，可直接计算 <span class="math inline">\(P(\theta&gt;0.5\mid Y)\)</span>。</li>
+<li>点零假设的 Bayes factor 需要单独定义相应模型。</li>
+</ul>
+</section>
+<section id="通过-hdi-描述可信参数范围" class="slide level2">
+<h2>通过 HDI 描述可信参数范围</h2>
+<p>沿用先验 <span class="math inline">\(\mathrm{Beta}(2,2)\)</span> 和后验 <span class="math inline">\(\mathrm{Beta}(101,21)\)</span>。</p>
+<ul>
+<li>95% HDI 包含后验分布中 95% 的概率质量。</li>
+<li>对本例单峰连续分布，HDI 优先包含密度最高的参数值。</li>
+<li>比较参考值 <span class="math inline">\(0.5\)</span> 与 HDI，可以描述该参考值是否处于高密度可信范围。</li>
+</ul>
+<p><strong>HDI 的覆盖情况与点零假设的后验模型概率是不同的量。</strong></p>
+</section>
+<section id="单峰连续分布的-hdi-条件" class="slide level2 smaller">
+<h2>单峰连续分布的 HDI 条件</h2>
+<p><strong>计算 HDI</strong></p>
+<p>HDI 是后验分布中包含最高密度的区间，我们通常计算 95% HDI，这意味着该区间包含后验分布中 95% 的概率质量。HDI 的定义要求该区间 <span class="math inline">\([\theta_\text{low}, \theta_\text{high}]\)</span> 满足以下条件：</p>
+<ol type="1">
+<li>对于任何 <span class="math inline">\(\theta\)</span> 在区间 <span class="math inline">\([\theta_\text{low}, \theta_\text{high}]\)</span> 外的点，它的密度都小于区间内的点的密度，即：</li>
+</ol>
+<p><span class="math display">\[  
+f(\theta_\text{low} | \alpha, \beta) = f(\theta_\text{high} | \alpha, \beta)  
+\]</span></p>
+<ol start="2" type="1">
+<li>该区间内的概率质量为 95%：</li>
+</ol>
+<p><span class="math display">\[  
+\int_{\theta_\text{low}}^{\theta_\text{high}} f(\theta | \alpha, \beta) d\theta = 0.95  
+\]</span></p>
+</section>
+<section id="hdi-不包含-0.5如何解释" class="slide level2">
+<h2>HDI 不包含 0.5：如何解释？</h2>
+<p>本例 95% HDI 大约为 <span class="math inline">\([0.76,0.89]\)</span>，不包含 <span class="math inline">\(0.5\)</span>。</p>
+<ul>
+<li>在所选先验、似然模型和区间规则下，高密度可信范围位于随机水平之上。</li>
+<li>如采用“区间排除参考值”的决策规则，应事先说明规则与概率质量。</li>
+<li>这个结果不直接给出 <span class="math inline">\(P(H_0\mid Y)\)</span>，也不等同于 Bayes factor。</li>
+</ul>
+</section>
+<section id="计算并绘制-95-hdi" class="slide level2">
+<h2>计算并绘制 95% HDI</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-label="1"></a><span class="fu">set.seed</span>(<span class="dv">84735</span>)</span>
+<span id="cb22-2"><a href="" aria-label="2"></a>hdi_result <span class="ot">&lt;-</span> bayestestR<span class="sc">::</span><span class="fu">hdi</span>(<span class="fu">rbeta</span>(<span class="dv">100000</span>, <span class="dv">101</span>, <span class="dv">21</span>), <span class="at">ci =</span> <span class="fl">0.95</span>)</span>
+<span id="cb22-3"><a href="" aria-label="3"></a>hdi_lower <span class="ot">&lt;-</span> hdi_result<span class="sc">$</span>CI_low</span>
+<span id="cb22-4"><a href="" aria-label="4"></a>hdi_upper <span class="ot">&lt;-</span> hdi_result<span class="sc">$</span>CI_high</span>
+<span id="cb22-5"><a href="" aria-label="5"></a>beta_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="fl">0.4</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">10001</span>))</span>
+<span id="cb22-6"><a href="" aria-label="6"></a>beta_df<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(beta_df<span class="sc">$</span>x, <span class="dv">101</span>, <span class="dv">21</span>)</span>
+<span id="cb22-7"><a href="" aria-label="7"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(beta_df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="" aria-label="8"></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">subset</span>(beta_df, x <span class="sc">&gt;=</span> hdi_lower <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> hdi_upper),</span>
+<span id="cb22-9"><a href="" aria-label="9"></a>            <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="" aria-label="10"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="" aria-label="11"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="" aria-label="12"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(theta), <span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">title =</span> <span class="st">"95% HDI: Beta(101, 21)"</span>)</span>
+<span id="cb22-13"><a href="" aria-label="13"></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/hdi-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>95% HDI：<span class="math inline">\([0.761,\ 0.894]\)</span>。</p>
+</section>
+<section id="hdi-rope实际等效区间" class="slide level2">
+<h2>HDI + ROPE：实际等效区间</h2>
+<p>ROPE（region of practical equivalence，实际等效区间）表示实践中可视作等效的参数范围。</p>
+<p>本例设定：<span class="math inline">\(\mathrm{ROPE}=[0.4,0.6]\)</span>。</p>
+<ul>
+<li>落在该范围内的成功概率，被本例的决策规则视作实际接近随机水平。</li>
+<li>该范围只是教学示例，应结合领域知识与研究目的预先设定。</li>
+<li>将 95% HDI 与 ROPE 比较，区分完全位于区间内、完全位于区间外和部分重叠。</li>
+</ul>
+</section>
+<section id="hdi-与-rope-的三种关系" class="slide level2">
+<h2>HDI 与 ROPE 的三种关系</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>HDI 与 ROPE 的关系</th>
+<th>按 HDI + ROPE 规则作出的判断</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HDI 完全位于 ROPE 内</td>
+<td>支持实践等效的判断</td>
+</tr>
+<tr class="even">
+<td>HDI 完全位于 ROPE 外</td>
+<td>支持实践不等效的判断</td>
+</tr>
+<tr class="odd">
+<td>HDI 与 ROPE 部分重叠</td>
+<td>保留判断，当前精度不足以按该规则决策</td>
+</tr>
+</tbody>
+</table>
+<p>比较时需同时注明 HDI 的概率质量和 ROPE 的上下界。</p>
+</section>
+<section id="本例中的-hdi-rope-判断" class="slide level2">
+<h2>本例中的 HDI + ROPE 判断</h2>
+<p>本例 95% HDI 大约为 <span class="math inline">\([0.76,0.89]\)</span>，ROPE 为 <span class="math inline">\([0.4,0.6]\)</span>。</p>
+<ul>
+<li>HDI 完全位于 ROPE 上方。</li>
+<li>按预设的 HDI + ROPE 规则，成功概率与随机水平存在具有实际意义的差异。</li>
+<li>这一解释依赖于模型、先验与 ROPE 的选择。</li>
+</ul>
+<p>下一页将 HDI 和 ROPE 放在同一张图中。</p>
+</section>
+<section id="在同一张图中标出-hdi-与-rope" class="slide level2">
+<h2>在同一张图中标出 HDI 与 ROPE</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-label="1"></a>p <span class="sc">+</span> <span class="fu">annotate</span>(<span class="st">"segment"</span>, <span class="at">x =</span> <span class="fl">0.4</span>, <span class="at">xend =</span> <span class="fl">0.6</span>, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">0</span>,</span>
+<span id="cb23-2"><a href="" aria-label="2"></a>             <span class="at">color =</span> <span class="st">"#009e73"</span>, <span class="at">linewidth =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/figs/lec7/hdi-rope-1.png" class="quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>绿色线段表示 ROPE；蓝色面积表示 95% HDI。</p>
+</section>
+<section id="贝叶斯因子相对证据的更新" class="slide level2 smaller">
+<h2>贝叶斯因子：相对证据的更新</h2>
+<p>贝叶斯因子是用于比较两种假设（通常是虚无假设和备择假设）相对支持程度的一个量化工具。它通过计算在两种假设下观察到的数据的概率，来评估这些假设的相对可信度。</p>
+<p>从先验到后验，<strong>数据</strong>让备择假设的相对可能性发生了改变。</p>
+<p>我们可以使用<strong>贝叶斯因子</strong>来量化<strong>数据</strong>对我们信念更新的程度：</p>
+<p><span class="math display">\[  
+\begin{align*}  
+\text{Bayes Factor} &amp;= \frac{\text{posterior odds }}{\text{prior odds }} \\  
+&amp;= \frac{\text{后验概率比}}{\text{先验概率比}}  \\  
+&amp;= \frac{P(H_a | Y) / P(H_0 | Y)}{P(H_a) / P(H_0)}  
+\end{align*}  
+\]</span></p>
+<ul>
+<li><span class="math inline">\(BF_{a0}\)</span> = 1，收集到的数据并没有改变备择假设<span class="math inline">\(H_a\)</span>的相对可能性<br>
+</li>
+<li><span class="math inline">\(BF_{a0}\)</span> &gt; 1，收集到的数据增加了备择假设<span class="math inline">\(H_a\)</span>的相对可能性。BF越大，表明支持备择假设<span class="math inline">\(H_a\)</span>的证据越强<br>
+</li>
+<li><span class="math inline">\(BF_{a0}\)</span> &lt; 1，收集到的数据削弱了备择假设<span class="math inline">\(H_a\)</span>的相对可能性。BF越小，表明支持备择假设<span class="math inline">\(H_a\)</span>的证据越弱</li>
+</ul>
+</section>
+<section id="贝叶斯因子的常用解释尺度" class="slide level2 smaller">
+<h2>贝叶斯因子的常用解释尺度</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><strong>贝叶斯因子</strong></th>
+<th><strong>解读</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&gt; 100</td>
+<td>极强的证据支持<span class="math inline">\(H_a\)</span></td>
+</tr>
+<tr class="even">
+<td>30 ~ 100</td>
+<td>非常强的证据支持<span class="math inline">\(H_a\)</span></td>
+</tr>
+<tr class="odd">
+<td>10 ~ 30</td>
+<td>较强的证据支持<span class="math inline">\(H_a\)</span></td>
+</tr>
+<tr class="even">
+<td>3 ~ 10</td>
+<td>中等程度的证据支持<span class="math inline">\(H_a\)</span></td>
+</tr>
+<tr class="odd">
+<td>1 ~ 3</td>
+<td>较弱的证据支持<span class="math inline">\(H_a\)</span></td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>没有证据</td>
+</tr>
+<tr class="odd">
+<td>1/3 ~ 1</td>
+<td>较弱的证据支持<span class="math inline">\(H_0\)</span></td>
+</tr>
+<tr class="even">
+<td>1/10 ~ 1/3</td>
+<td>中等程度的证据支持<span class="math inline">\(H_0\)</span></td>
+</tr>
+<tr class="odd">
+<td>1/30 ~ 1/10</td>
+<td>较强的证据支持<span class="math inline">\(H_0\)</span></td>
+</tr>
+<tr class="even">
+<td>1/100 ~ 1/30</td>
+<td>非常强的证据支持<span class="math inline">\(H_0\)</span></td>
+</tr>
+<tr class="odd">
+<td>&lt; 1/100</td>
+<td>极强的证据支持<span class="math inline">\(H_0\)</span></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Source: 该表改编自胡传鹏等(2018)，源引用于Lee &amp; Wagenmakers (2014)。</p>
+</blockquote>
+</section>
+<section id="点零假设需要单独定义模型" class="slide level2">
+<h2>点零假设需要单独定义模型</h2>
+<p>连续参数模型下，单个点的概率为零：</p>
+<p><span class="math display">\[P(\theta=0.5\mid Y)=0.\]</span></p>
+<p>这不意味着点零假设无法比较。</p>
+<ul>
+<li>点零假设需定义为单独模型，并为模型赋予先验概率。</li>
+<li>本节继续演示另一种比较：参数落在区间内与区间外。</li>
+<li>两种比较对应不同假设，不能混用后验概率。</li>
+</ul>
+</section>
+<section id="区间假设比较区间内与区间外" class="slide level2">
+<h2>区间假设：比较区间内与区间外</h2>
+<p>定义互补的区间假设：</p>
+<p><span class="math display">\[H_0:\theta\in[0.4,0.6],\qquad H_a:\theta\notin[0.4,0.6].\]</span></p>
+<p>将 <span class="math inline">\(\mathrm{Beta}(2,2)\)</span> 先验限制在两个区域内并分别归一化，可得到两个假设的条件先验。</p>
+<p><span class="math display">\[BF_{a0}=\frac{P(H_a\mid Y)/P(H_0\mid Y)}{P(H_a)/P(H_0)}.\]</span></p>
+<p>在当前完整先验下，假设的先验概率来自相应区域的概率质量，不能直接假定为各 0.5。</p>
+</section>
+<section id="由先验和后验概率质量计算-bf" class="slide level2 smaller">
+<h2>由先验和后验概率质量计算 BF</h2>
+<p>令 <span class="math inline">\(p_0=P(0.4\le\theta\le0.6)\)</span>，<span class="math inline">\(p_{0\mid Y}=P(0.4\le\theta\le0.6\mid Y)\)</span>。</p>
+<p><span class="math display">\[p_0=F_{\mathrm{Beta}(2,2)}(0.6)-F_{\mathrm{Beta}(2,2)}(0.4),\]</span></p>
+<p><span class="math display">\[p_{0\mid Y}=F_{\mathrm{Beta}(101,21)}(0.6)-F_{\mathrm{Beta}(101,21)}(0.4).\]</span></p>
+<p><span class="math display">\[BF_{a0}=\frac{(1-p_{0\mid Y})/p_{0\mid Y}}{(1-p_0)/p_0}.\]</span></p>
+<p>这与两个截断先验模型的边际似然比一致。</p>
+</section>
+<section id="区间假设的实际计算结果" class="slide level2">
+<h2>区间假设的实际计算结果</h2>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-label="1"></a>prior_h0 <span class="ot">&lt;-</span> <span class="fu">pbeta</span>(<span class="fl">0.6</span>, <span class="dv">2</span>, <span class="dv">2</span>) <span class="sc">-</span> <span class="fu">pbeta</span>(<span class="fl">0.4</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb24-2"><a href="" aria-label="2"></a>post_h0 <span class="ot">&lt;-</span> <span class="fu">pbeta</span>(<span class="fl">0.6</span>, <span class="dv">101</span>, <span class="dv">21</span>) <span class="sc">-</span> <span class="fu">pbeta</span>(<span class="fl">0.4</span>, <span class="dv">101</span>, <span class="dv">21</span>)</span>
+<span id="cb24-3"><a href="" aria-label="3"></a>bf_a0 <span class="ot">&lt;-</span> ((<span class="dv">1</span> <span class="sc">-</span> post_h0) <span class="sc">/</span> post_h0) <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> prior_h0) <span class="sc">/</span> prior_h0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<ul>
+<li>区间内先验概率：0.296。</li>
+<li>区间内后验概率：2.135e-08。</li>
+<li><span class="math inline">\(BF_{a0}=\)</span> 1.970e+07；<span class="math inline">\(BF_{0a}=1/BF_{a0}\)</span>。</li>
+<li>数据增强了区间外假设的相对证据，<strong>并不证明 <span class="math inline">\(\theta\)</span> 等于 0.8</strong>。</li>
+</ul>
+<p>Bayes factor 依赖先验和区间设定；应用中应报告其敏感性。</p>
+</section>
+<section id="补充低于-80-的后验概率" class="slide level2 smaller">
+<h2>补充：低于 80% 的后验概率</h2>
+<div class="columns">
+<div class="column" style="width:53%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/lec7/posterior-below-80.png" height="480"></p>
+<figcaption>成功概率低于 80% 的后验概率</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:47%;">
+<p>直接计算成功概率低于 80% 的后验概率：</p>
+<p><span class="math display">\[P(\theta&lt;0.8\mid Y=99,N=118)=F_{\mathrm{Beta}(101,21)}(0.8).\]</span></p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a>post_left <span class="ot">&lt;-</span> <span class="fu">pbeta</span>(<span class="fl">0.8</span>, <span class="dv">101</span>, <span class="dv">21</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>结果为 20.2%。该概率描述给定数据和模型后的参数不确定性。</p>
+</div></div>
+</section>
+<section id="互补方向假设的后验概率比" class="slide level2">
+<h2>互补方向假设的后验概率比</h2>
+<p>将两个互补的方向假设写为：</p>
+<p><span class="math display">\[H_a:\theta&lt;0.8,\qquad H_0:\theta\ge0.8.\]</span></p>
+<ul>
+<li><span class="math inline">\(P(H_a\mid Y)=\)</span> 0.202。</li>
+<li><span class="math inline">\(P(H_0\mid Y)=\)</span> 0.798。</li>
+<li>后验概率比为 <span class="math inline">\(P(H_a\mid Y)/P(H_0\mid Y)=\)</span> 0.253。</li>
+</ul>
+<p>在这两个区域中，后验概率更倾向于 <span class="math inline">\(\theta\ge0.8\)</span>。</p>
+</section>
+<section id="方向假设的先验概率比" class="slide level2">
+<h2>方向假设的先验概率比</h2>
+<p>在先验 <span class="math inline">\(\mathrm{Beta}(2,2)\)</span> 下，使用相同的两个区域：</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-label="1"></a>prior_left <span class="ot">&lt;-</span> <span class="fu">pbeta</span>(<span class="fl">0.8</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb26-2"><a href="" aria-label="2"></a>prior_odds <span class="ot">&lt;-</span> prior_left <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> prior_left)</span>
+<span id="cb26-3"><a href="" aria-label="3"></a>posterior_odds <span class="ot">&lt;-</span> post_left <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> post_left)</span>
+<span id="cb26-4"><a href="" aria-label="4"></a>bf_left_right <span class="ot">&lt;-</span> posterior_odds <span class="sc">/</span> prior_odds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<ul>
+<li><span class="math inline">\(P(H_a)=\)</span> 0.896。</li>
+<li><span class="math inline">\(P(H_0)=\)</span> 0.104。</li>
+<li>先验概率比为 8.615。</li>
+</ul>
+<p>先验概率应由当前的 Beta 先验计算，不能用区间长度直接替代。</p>
+</section>
+<section id="从概率比到-bayes-factor" class="slide level2">
+<h2>从概率比到 Bayes factor</h2>
+<p><span class="math display">\[BF_{a0}=\frac{\text{posterior odds}}{\text{prior odds}}.\]</span></p>
+<p>本例中，<span class="math inline">\(BF_{a0}=\)</span> 0.029，其倒数 <span class="math inline">\(BF_{0a}=\)</span> 34.0。</p>
+<ul>
+<li><span class="math inline">\(H_a:\theta&lt;0.8\)</span>；<span class="math inline">\(H_0:\theta\ge0.8\)</span>。</li>
+<li>相比于先验，数据提高了 <span class="math inline">\(H_0\)</span> 相对于 <span class="math inline">\(H_a\)</span> 的支持程度。</li>
+<li><span class="math inline">\(P(H_a\mid Y)\)</span> 是后验概率；<span class="math inline">\(BF_{a0}\)</span> 描述相对证据的更新，两者不同。</li>
+</ul>
+<p>这个结论基于 <span class="math inline">\(\mathrm{Beta}(2,2)\)</span> 的条件先验；改变先验可能改变 Bayes factor。</p>
+</section>
+<section id="总结与讨论" class="slide level2">
+<h2>总结与讨论</h2>
+<p>本节课利用后验分布完成三类任务：</p>
+<ol type="1">
+<li><strong>诊断</strong>：检查轨迹、链混合、ACF、<span class="math inline">\(\hat R\)</span>、ESS 与采样警告。</li>
+<li><strong>估计</strong>：报告集中趋势、可信区间与后验不确定性。</li>
+<li><strong>假设与决策</strong>：区分后验概率、HDI + ROPE 与 Bayes factor。</li>
+</ol>
+<blockquote>
+<p>后验预测关注未来或复制数据；它与本节的参数估计属于不同任务。</p>
+</blockquote>
+</section>
+<section id="样本参数与推断问题" class="slide level2">
+<h2>样本、参数与推断问题</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>视角</th>
+<th>典型问题</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>贝叶斯后验分析</td>
+<td>给定数据、先验与模型，未知参数有哪些可信取值？</td>
+</tr>
+<tr class="even">
+<td>频率主义检验</td>
+<td>假定零假设和抽样模型成立，观测统计量或更极端结果有多常见？</td>
+</tr>
+</tbody>
+</table>
+<p>本例中，<span class="math inline">\(P(\theta&lt;0.8\mid Y)=\)</span> 0.202，直接描述参数的后验不确定性。</p>
+<p>讨论：后验概率、实际等效判断与模型证据，分别适合回答什么研究问题？</p>
+</section>
+<section id="参考资料" class="slide level2 smaller">
+<h2>参考资料</h2>
+<ul>
+<li>Stan. <a href="https://mc-stan.org/learn-stan/diagnostics-warnings.html">Diagnostics and warnings</a>.</li>
+<li>Vehtari, A., et al.&nbsp;(2021). Rank-normalization, folding, and localization: An improved R-hat for assessing convergence of MCMC. <em>Bayesian Analysis, 16</em>(2), 667–718.</li>
+<li>Kruschke, J. K. (2018). Rejecting or accepting parameter values in Bayesian estimation. <em>AMPPS, 1</em>(2), 270–280. <a href="https://doi.org/10.1177/2515245918771304">DOI</a>.</li>
+<li>bayestestR. <a href="https://easystats.github.io/bayestestR/reference/hdi.html">HDI</a>；<a href="https://easystats.github.io/bayestestR/reference/bayesfactor_parameters.html">Bayes factors for parameters</a>.</li>
+</ul>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="assets/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="assets/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="assets/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="assets/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="assets/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="assets/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="assets/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="assets/libs/revealjs/plugin/search/search.js"></script>
+  <script src="assets/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="assets/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1600,
+
+        height: 900,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
